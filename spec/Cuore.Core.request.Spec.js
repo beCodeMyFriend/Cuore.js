@@ -4,7 +4,7 @@ describe("Core.response", function() {
 
     it("callback called with json formatted response", function() {
         var responseObject = {"id":123,"title":"Hollywood - Part 2"};
-        var responseText = JSON.stringify(responseObject); //TODO
+        var responseText = JSON.stringify(responseObject); // TODO
         
         var server = sinon.fakeServer.create();
         server.respondWith("POST", URL,
@@ -42,7 +42,7 @@ describe("Core.response", function() {
         var usedXhr = requests[1];
         var dataSended = usedXhr.requestBody;
         
-        var expectedSendedValue = JSON.stringify(aJsonInputData); //TODO
+        var expectedSendedValue = JSON.stringify(aJsonInputData); // TODO
         expect(dataSended).toBe(expectedSendedValue);
         
         xhr.restore();

@@ -36,11 +36,11 @@ CUORE.Service = CUORE.Class(null, {
     emit: function (eventName, response) {
         var theMessage = new CUORE.Message(response);
         this.lastDataSent = theMessage;
-        this.getBus().emit(eventName, theMessage); //@TODO 
+        this.getBus().emit(eventName, theMessage);
     },
 
     getEventNameForExecution: function (procedure) {
-        return this.getName() + this.SEPARATOR + procedure + this.SEPARATOR + this.executionPrefix;  // @TODO duplicidad
+        return this.getName() + this.SEPARATOR + procedure + this.SEPARATOR + this.executionPrefix;
     },
 
     getName: function () {

@@ -112,7 +112,7 @@ CUORE.Component = CUORE.Class(null, {
     getManagedEvents: function() {
         var handlersKeys = [];
         for (var handler in this.handlers) {
-            if (this.handlers.hasOwnProperty(handler)) {
+            if (CUORE.Core.isOwnProperty(this.handlers, handler)) {
                 handlersKeys.push(handler);
             }
         }

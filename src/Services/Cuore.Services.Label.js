@@ -3,7 +3,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
     init: function() {
         CUORE.Services.Label.super.init.call(this);
         
-        this.name = 'LABELS'; // @TODO
+        this.name = 'LABELS';
         this.cache = document.labels || {};
         this.setLocale(navigator.language || navigator.browserLanguage);
     },

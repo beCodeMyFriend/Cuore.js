@@ -3,7 +3,7 @@ CUORE.Services.Button = CUORE.Class(CUORE.Service, {
     init: function() {
         CUORE.Services.Button.super.init.call(this);
         
-        this.name = 'BUTTON'; //@TODO
+        this.name = 'BUTTON';
         this.executionPrefix = 'CLICKED'; 
     },
 
@@ -16,7 +16,7 @@ CUORE.Services.Button = CUORE.Class(CUORE.Service, {
 
         theMessage.putOnQuery('buttonName', procedure);
 
-        var eventName = this.getName() + this.SEPARATOR + procedure + this.SEPARATOR + this.executionPrefix; //@TODO
+        var eventName = this.getName() + this.SEPARATOR + procedure + this.SEPARATOR + this.executionPrefix;
         this.emit(eventName, theMessage.asJson());
     }
 });

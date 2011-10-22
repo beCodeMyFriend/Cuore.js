@@ -14,7 +14,7 @@ CUORE.Message = CUORE.Class(null, {
         structure.query = this.query;
         structure.answer = this.answer;
 
-        return JSON.stringify(structure); // @TODO
+        return JSON.stringify(structure); // TODO
     },
 
     putOnHeader: function(key, value) {
@@ -65,7 +65,7 @@ CUORE.Message = CUORE.Class(null, {
         var isString = (typeof json === 'string');
 
         if (json && isString) {
-            var parsed  = JSON.parse(json); // @TODO
+            var parsed  = JSON.parse(json); // TODO
             this.header = this._removeNulls(parsed.header);
             this.query  = this._removeNulls(parsed.query);
             this.answer = this._removeNulls(parsed.answer);

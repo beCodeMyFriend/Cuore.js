@@ -2,7 +2,7 @@ CUORE.Dom = (function(doc, undefined) {
     
     var ready = function(callback) {
         var checkLoaded = setInterval(function() {
-            if (document.body && document.getElementById) {
+            if (doc.body && doc.getElementById) {
                 clearInterval(checkLoaded);
                 callback();
             }
@@ -28,7 +28,7 @@ CUORE.Dom = (function(doc, undefined) {
     };
     
     var createElement = function(name, members, parent) {
-        var elem = document.createElement(name);
+        var elem = doc.createElement(name);
         
         if (CUORE.Core.toType(members) === 'object') {
             for (var m in members) {

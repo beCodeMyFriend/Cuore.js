@@ -4,7 +4,7 @@ CUORE.Components.Collapsable = CUORE.Class(CUORE.Components.Nestable, {
         CUORE.Components.Collapsable.super.init.call(this, service, procedure);
 
         this.collapsed = true;
-        this.renderer = new CUORE.Renderers.Collapsable(); // @TODO setRenderer or renderer?
+        this.renderer = new CUORE.Renderers.Collapsable(); // TODO setRenderer or renderer?
         this.addClass('collapsablePanel');
     },
 

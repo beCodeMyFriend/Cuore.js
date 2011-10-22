@@ -17,13 +17,13 @@ CUORE.Core = (function(undefined) {
             var isStatusOK = (request.status === 200 || request.status === 304);
             
             if (isReadyStateOK && isStatusOK) {
-                var parsedResponse = JSON.parse(request.responseText); //@TODO
+                var parsedResponse = JSON.parse(request.responseText); // TODO
                 callback(parsedResponse);
             }
         }    
         
         request.open('POST', url, true);
-        request.send(JSON.stringify(data)); //@TODO
+        request.send(JSON.stringify(data)); // TODO
     };
     
     var isOwnProperty = function(object, property) {
