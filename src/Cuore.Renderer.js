@@ -37,9 +37,10 @@ CUORE.Renderer = CUORE.Class(null, {
 
     showDisabledState: function(component) {
         this.removeClass("disabled");
-	if (!component.isEnabled()) {
-	    this.addClass("disabled");
-	}
+        
+        if (!component.isEnabled()) {
+            this.addClass("disabled");
+        }
     },
     
     erase: function() {

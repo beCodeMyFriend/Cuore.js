@@ -74,9 +74,8 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
         CUORE.Dom.removeClass(this.plusButton, OFF);
         CUORE.Dom.removeClass(this.minusButton, OFF);
         
-        if (!component.isEnabled())
-        {
-           CUORE.Dom.addClass(this.plusButton, OFF); 
+        if (!component.isEnabled()) {
+           CUORE.Dom.addClass(this.plusButton, OFF);
            CUORE.Dom.addClass(this.minusButton, OFF);
         }
 

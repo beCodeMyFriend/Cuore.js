@@ -1,28 +1,28 @@
-describe("Component", function () {
+describe("Component", function() {
 
     var xhr;
 
-    beforeEach(function(){
+    beforeEach(function() {
         xhr = sinon.useFakeXMLHttpRequest();
         var requests = [];
-        
-        xhr.onCreate = function (xhr) {
+
+        xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
-      
-        CUORE.Core.createXHR = function(){
+
+        CUORE.Core.createXHR = function() {
             return xhr;
         };
     });
 
-    afterEach(function(){
-        var container = document.getElementById('xhtmlToTest');   
+    afterEach(function() {
+        var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
 
         xhr.restore();
     });
 
-    it("execution context initialization needs both service and procedure", function () {
+    it("execution context initialization needs both service and procedure", function() {
         var aService = "IAmaService";
         var aProcedure = "IAmaProcedure";
         var defaultService = "NULL";
@@ -46,10 +46,10 @@ describe("Component", function () {
         expect(aComponentWithoutExecutionContext.service).toEqual(defaultService);
     });
 
-    it("could set a Renderer", function () {
+    it("could set a Renderer", function() {
         var aComponent = new CUORE.Component();
         var aRenderer = {};
-        aRenderer.render = function (component) {};
+        aRenderer.render = function(component) {};
 
         spyOn(aRenderer, 'render');
 
@@ -60,7 +60,7 @@ describe("Component", function () {
         expect(aRenderer.render).toHaveBeenCalled();
     });
 
-    it("adds handlers and could dispatch events to the handlers", function () {
+    it("adds handlers and could dispatch events to the handlers", function() {
         var aHandler = createDummyHandler();
 
         var eventName = "anEvent";
@@ -78,7 +78,7 @@ describe("Component", function () {
         expect(aHandler.owner.getName()).toEqual(aComponent.getName());
     });
 
-    it("can dispatch events even when it has no handlers", function () {
+    it("can dispatch events even when it has no handlers", function() {
         var eventName = "anEvent";
         var params = {
             aParam: "aParam",
@@ -91,7 +91,7 @@ describe("Component", function () {
     });
 
 
-    it("knows events managed by handlers", function () {
+    it("knows events managed by handlers", function() {
         var eventName = "anEvent";
         var anotherEvent = "anotherEvent";
         var aComponent = new CUORE.Component();
@@ -109,7 +109,7 @@ describe("Component", function () {
     });
 
 
-    it("has a default name or could be explicitly named", function () {
+    it("has a default name or could be explicitly named", function() {
         var aComponent = new CUORE.Component("aService", "aProcedure");
 
         var componentDefaultName = "aComponent";
@@ -120,7 +120,7 @@ describe("Component", function () {
         expect(aComponent.getName()).toEqual(testingName);
     });
 
-    it("inject element into its container", function () {
+    it("inject element into its container", function() {
         var container = createTestContainer();
         var componentName = "componentName";
 
@@ -130,32 +130,32 @@ describe("Component", function () {
         aComponent.draw();
         var id = aComponent.getUniqueID();
         var createdElement = document.getElementById(id);
-        
+
         expect(id).toEqual(componentName + "_inner");
-        
-        expect(!!(createdElement)).toBeTruthy();
-         
-        expect(createdElement.tagName).toEqual("DIV"); 
+
+        expect( !! (createdElement)).toBeTruthy();
+
+        expect(createdElement.tagName).toEqual("DIV");
         expect(createdElement.className).toEqual("innerComponentDiv");
         expect(createdElement.parentNode).toBe(container);
     });
 
-    it("could be removed", function () {
+    it("could be removed", function() {
         var container = createTestContainer();
         var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id); 
-        
+        aComponent.setContainer(container.id);
+
         var id = aComponent.getUniqueID();
 
         aComponent.draw();
-        
+
         aComponent.destroy();
         var createdElement = document.getElementById(id);
 
-        expect(!!(createdElement)).toBeFalsy();
+        expect( !! (createdElement)).toBeFalsy();
     });
 
-    it("allow adding css classes after drawing", function () {
+    it("allow adding css classes after drawing", function() {
         var container = createTestContainer();
         var aComponent = new CUORE.Component();
         aComponent.setContainer(container.id);
@@ -163,9 +163,9 @@ describe("Component", function () {
 
         aComponent.addClass("testingClass");
         aComponent.draw();
-        
+
         var element = document.getElementById(componentId);
-        
+
         expect(element.className).toBe("innerComponentDiv testingClass");
 
         aComponent.addClass("testingClass2");
@@ -173,24 +173,24 @@ describe("Component", function () {
     });
 
 
-    it("allow removing classes after drawing", function () {
+    it("allow removing classes after drawing", function() {
         var container = createTestContainer();
         var aComponent = new CUORE.Component();
         aComponent.setContainer(container.id);
         var componentId = aComponent.getUniqueID();
-        
+
         aComponent.addClass("testingClass");
         aComponent.draw();
-        
+
         var element = document.getElementById(componentId);
-        
+
         expect(element.className).toBe("innerComponentDiv testingClass");
-        
+
         aComponent.removeClass("testingClass");
         expect(element.className).toBe("innerComponentDiv");
     });
 
-    it("has I18NKey label getter & setter", function () {
+    it("has I18NKey label getter & setter", function() {
         var aI18Nkey = "CanonicalKey";
         var aComponent = new CUORE.Component();
 
@@ -199,10 +199,10 @@ describe("Component", function () {
     });
 
 
-    it("requests their label when it is drawn", function () {
+    it("requests their label when it is drawn", function() {
         var aService = {};
         var receivedParams = undefined;
-        aService.execute = function (procedure, params, flag) {
+        aService.execute = function(procedure, params, flag) {
             receivedParams = params;
         };
 
@@ -214,7 +214,7 @@ describe("Component", function () {
         aComponent.setContainer(container.id);
 
         document.page = {};
-        document.page.getService = function (anyService) {
+        document.page.getService = function(anyService) {
             calledService = anyService;
             return aService;
         };
@@ -231,7 +231,7 @@ describe("Component", function () {
         expect(calledService).toEqual(LABELSERVICENAME);
     });
 
-    it("has a Handler for its label when i18nkey setted", function () {
+    it("has a Handler for its label when i18nkey setted", function() {
         var eventName = "LABELS_getLabel_EXECUTED_CanonicalKey";
         var aComponent = new CUORE.Component();
         aComponent.setI18NKey("CanonicalKey");
@@ -240,12 +240,12 @@ describe("Component", function () {
         expect(events).toContain(eventName);
     });
 
-    it("is suscribed to the bus on I18NKey set", function () {
+    it("is suscribed to the bus on I18NKey set", function() {
         var receivedSubscriber = undefined;
         var receivedEvent = undefined;
         CUORE.Bus.reset();
         var oldSubscribe = CUORE.Bus.subscribe;
-        CUORE.Bus.subscribe = function (subscriber, event) {
+        CUORE.Bus.subscribe = function(subscriber, event) {
             receivedSubscriber = subscriber;
             receivedEvent = event;
         };
@@ -262,10 +262,10 @@ describe("Component", function () {
     });
 
 
-    it("does not request its label when drawn if it hasn't a I18Key", function () {
+    it("does not request its label when drawn if it hasn't a I18Key", function() {
         var aService = {};
         var receivedParams = undefined;
-        aService.execute = function (procedure, params, flag) {
+        aService.execute = function(procedure, params, flag) {
             receivedParams = params;
         };
 
@@ -276,7 +276,7 @@ describe("Component", function () {
         aComponent.setContainer(container.id);
 
         document.page = {};
-        document.page.getService = function (anyService) {
+        document.page.getService = function(anyService) {
             calledService = anyService;
             return aService;
         };
@@ -288,10 +288,10 @@ describe("Component", function () {
     });
 
 
-    it("does not request its label when asked (getLabel) if it hasn't a I18Key", function () {
+    it("does not request its label when asked (getLabel) if it hasn't a I18Key", function() {
         var aService = {};
         var receivedParams = undefined;
-        aService.execute = function (procedure, params, flag) {
+        aService.execute = function(procedure, params, flag) {
             receivedParams = params;
         };
 
@@ -299,7 +299,7 @@ describe("Component", function () {
         var calledService = null;
 
         var aComponent = new CUORE.Component();
-        aComponent.getLabelService = function () {
+        aComponent.getLabelService = function() {
             return aService;
         };
 
@@ -310,7 +310,7 @@ describe("Component", function () {
     });
 
 
-    it("can draw a text into the page", function () {
+    it("can draw a text into the page", function() {
         var container = createTestContainer();
 
         var aComponent = new CUORE.Component();
@@ -331,28 +331,28 @@ describe("Component", function () {
         expect(createdElement.innerHTML).toEqual(dummyText);
     });
 
-    it("setting a text doesn't draw", function () {
+    it("setting a text doesn't draw", function() {
         var container = createTestContainer();
         var aComponent = new CUORE.Component();
         aComponent.setContainer(container.id);
         var testText = "testText";
         aComponent.setText(testText);
-        
+
         var component = document.getElementById(aComponent.getUniqueID());
 
         expect(component).toBeNull();
-        
+
     });
-    
-    it("has a method that retrieves its container", function () {
+
+    it("has a method that retrieves its container", function() {
         var container = createTestContainer();
         var aComponent = new CUORE.Component();
         expect(aComponent.getContainer()).toEqual(document.body);
         aComponent.setContainer(container.id);
         expect(aComponent.getContainer()).toEqual(container);
     });
-    
-    it("fetch and execute a service from page and execute the procedure when it is executed", function () {
+
+    it("fetch and execute a service from page and execute the procedure when it is executed", function() {
 
         var procedureName = "aProcedure";
         var serviceName = "aService";
@@ -374,31 +374,31 @@ describe("Component", function () {
         expect(theService.asynchronousReceived).toBeTruthy();
     });
 
-    it("has enable state", function () {
+    it("has enable state", function() {
 
         var aComponent = new CUORE.Component();
-       
+
         expect(aComponent.isEnabled()).toBeTruthy();
     });
 
-    it("can be disabled", function () {
+    it("can be disabled", function() {
 
         var aComponent = new CUORE.Component();
-	aComponent.disable();
-       
+        aComponent.disable();
+
         expect(aComponent.isEnabled()).toBeFalsy();
     });
 
-    it("can be enabled", function () {
+    it("can be enabled", function() {
 
         var aComponent = new CUORE.Component();
-	aComponent.disable();
-	aComponent.enable();
-       
+        aComponent.disable();
+        aComponent.enable();
+
         expect(aComponent.isEnabled()).toBeTruthy();
     });
 
-    it("when disabling has disable class", function () {
+    it("when disabling has disable class", function() {
         var container = createTestContainer();
         var aComponent = new CUORE.Component();
         aComponent.setContainer(container.id);
@@ -406,14 +406,14 @@ describe("Component", function () {
 
         aComponent.disable();
         aComponent.draw();
-        
+
         var element = document.getElementById(componentId);
-	var classes = element.className.split(" ");
-        
+        var classes = element.className.split(" ");
+
         expect(classes).toContain("disabled");
 
         aComponent.enable();
-	classes = element.className.split(" ");
+        classes = element.className.split(" ");
         expect(classes).not.toContain("disabled");
     });
 
@@ -423,7 +423,7 @@ describe("Component", function () {
         var aService = prepareService();
 
         var expectedService = null;
-        document.page.getService = function (theService) {
+        document.page.getService = function(theService) {
             document.page.expectedService = theService;
             return aService;
         };
@@ -438,7 +438,7 @@ describe("Component", function () {
         aService.asynchronousReceived = false;
         aService.procedureExecuted = null;
 
-        aService.execute = function (procedure, params, asynchronous) {
+        aService.execute = function(procedure, params, asynchronous) {
             this.procedureExecuted = procedure;
             this.paramsExecuted = params;
             this.asynchronousReceived = asynchronous;
@@ -452,16 +452,16 @@ describe("Component", function () {
         container.id = "testingContainer";
         var panel = document.getElementById("xhtmlToTest");
         panel.appendChild(container);
-       
+
         return container;
     };
 
     var createDummyHandler = function() {
         var aHandler = {};
-        aHandler.handle = function (params) {
+        aHandler.handle = function(params) {
             this.recievedParams = params;
         };
-        aHandler.setOwner = function (owner) {
+        aHandler.setOwner = function(owner) {
             this.owner = owner;
         };
         return aHandler;

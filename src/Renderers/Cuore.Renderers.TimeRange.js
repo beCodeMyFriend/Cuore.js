@@ -41,11 +41,10 @@ CUORE.Renderers.TimeRange = CUORE.Class(CUORE.Renderer, {
         this.endHourSelect.value   = component.journey.ends();
     },
 
-    showDisabledState:function(component)
-    {
+    showDisabledState:function(component) {
         CUORE.Renderers.TimeRange.super.showDisabledState.call(this,component);
        
-        if (!this.startHourSelect||!this.endHourSelect)return;
+        if (!this.startHourSelect || !this.endHourSelect) return;
         this.startHourSelect.disabled = !component.isEnabled();
         this.endHourSelect.disabled = !component.isEnabled();
     },

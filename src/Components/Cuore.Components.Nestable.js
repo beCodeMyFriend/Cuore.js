@@ -67,9 +67,10 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
             ordinal++;
         }
     },
-    
+
     enable: function () {
         CUORE.Components.Nestable.super.enable.call(this);
+        
         for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
             var component = this.hostedComponents[i];
             component.enable();
@@ -78,10 +79,10 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
 
     disable: function () {
         CUORE.Components.Nestable.super.disable.call(this);
+        
         for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
             var component = this.hostedComponents[i];
             component.disable();
         }
-    }    
-    
+    }
 });

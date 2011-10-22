@@ -1,39 +1,39 @@
-describe("Input", function () {
-	
+describe("Input", function() {
+
     var xhr;
 
-    beforeEach(function(){
+    beforeEach(function() {
         xhr = sinon.useFakeXMLHttpRequest();
         var requests = [];
-        
-        xhr.onCreate = function (xhr) {
+
+        xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
-      
-        CUORE.Core.createXHR = function(){
+
+        CUORE.Core.createXHR = function() {
             return xhr;
         };
     });
 
-    afterEach(function(){
-        var container = document.getElementById('xhtmlToTest');   
+    afterEach(function() {
+        var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
 
         xhr.restore();
     });
-    
-    it("inherits Component", function () {
+
+    it("inherits Component", function() {
         var theComponent = getComponentInput();
         expect(theComponent instanceof CUORE.Components.Input).toBeTruthy();
         expect(theComponent instanceof CUORE.Component).toBeTruthy();
     });
 
-    it("is drawn in a container", function () {
+    it("is drawn in a container", function() {
         var aService = {};
-        aService.execute = function (procedure, params, asynchronous) {};
+        aService.execute = function(procedure, params, asynchronous) {};
 
         var theComponent = getComponentInput();
-        theComponent.getLabelService = function () {
+        theComponent.getLabelService = function() {
             return aService;
         };
 
@@ -49,7 +49,7 @@ describe("Input", function () {
         expect(children.length).toEqual(1);
     });
 
-    it("allows to get its value", function () {
+    it("allows to get its value", function() {
         var aComponent = getComponentInput();
         aComponent.draw();
 
@@ -59,7 +59,7 @@ describe("Input", function () {
         expect(aComponent.getValue()).toEqual("testText");
     });
 
-    it("allows to set a value", function () {
+    it("allows to set a value", function() {
         var aComponent = getComponentInput();
         aComponent.draw();
 
@@ -70,7 +70,7 @@ describe("Input", function () {
         expect(value).toEqual("testText");
     });
 
-    it("allows no be enabled or disable", function () {
+    it("allows no be enabled or disable", function() {
         var aComponent = getComponentInput();
         aComponent.draw();
         DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input");
@@ -84,24 +84,24 @@ describe("Input", function () {
         expect(DOMInput.disabled).toBeFalsy();
     });
 
-    it("allows changing the type", function () {
+    it("allows changing the type", function() {
         var aComponent = getComponentInput();
         aComponent.draw();
 
         DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input")[0];
         expect(DOMInput.type).toEqual("text");
 
-        var container = document.getElementById('xhtmlToTest');   
+        var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
         aComponent = new CUORE.Components.Input(undefined, "password");
         aComponent.setContainer("xhtmlToTest");
         aComponent.draw();
         DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input")[0];
         expect(DOMInput.type).toEqual("password");
-        
+
     });
 
-    it("allows set the text without drawing previously", function () {
+    it("allows set the text without drawing previously", function() {
         var aComponent = getComponentInput();
         aComponent.setText("testText");
         aComponent.draw();
@@ -110,7 +110,7 @@ describe("Input", function () {
         expect(value).toEqual("testText");
     });
 
-    it("must clean its text when drawn by parent", function () {
+    it("must clean its text when drawn by parent", function() {
         var aComponent = getComponentInput();
         aComponent.setText("testText");
         aComponent.draw();
@@ -119,7 +119,7 @@ describe("Input", function () {
         expect(value).toMatch("testText");
     });
 
-    it("must update its text when drawn", function () {
+    it("must update its text when drawn", function() {
         var aComponent = getComponentInput();
         aComponent.draw();
         aComponent.setText("testText");
@@ -127,26 +127,26 @@ describe("Input", function () {
         var value = DOMObject.innerHTML;
         expect(value).toMatch("testText");
     });
-    
-    it("when disabling has disable class", function () {
-	var aComponent = getComponentInput();
+
+    it("when disabling has disable class", function() {
+        var aComponent = getComponentInput();
 
         var componentId = aComponent.getUniqueID();
 
         aComponent.disable();
         aComponent.draw();
-        
+
         var element = document.getElementById(componentId);
-        
+
         expect(CUORE.Dom.hasClass(element, "disabled")).toBeTruthy();
-        
+
         aComponent.enable();
-        
+
         expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
     });
-    
+
     var getComponentInput = function() {
-       
+
         var aComponent = new CUORE.Components.Input("CanonicalKey");
         aComponent.setContainer("xhtmlToTest");
         return aComponent;

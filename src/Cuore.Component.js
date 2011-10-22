@@ -9,7 +9,7 @@ CUORE.Component = CUORE.Class(null, {
         this.SEPARATOR = '_';
         this.text = '';
         this.renderer = new CUORE.Renderer();
-	this.enabled = true;
+        this.enabled = true;
     },
 
     initializeExecutionContext: function(service, procedure) {
@@ -148,13 +148,12 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     enable: function() {
-	this.enabled = true;
+        this.enabled = true;
         this.updateRender();
     },
 
     disable: function() {
-	this.enabled = false;
+        this.enabled = false;
         this.updateRender();
     }
-
 });
