@@ -297,11 +297,9 @@ describe("Numeric Selector", function () {
 
     });
     
-    
-    
-    function getNumericSelector() {
+    var getNumericSelector = function() {
         var aNumericSelector = new CUORE.Components.NumericSelector();
         aNumericSelector.setContainer('xhtmlToTest');
         return aNumericSelector;
-    }
+    };
 });

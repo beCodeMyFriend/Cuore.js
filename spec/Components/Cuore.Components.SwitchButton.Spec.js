@@ -51,7 +51,6 @@ describe("SwitchButton", function () {
     });
 
     it("should request active and inactive key when drawn", function () {
-
         var container = createTestContainer();
         var keyActive = "testKeyActive";
         var keyInactive = "testKeyInactive";
@@ -70,7 +69,6 @@ describe("SwitchButton", function () {
 
         expect(labelsRequested).toContain(keyActive);
         expect(labelsRequested).toContain(keyInactive);
-
     });
 
     it("should switches state, label and cssclass when clicked", function () {
@@ -145,12 +143,11 @@ describe("SwitchButton", function () {
 
     });
 
-    function createTestContainer() {
-		var container = document.createElement('div');
+    var createTestContainer = function() {
+        var container = document.createElement('div');
         container.id ="testingContainer"
         document.getElementById("xhtmlToTest").appendChild(container);
         
         return container;
-    }
-
+    };
 });

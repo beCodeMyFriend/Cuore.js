@@ -23,5 +23,4 @@ describe("PrintHandler", function () {
 
         window.print = originalPrint;
     });
-
 });

@@ -70,5 +70,4 @@ CUORE.Service = CUORE.Class(null, {
             emit(eventName, response);
         }
     }
-    
 });

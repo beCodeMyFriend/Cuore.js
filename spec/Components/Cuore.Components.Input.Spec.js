@@ -98,7 +98,6 @@ describe("Input", function() {
         aComponent.draw();
         DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input")[0];
         expect(DOMInput.type).toEqual("password");
-
     });
 
     it("allows set the text without drawing previously", function() {

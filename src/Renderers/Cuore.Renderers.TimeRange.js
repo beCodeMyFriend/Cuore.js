@@ -30,11 +30,11 @@ CUORE.Renderers.TimeRange = CUORE.Class(CUORE.Renderer, {
         CUORE.Dom.Event.add(this.endHourSelect, 'change', componentSetEndHour);
         
         this.showDisabledState(component);
-
     },
     
     updateWhenDrawn: function(component) {
         this._setOptions(component);
+        
         this.showDisabledState(component);
         this.label.innerHTML = component.getText();
         this.startHourSelect.value = component.journey.starts();

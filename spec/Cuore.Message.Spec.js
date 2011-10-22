@@ -26,7 +26,6 @@ describe("Message", function () {
         expect(aMessage.asJson()).toEqual('{"header":{"aKey":"aValue"},"query":{},"answer":{}}');
     }); 
      
-     
     it("manages duplas in query",function(){
         var aMessage = new CUORE.Message();
         aMessage.putOnQuery("aKey","aValue");
@@ -42,8 +41,7 @@ describe("Message", function () {
     it("manages maps in query",function(){
         var aMessage = new CUORE.Message();
         aMessage.putMapOnQuery({"alfaKey":"alfaValue","betaKey":"betaValue"});
-        
-        
+
         expect(aMessage.getFromQuery("alfaKey")).toEqual('alfaValue');
         expect(aMessage.getFromQuery("betaKey")).toEqual('betaValue');
 
@@ -53,15 +51,13 @@ describe("Message", function () {
     it("manages maps in answer",function(){
         var aMessage = new CUORE.Message();
         aMessage.putMapOnAnswer({"alfaKey":"alfaValue","betaKey":"betaValue"});
-        
-        
+
         expect(aMessage.getFromAnswer("alfaKey")).toEqual('alfaValue');
         expect(aMessage.getFromAnswer("betaKey")).toEqual('betaValue');
 
         expect(aMessage.asJson()).toEqual('{"header":{},"query":{},"answer":{"alfaKey":"alfaValue","betaKey":"betaValue"}}');
-    })      
+    });
 
-    
     it("manages duplas in answer",function(){
         var aMessage = new CUORE.Message();
         aMessage.putOnAnswer("aKey","aValue");
@@ -105,8 +101,7 @@ describe("Message", function () {
          
         expect(aMessage.asJson()).toEqual(goodMessage);
     });
-    
-    
+
     it ("does not allows bad values", function(){
         var goodMessage = '{"header":{},"query":{},"answer":{}}';
         var aMessage = new CUORE.Message();
@@ -122,5 +117,4 @@ describe("Message", function () {
         expect(aMessage.getFromAnswer("randomKey")).toEqual("");
         expect(aMessage.asJson()).toEqual(goodMessage);
     });
-    
 });

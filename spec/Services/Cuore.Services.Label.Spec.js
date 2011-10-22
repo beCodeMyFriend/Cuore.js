@@ -46,8 +46,6 @@ describe("LabelsService", function() {
         expect(labelService.request).toHaveBeenCalledWith(expectedURL, paramsSent, eventNameExpected);
     });
 
-
-
     it("uses an internal cache to save request calls", function() {
         document.labels = undefined;
         var baseURL = "http://baseurl";
@@ -124,7 +122,6 @@ describe("LabelsService", function() {
         var labelService = new CUORE.Services.Label();
         labelService.setBaseURL(baseURL);
 
-
         var browserLocale = (navigator.language || navigator.browserLanguage);
         var testKey = "testKey.test";
         var testParams = {
@@ -186,7 +183,6 @@ describe("LabelsService", function() {
         expect(labelService.cache).toEqual(expectedCache);
     });
 
-
     it("has a fail safe if documentLabels has bad cache", function() {
         document.labels = {};
         var testKey = "test.Key";
@@ -213,7 +209,6 @@ describe("LabelsService", function() {
 
         expect(labelInCache).toBeTruthy();
     });
-
 
     it("uses document.labels if cache is ok", function() {
         document.labels = {};

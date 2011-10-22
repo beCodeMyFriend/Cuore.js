@@ -36,5 +36,4 @@ describe("SwitchCollapseAndUncollapseHandler", function () {
         aSwitchCollapseHandler.handle();
         expect(aComponent.isCollapsed()).toBeFalsy();;
     });
-
 });

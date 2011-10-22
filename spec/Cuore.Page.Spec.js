@@ -141,7 +141,6 @@ describe("Page", function () {
         expect(container.innerHTML).toEqual("");
     });
 
-
     it("subscribes components to the bus", function () {
         var aComponent = createDummyComponent();
         var aBus = CUORE.Bus;
@@ -153,7 +152,6 @@ describe("Page", function () {
         expect(aBus.subscribers("testEvent")).toContain(aComponent);
         expect(aBus.subscribers("dummyEvent")).toContain(aComponent);
     });
-
 
     var createDummyComponent = function() {
         var aComponent = {};
@@ -184,6 +182,5 @@ describe("Page", function () {
         };
 
         return aComponent;
-    }
-
+    };
 });

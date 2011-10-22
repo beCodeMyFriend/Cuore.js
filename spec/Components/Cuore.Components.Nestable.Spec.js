@@ -90,8 +90,7 @@ describe("NestableComponent", function () {
 
         expect(anyComponent.updateRender).toHaveBeenCalled();
     });
-    
-    
+
     it("should not replace hosted components with its text, when updating drawn component", function () {
         var anyComponent = new CUORE.Component();
         var aComponent = new CUORE.Components.Nestable();
@@ -106,7 +105,6 @@ describe("NestableComponent", function () {
         var firstChildId = aComponentDOMElement.childNodes[0].id;
         expect(firstChildId).toEqual(anyComponent.getUniqueID());
     });
-
 
     it("assigns different identifiers to nested components", function () {
         var aNestedComponent = new CUORE.Component();
@@ -166,5 +164,4 @@ describe("NestableComponent", function () {
        
         return container;
     };
-
 });

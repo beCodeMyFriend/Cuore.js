@@ -33,6 +33,7 @@ CUORE.Journey = CUORE.Class(null, {
         var theSlots = [];
         var finalMinute = this.end - this.itsGranularity;
         var index = 0;
+        
         for (var initialMinute = this.start; initialMinute <= finalMinute; initialMinute += this.itsGranularity) {
             var journeyStart = this._formatHour(initialMinute);
             var journeyEnd = this._formatHour(initialMinute + this.itsGranularity);

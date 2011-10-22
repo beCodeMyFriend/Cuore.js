@@ -16,16 +16,16 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
     
     updateWhenDrawn: function (component) {
         CUORE.Renderers.NumericSelector.super.updateWhenDrawn.call(this, component);
-        
+
         this._checkDecorations(component);
     },
 
     _decorateInput: function () {
         CUORE.Dom.addClass(this.DOMInput, 'numericSelector');
-            
-        var clearFunction   = CUORE.Core.bind(this, this._clearInput);    
-        var restoreFunction = CUORE.Core.bind(this, this._restoreInput);    
-            
+
+        var clearFunction   = CUORE.Core.bind(this, this._clearInput);
+        var restoreFunction = CUORE.Core.bind(this, this._restoreInput);
+
         CUORE.Dom.Event.add(this.DOMInput, 'focus', clearFunction);
         CUORE.Dom.Event.add(this.DOMInput, 'blur', restoreFunction);
     },
@@ -44,7 +44,7 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
 
     _addMinusButton: function (component) {
         var componentMinus = CUORE.Core.bind(component, component.minus);
-        
+
         this.minusButton = CUORE.Dom.createElement('a', {
             href: '#',
             className: 'minusButton',
@@ -57,7 +57,7 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
 
     _addPlusButton: function (component) {
         var componentPlus = CUORE.Core.bind(component, component.plus);
-        
+
         this.plusButton = CUORE.Dom.createElement('a', {
             href: '#',
             className: 'plusButton',
@@ -67,7 +67,7 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
         CUORE.Dom.Event.stopDefault(this.plusButton, 'click');
         CUORE.Dom.Event.add(this.plusButton, 'click', componentPlus);
     },
-    
+
     _checkDecorations: function (component) {
         var value = parseInt(this.getValue(), 10);
         var OFF   = 'off';

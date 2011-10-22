@@ -445,7 +445,7 @@ describe("Component", function() {
         };
 
         return aService;
-    }
+    };
 
     var createTestContainer = function() {
         var container = document.createElement('div');
@@ -466,5 +466,4 @@ describe("Component", function() {
         };
         return aHandler;
     };
-
 });

@@ -215,7 +215,6 @@ describe("TimeRange", function () {
     });
 
     it("when disabling has disable class", function () {
-        
         var aComponent = getTimeRange();
         
         var componentId = aComponent.getUniqueID();
@@ -228,12 +227,10 @@ describe("TimeRange", function () {
         expect(CUORE.Dom.hasClass(element, "disabled")).toBeTruthy();
         aComponent.enable();
         expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
-        
     });
     
     
     it("when disabling has disabled selects", function () {
-        
         var aComponent = getTimeRange();
         
         var componentId = aComponent.getUniqueID();
@@ -245,12 +242,9 @@ describe("TimeRange", function () {
         
         var startSelect =  element.childNodes[1];
         var endSelect =  element.childNodes[2];
-       
-        
-        
+
         expect(startSelect.disabled).toBeTruthy();
         expect(endSelect.disabled).toBeTruthy();
-        
     });
     
     var getTimeRange = function(granularity) {

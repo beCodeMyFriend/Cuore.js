@@ -32,5 +32,4 @@ describe("NullService", function () {
 
         return aBus;
     };
-
 });

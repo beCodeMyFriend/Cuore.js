@@ -28,7 +28,6 @@ describe("Collapsable Panel", function () {
 
         expect(CUORE.Dom.hasClass(DOMPanel, "collapsablePanel")).toBeTruthy();
         expect(CUORE.Dom.hasClass(DOMPanel, "collapsed")).toBeTruthy();
-
     });
 
     it("change css class when collapse", function () {
