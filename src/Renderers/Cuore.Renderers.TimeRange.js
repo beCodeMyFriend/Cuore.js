@@ -10,7 +10,7 @@ CUORE.Renderers.TimeRange = CUORE.Class(CUORE.Renderer, {
         CUORE.Renderers.TimeRange.super.draw.call(this, component);
         
         var componentSetStartHour = CUORE.Core.bind(component, component.setStartHour);
-        var componentsetEndHour = CUORE.Core.bind(component, component.setEndHour);
+        var componentSetEndHour = CUORE.Core.bind(component, component.setEndHour);
         
         this.panel.innerHTML = null;
         this.addClass('timeRange');
@@ -27,17 +27,29 @@ CUORE.Renderers.TimeRange = CUORE.Class(CUORE.Renderer, {
             className: 'hourSelect endHourSelect' 
         }, this.panel);
 
-        CUORE.Dom.Event.add(this.endHourSelect, 'change', componentsetEndHour);
+        CUORE.Dom.Event.add(this.endHourSelect, 'change', componentSetEndHour);
+        
+        this.showDisabledState(component);
+
     },
     
     updateWhenDrawn: function(component) {
         this._setOptions(component);
-        
+        this.showDisabledState(component);
         this.label.innerHTML = component.getText();
         this.startHourSelect.value = component.journey.starts();
         this.endHourSelect.value   = component.journey.ends();
     },
 
+    showDisabledState:function(component)
+    {
+        CUORE.Renderers.TimeRange.super.showDisabledState.call(this,component);
+       
+        if (!this.startHourSelect||!this.endHourSelect)return;
+        this.startHourSelect.disabled = !component.isEnabled();
+        this.endHourSelect.disabled = !component.isEnabled();
+    },
+    
     getStartTime: function() {
         return this._getTimeByProperty('start');
     },

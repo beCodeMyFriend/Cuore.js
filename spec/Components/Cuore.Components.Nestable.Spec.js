@@ -141,6 +141,23 @@ describe("NestableComponent", function () {
 
     });
  
+    it("transmits enable/disable behaviour to nestedComponents", function () {
+        var anyComponent = new CUORE.Component();
+
+        spyOn(anyComponent, "enable");
+        spyOn(anyComponent, "disable");
+        
+        var aComponent = new CUORE.Components.Nestable();
+
+        aComponent.host(anyComponent);
+
+        aComponent.disable();
+        expect(anyComponent.disable).toHaveBeenCalled();
+
+        aComponent.enable();
+        expect(anyComponent.enable).toHaveBeenCalled();
+    });
+    
     var createTestContainer = function() {
         var container = document.createElement('div');
         container.id = "testingContainer";

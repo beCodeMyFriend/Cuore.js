@@ -54,6 +54,24 @@ describe("Collapsable Panel", function () {
 
     });
 
+    it("when disabling has disable class", function () {
+        var container = createTestContainer();
+        var aPanel = new CUORE.Components.Collapsable();
+        aPanel.setContainer(container.id);
+        var componentId = aPanel.getUniqueID();
+
+        aPanel.disable();
+        aPanel.draw();
+        
+        var element = document.getElementById(componentId);
+        
+        expect(CUORE.Dom.hasClass(element, "disabled")).toBeTruthy();
+        
+        aPanel.enable();
+        
+        expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
+    });
+    
     it("has height 0 when collapsed but has some height when not", function () {
         var numberOfAssertionsInText = 2;
         expect(numberOfAssertionsInText);

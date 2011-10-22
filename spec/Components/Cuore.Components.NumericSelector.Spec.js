@@ -267,6 +267,38 @@ describe("Numeric Selector", function () {
         expect(aNumericSelector.getValue()).toEqual('-2');
     });
 
+
+     it("disable buttons when disabled ", function () {
+        var aNumericSelector = getNumericSelector();
+        aNumericSelector.disable();
+        aNumericSelector.draw();
+        
+        var DOMObject = document.getElementById(aNumericSelector.getUniqueID());
+        var plusButton = DOMObject.getElementsByTagName('A')[1];
+        expect(CUORE.Dom.hasClass(plusButton, 'off')).toBeTruthy();
+        var minusButton = DOMObject.getElementsByTagName('A')[0];
+        expect(CUORE.Dom.hasClass(minusButton, 'off')).toBeTruthy();
+
+    });
+     
+    it("disallows increments and decrements when disabled ", function () {
+        var aNumericSelector = getNumericSelector();
+        aNumericSelector.disable();
+        var control=5;
+        aNumericSelector.setValue(control);
+        
+        aNumericSelector.minus();
+        
+        expect(aNumericSelector.getValue()).toEqual(control);
+        
+        aNumericSelector.plus();
+        
+        expect(aNumericSelector.getValue()).toEqual(control);
+
+    });
+    
+    
+    
     function getNumericSelector() {
         var aNumericSelector = new CUORE.Components.NumericSelector();
         aNumericSelector.setContainer('xhtmlToTest');

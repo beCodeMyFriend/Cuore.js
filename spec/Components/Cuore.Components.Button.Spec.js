@@ -156,11 +156,11 @@ describe("Button", function () {
         var buttonName = "buttonName";
         var undrawnButton = new CUORE.Components.Button(buttonName, "CanonicalKey");
 
-        expect(undrawnButton.isEnable()).toBeTruthy();
+        expect(undrawnButton.isEnabled()).toBeTruthy();
         undrawnButton.disable();
-        expect(undrawnButton.isEnable()).toBeFalsy();
+        expect(undrawnButton.isEnabled()).toBeFalsy();
         undrawnButton.enable();
-        expect(undrawnButton.isEnable()).toBeTruthy();
+        expect(undrawnButton.isEnabled()).toBeTruthy();
     });
 
     it("has enabled buttons that fire click event and disabled buttons that dont", function () {

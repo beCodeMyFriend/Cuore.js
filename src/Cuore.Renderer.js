@@ -32,6 +32,14 @@ CUORE.Renderer = CUORE.Class(null, {
         if (component.getText()) { 
             this.panel.innerHTML = component.getText();
         }
+        this.showDisabledState(component);
+    },
+
+    showDisabledState: function(component) {
+        this.removeClass("disabled");
+	if (!component.isEnabled()) {
+	    this.addClass("disabled");
+	}
     },
     
     erase: function() {
@@ -61,6 +69,8 @@ CUORE.Renderer = CUORE.Class(null, {
         this.panel = CUORE.Dom.createElement('div', {
             id: divID
         }, this.container);
+
+        this.showDisabledState(component);
 
         this.setCurrentClasses();
     },

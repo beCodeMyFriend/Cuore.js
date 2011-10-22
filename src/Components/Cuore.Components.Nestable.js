@@ -66,5 +66,22 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
             component.setName(componentName);
             ordinal++;
         }
-    }
+    },
+    
+    enable: function () {
+        CUORE.Components.Nestable.super.enable.call(this);
+        for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
+            var component = this.hostedComponents[i];
+            component.enable();
+        }
+    },
+
+    disable: function () {
+        CUORE.Components.Nestable.super.disable.call(this);
+        for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
+            var component = this.hostedComponents[i];
+            component.disable();
+        }
+    }    
+    
 });

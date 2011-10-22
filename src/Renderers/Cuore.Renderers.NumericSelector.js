@@ -71,9 +71,14 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
     _checkDecorations: function (component) {
         var value = parseInt(this.getValue(), 10);
         var OFF   = 'off';
-
         CUORE.Dom.removeClass(this.plusButton, OFF);
         CUORE.Dom.removeClass(this.minusButton, OFF);
+        
+        if (!component.isEnabled())
+        {
+           CUORE.Dom.addClass(this.plusButton, OFF); 
+           CUORE.Dom.addClass(this.minusButton, OFF);
+        }
 
         if ((value + component.incrementer) > component.limSup) {
             CUORE.Dom.addClass(this.plusButton, OFF);

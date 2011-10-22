@@ -16,11 +16,13 @@ CUORE.Components.NumericSelector = CUORE.Class(CUORE.Components.Input, {
     },
 
     plus: function() {
+        if (!this.isEnabled())return;
         var value = parseInt(this.getValue(), 10) + this.incrementer;
         this.setValue(value);
     },
 
     minus: function() {
+        if (!this.isEnabled())return;
         var value = (this.getValue() - this.incrementer);
         this.setValue(value);
     },

@@ -374,6 +374,48 @@ describe("Component", function () {
         expect(theService.asynchronousReceived).toBeTruthy();
     });
 
+    it("has enable state", function () {
+
+        var aComponent = new CUORE.Component();
+       
+        expect(aComponent.isEnabled()).toBeTruthy();
+    });
+
+    it("can be disabled", function () {
+
+        var aComponent = new CUORE.Component();
+	aComponent.disable();
+       
+        expect(aComponent.isEnabled()).toBeFalsy();
+    });
+
+    it("can be enabled", function () {
+
+        var aComponent = new CUORE.Component();
+	aComponent.disable();
+	aComponent.enable();
+       
+        expect(aComponent.isEnabled()).toBeTruthy();
+    });
+
+    it("when disabling has disable class", function () {
+        var container = createTestContainer();
+        var aComponent = new CUORE.Component();
+        aComponent.setContainer(container.id);
+        var componentId = aComponent.getUniqueID();
+
+        aComponent.disable();
+        aComponent.draw();
+        
+        var element = document.getElementById(componentId);
+	var classes = element.className.split(" ");
+        
+        expect(classes).toContain("disabled");
+
+        aComponent.enable();
+	classes = element.className.split(" ");
+        expect(classes).not.toContain("disabled");
+    });
 
     var preparePage = function(serviceName, procedureName) {
         document.page = {};

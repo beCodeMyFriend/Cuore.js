@@ -32,20 +32,14 @@ CUORE.Renderers.Button = CUORE.Class(CUORE.Renderer, {
     },
 
     setClassCSS: function(component) {
-        var CSSDISABLED = 'disabled';
-
-        if (!component.isEnable()) {
-            this.addClass(CSSDISABLED);
-        } else {
-            this.removeClass(CSSDISABLED);
-        }
+        this.showDisabledState(component);
     },
 
     addEvents: function(component) {
         CUORE.Dom.Event.remove(this.panel, 'click');
         CUORE.Dom.Event.stopDefault(this.panel, 'click'); 
         
-        if (component.isEnable()) {
+        if (component.isEnabled()) {
             var componentClick = CUORE.Core.bind(component, component.click);
             CUORE.Dom.Event.add(this.panel, 'click', componentClick);
         }

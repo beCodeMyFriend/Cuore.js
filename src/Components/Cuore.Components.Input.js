@@ -8,7 +8,6 @@ CUORE.Components.Input = CUORE.Class(CUORE.Component, {
 
         this.type = type || 'text';
         this.value = '';
-        this.disabled = false;
     },
 
     getValue: function () {
@@ -17,16 +16,6 @@ CUORE.Components.Input = CUORE.Class(CUORE.Component, {
 
     setValue: function (value) {
         this.value = value;
-        this.updateRender();
-    },
-
-    disable: function () {
-        this.disabled = true;
-        this.updateRender();
-    },
-
-    enable: function () {
-        this.disabled = false;
         this.updateRender();
     }
 });

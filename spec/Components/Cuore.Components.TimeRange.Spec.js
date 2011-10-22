@@ -214,6 +214,45 @@ describe("TimeRange", function () {
         expect(startSelectOptions[4].innerHTML).toEqual("01:00");
     });
 
+    it("when disabling has disable class", function () {
+        
+        var aComponent = getTimeRange();
+        
+        var componentId = aComponent.getUniqueID();
+
+        aComponent.disable();
+        aComponent.draw();
+        
+        var element = document.getElementById(componentId);
+        
+        expect(CUORE.Dom.hasClass(element, "disabled")).toBeTruthy();
+        aComponent.enable();
+        expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
+        
+    });
+    
+    
+    it("when disabling has disabled selects", function () {
+        
+        var aComponent = getTimeRange();
+        
+        var componentId = aComponent.getUniqueID();
+
+        aComponent.disable();
+        aComponent.draw();
+        
+        var element = document.getElementById(componentId);
+        
+        var startSelect =  element.childNodes[1];
+        var endSelect =  element.childNodes[2];
+       
+        
+        
+        expect(startSelect.disabled).toBeTruthy();
+        expect(endSelect.disabled).toBeTruthy();
+        
+    });
+    
     var getTimeRange = function(granularity) {
         var key = "aKey";
         var aComponent = new CUORE.Components.TimeRange(key);

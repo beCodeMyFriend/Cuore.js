@@ -128,6 +128,23 @@ describe("Input", function () {
         expect(value).toMatch("testText");
     });
     
+    it("when disabling has disable class", function () {
+	var aComponent = getComponentInput();
+
+        var componentId = aComponent.getUniqueID();
+
+        aComponent.disable();
+        aComponent.draw();
+        
+        var element = document.getElementById(componentId);
+        
+        expect(CUORE.Dom.hasClass(element, "disabled")).toBeTruthy();
+        
+        aComponent.enable();
+        
+        expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
+    });
+    
     var getComponentInput = function() {
        
         var aComponent = new CUORE.Components.Input("CanonicalKey");
