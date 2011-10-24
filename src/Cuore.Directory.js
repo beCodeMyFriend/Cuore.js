@@ -14,9 +14,7 @@ CUORE.Directory = CUORE.Class(null, {
     list: function(){return this.listing;},
     
     execute: function(serviceName, procedureName, params, asynchronous){
-        var service = this.services[serviceName];
-        if (service)
-            service.execute(procedureName, params, asynchronous);    
+        this.getService(serviceName).execute(procedureName, params, asynchronous);    
     },
     
     getService:function(serviceName) {
