@@ -1,10 +1,5 @@
 describe("A Registry", function () {
     var aRegistry;
-    var dummyComponent=function(name) {
-      return {
-          name: name
-      };
-    };
 
     beforeEach(function(){
         this.addMatchers({
@@ -25,7 +20,7 @@ describe("A Registry", function () {
     });
 
     it("can register components ", function () {
-        var aComponent=dummyComponent('aComponent');
+        var aComponent=CUORE.Mocks.Component('aComponent');
         
         aRegistry.register(aComponent);
         expect(aRegistry.size()).toEqual(1);
@@ -45,7 +40,7 @@ describe("A Registry", function () {
         describe("given it isn't empty", function() {
             var aComponent;
             beforeEach(function() {
-                aComponent=dummyComponent('aComponent');
+                aComponent=CUORE.Mocks.Component('aComponent');
                 aRegistry.register(aComponent);
             });
 
@@ -58,7 +53,7 @@ describe("A Registry", function () {
             });
 
             it("even if an exception is thrown from the callback, it will be called once for each registered component", function() {
-                var otherComponent=dummyComponent('otherComponent');
+                var otherComponent=CUORE.Mocks.Component('otherComponent');
                 aRegistry.register(otherComponent)
 
                 var callback=jasmine.createSpy('crappy callback').andThrow("Error!");

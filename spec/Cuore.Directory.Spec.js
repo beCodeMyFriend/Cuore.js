@@ -1,10 +1,9 @@
 describe("A Directory", function () {
 
     var mockService=function (name){
-        var service={};
-        service.getName = jasmine.createSpy(name+'.getName').andReturn(name);
-        service.execute = jasmine.createSpy(name+'.execute');
-        return service;        
+        var service=CUORE.Mocks.Service();
+        service.getName.andReturn(name);
+        return service;
     };
         
     var aDirectory;
@@ -24,17 +23,14 @@ describe("A Directory", function () {
     });
     
     it("has a Label service built-in", function () {
-        
         expect(aDirectory.getService('LABELS')).toBeInstanceOf(CUORE.Services.Label);
     });
 
     it("has a Button service built-in", function () {
-        
         expect(aDirectory.getService('BUTTON')).toBeInstanceOf(CUORE.Services.Button);
     });
     
     describe("with a service called 'TAL'", function() {
-        
         var tal="TAL";
         var talService;
         

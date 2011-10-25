@@ -1,29 +1,10 @@
 describe("Page", function () {
     var aPage, registry, directory;
 
-    var mock = function(name, methodNames) {
-      var r = {'_description':name}
-          , numberOfMethods = methodNames.length
-          , methodName;
-      for(var i = 0; i < numberOfMethods; i++) {
-        methodName = methodNames[i];
-        r[methodName] = jasmine.createSpy(name + "." + methodName);
-      }
-      return r;
-    };
-
-    var mockRegistry=function() {
-        return mock('registry', ['register', 'size', 'each']);
-    };
-
-    var mockDirectory=function() {
-        return mock('directory', ['add', 'list', 'execute', 'getService']);
-    };
-
     beforeEach(function() {
         aPage = new CUORE.Page();
-        registry = mockRegistry();
-        directory = mockDirectory();
+        registry = CUORE.Mocks.Registry();
+        directory = CUORE.Mocks.Directory();
         aPage.setDirectory(directory);
         aPage.setRegistry(registry);
     });
@@ -76,12 +57,8 @@ describe("Page", function () {
     describe("when a service is added", function() {
         var aService, aBaseURL="a base URL";
 
-        var mockService = function() {
-            return mock('service', ['getName', 'setBaseURL']);
-        };
-
         beforeEach(function() {
-            aService = mockService();
+            aService = CUORE.Mocks.Service();
             aPage = new CUORE.Page(aBaseURL);
             aPage.setDirectory(directory);
 
@@ -100,23 +77,20 @@ describe("Page", function () {
     describe("when a component is added", function() {
         var testingContainer = "testingContainer", aComponent;
 
-        var mockComponent=function(name) {
-            var component = mock('component '+name, ['setContainer', 'dontReplace', 'setName', 'getManagedEvents', 'draw']);
-            component.getManagedEvents.andReturn([]);
-            component.getName=function() {
-              return component.setName.mostRecentCall.args[0]
-            };
-            return component;
-        };
-
         beforeEach(function() {
-            aComponent = mockComponent('fake');
+            aComponent = CUORE.Mocks.Component('fake');
         }),
 
         it("registers component with the registry", function () {
             aPage.addComponent(aComponent, testingContainer, true);
 
             expect(registry.register).toHaveBeenCalledWith(aComponent);
+        });
+
+        it("configures the component with the service directory", function () {
+            aPage.addComponent(aComponent, testingContainer, true);
+
+            expect(aComponent.setDirectory).toHaveBeenCalledWith(directory);
         });
 
         it("configures the component with a container", function () {
@@ -132,7 +106,7 @@ describe("Page", function () {
         });
 
         it("gives the component an unique name", function () {
-            var otherComponent = mockComponent('other component');
+            var otherComponent = CUORE.Mocks.Component('other component');
 
             aPage.addComponent(aComponent, testingContainer, true);
             aPage.addComponent(otherComponent, testingContainer, true);

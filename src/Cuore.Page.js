@@ -35,6 +35,8 @@ CUORE.Page = CUORE.Class(null, {
 
     addComponent: function(component, container, replaceContent) {
         component.setName(this._generateUUID());
+        component.setDirectory(this.services);
+      
         if(!replaceContent)
             component.dontReplace();
 
