@@ -1,4 +1,10 @@
 describe("A Registry", function () {
+    var aRegistry;
+    var dummyComponent=function(name) {
+      return {
+          name: name
+      };
+    };
 
     beforeEach(function(){
         this.addMatchers({
@@ -10,30 +16,57 @@ describe("A Registry", function () {
                 return spy.callCount==1 && spy.mostRecentCall.args[0]==comp;
             }
         });
+
+        aRegistry= new CUORE.Registry();
     });
-    
+
+    it("by default has no components", function() {
+      expect(aRegistry.size()).toEqual(0);
+    });
+
     it("can register components ", function () {
-        var aRegistry= new CUORE.Registry();
-        expect(aRegistry.size()).toEqual(0);
-        var aComponent=new CUORE.Component();
-        
+        var aComponent=dummyComponent('aComponent');
         
         aRegistry.register(aComponent);
         expect(aRegistry.size()).toEqual(1);
         aRegistry.register(aComponent);
         expect(aRegistry.size()).toEqual(1);
     });
-    
-    it("can iterate with 1 component", function() {
-        var aRegistry= new CUORE.Registry();
-        var aComponent=new CUORE.Component();
-        aRegistry.register(aComponent);
-        
-        var callback=jasmine.createSpy('callback');
-        
-        aRegistry.each(callback);
-        
-        expect(callback).toHaveBeenCalledOnceWithTheComponent(aComponent);
+
+    describe("can iterate over its contents", function() {
+        it("given it's empty, the callback won't be called", function() {
+            var callback=jasmine.createSpy('callback');
+
+            aRegistry.each(callback);
+
+            expect(callback).not.toHaveBeenCalled();
+        });
+
+        describe("given it isn't empty", function() {
+            var aComponent;
+            beforeEach(function() {
+                aComponent=dummyComponent('aComponent');
+                aRegistry.register(aComponent);
+            });
+
+            it("the callback will be called once for each registered component", function() {
+                var callback=jasmine.createSpy('callback');
+
+                aRegistry.each(callback);
+
+                expect(callback).toHaveBeenCalledOnceWithTheComponent(aComponent);
+            });
+
+            it("even if an exception is thrown from the callback, it will be called once for each registered component", function() {
+                var otherComponent=dummyComponent('otherComponent');
+                aRegistry.register(otherComponent)
+
+                var callback=jasmine.createSpy('crappy callback').andThrow("Error!");
+
+                aRegistry.each(callback);
+
+                expect(callback.callCount).toEqual(2);
+            });
+        });
     });
-    
 });

@@ -1,23 +1,33 @@
 CUORE.Registry = CUORE.Class(null, {
 
     init: function(baseURL) {
-       this.components = [];
+        this.components = [];
     },
 
     register: function (component) {
-        if (!this._contains(component))
+        if(!this._contains(component))
             this.components.push(component);
     },
-    
+
     _contains: function(component) {
-        return this.components.indexOf(component) != -1;  
+        return this.components.indexOf(component) != -1;
     },
-    
-    size: function(){return this.components.length;},
-    
+
+    size: function() {
+        return this.components.length;
+    },
+
     each:function(callback) {
-        callback(this.components[0]);
+        var componentsLength = this.size();
+        for(var position = 0; position < componentsLength; position++)
+            this._safeInvoke(callback, this.components[position])
+    },
+
+    _safeInvoke:function(callback, component) {
+        var err;
+        try {
+            callback(component);
+        } catch(err) {
+        }
     }
-    
-    
 });
