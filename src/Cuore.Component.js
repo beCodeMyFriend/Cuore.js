@@ -10,6 +10,7 @@ CUORE.Component = CUORE.Class(null, {
         this.text = '';
         this.renderer = new CUORE.Renderer();
         this.enabled = true;
+        this.replaces=true;
     },
 
     initializeExecutionContext: function(service, procedure) {
@@ -17,6 +18,15 @@ CUORE.Component = CUORE.Class(null, {
             this.service = service;
             this.procedure = procedure;
         }
+    },
+
+
+    doYouReplace:function(){
+        return this.replaces;    
+    },
+    
+    dontReplace: function() {
+      this.replaces = false;  
     },
 
     draw: function() {

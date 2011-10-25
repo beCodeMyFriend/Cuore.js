@@ -65,6 +65,11 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     draw: function(component) {
+        
+        if (component.doYouReplace()){
+            this.container.innerHTML='';
+        }
+        
         var divID = this.innerDivName(component.getName());
         
         this.panel = CUORE.Dom.createElement('div', {
