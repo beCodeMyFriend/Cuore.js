@@ -9,7 +9,28 @@ describe("A Directory", function () {
         
     var aDirectory;
     beforeEach(function() {
+        
+        this.addMatchers({
+            toBeInstanceOf:function(expectedType){
+                var actual=this.actual;
+                this.message=function (){
+                    return actual+" isn't an instance of expected type"; 
+                }
+                return actual instanceof expectedType;       
+            }
+        });
+        
         aDirectory = new CUORE.Directory();
+    });
+    
+    it("has a Label service built-in", function () {
+        
+        expect(aDirectory.getService('LABELS')).toBeInstanceOf(CUORE.Services.Label);
+    });
+
+    it("has a Button service built-in", function () {
+        
+        expect(aDirectory.getService('BUTTON')).toBeInstanceOf(CUORE.Services.Button);
     });
     
     describe("with a service called 'TAL'", function() {
@@ -40,6 +61,17 @@ describe("A Directory", function () {
             expect(aDirectory.list()).toContain(tal);
             expect(aDirectory.list()).toContain(pascual);
         });
+        
+        
+        it("when another service 'TAL' is added replaces old service", function () {
+            var otherTal=mockService(tal);
+            
+            aDirectory.add(otherTal);
+            aDirectory.execute(tal,'anyProcedure');
+            
+            expect(otherTal.execute).toHaveBeenCalled();
+        });
+        
         
         it("when execute is called for 'TAL' service, the execute method of the 'TAL' service will be called", function() {
             var procedureName = "CUAL";

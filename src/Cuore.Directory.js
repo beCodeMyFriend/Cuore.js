@@ -3,6 +3,7 @@ CUORE.Directory = CUORE.Class(null, {
     init: function(baseURL) {
         this.listing=[];
         this.services={};
+        this._addBuiltinServices();
     },
 
     add: function (aService){
@@ -22,6 +23,10 @@ CUORE.Directory = CUORE.Class(null, {
         if(!service)
             service=new CUORE.Services.Null();
         return service;
-    }
+    },
     
+    _addBuiltinServices:function (){
+        this.add(new CUORE.Services.Label());
+        this.add(new CUORE.Services.Button());
+    }
 });
