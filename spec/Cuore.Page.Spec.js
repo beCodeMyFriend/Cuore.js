@@ -1,7 +1,34 @@
 describe("Page", function () {
+    var aPage, registry, directory;
+
+    var mock = function(name, methodNames) {
+      var r = {'_description':name}
+          , numberOfMethods = methodNames.length
+          , methodName;
+      for(var i = 0; i < numberOfMethods; i++) {
+        methodName = methodNames[i];
+        r[methodName] = jasmine.createSpy(name + "." + methodName);
+      }
+      return r;
+    };
+
+    var mockRegistry=function() {
+        return mock('registry', ['register', 'size', 'each']);
+    };
+
+    var mockDirectory=function() {
+        return mock('directory', ['add', 'list', 'execute', 'getService']);
+    };
+
+    beforeEach(function() {
+        aPage = new CUORE.Page();
+        registry = mockRegistry();
+        directory = mockDirectory();
+        aPage.setDirectory(directory);
+        aPage.setRegistry(registry);
+    });
 
     it("initialization calls initializeServices", function () {
-        var aPage = new CUORE.Page();
         var initializeServicesCalled = false;
 
         aPage.initializeServices = function () {
@@ -14,7 +41,6 @@ describe("Page", function () {
     });
 
     it("initialization calls initializeComponents", function () {
-        var aPage = new CUORE.Page();
         var initializeComponentsCalled = false;
 
         aPage.initializeComponents = function () {
@@ -26,161 +52,125 @@ describe("Page", function () {
         expect(initializeComponentsCalled).toBeTruthy();
     });
 
-    it("can add and fecth services", function () {
-        var aPage = new CUORE.Page();
-        var abstractServiceName = "ABSTRACT";
-        var aService = aPage.getService(abstractServiceName);
-        expect(aService instanceof CUORE.Services.Null).toBeTruthy();
+    it("can lookup for services by name", function () {
+        var aServiceName = "a service to be looked up";
+        var expectedService = "resulting service";
+        directory.getService.andReturn(expectedService);
 
-        aService = aPage.getService(null);
-        expect(aService instanceof CUORE.Services.Null).toBeTruthy();
+        var aService = aPage.getService(aServiceName);
 
-        aService = aPage.getService(undefined);
-        expect(aService instanceof CUORE.Services.Null).toBeTruthy();
-
-        aService = {};
-        aService.getName = function () {
-            return abstractServiceName;
-        };
-        aService.setBaseURL = function (baseURL) {};
-        aPage.addService(aService);
-
-        var serviceRetrieved = aPage.getService(abstractServiceName);
-        expect(serviceRetrieved.getName()).toEqual(abstractServiceName);
+        expect(directory.getService).toHaveBeenCalledWith(aServiceName);
+        expect(aService).toEqual(expectedService);
     });
 
-    it("initialization creates a Labelservice ", function () {
-        var aPage = new CUORE.Page();
-        var serviceName = "LABELS";
-        var aService = aPage.getService(serviceName);
-        expect(aService instanceof CUORE.Services.Label).toBeTruthy();
-
-    });
-
-    it("creates a button service at initialization", function () {
-        var aPage = new CUORE.Page();
-        var serviceName = "BUTTON";
-        var aService = aPage.getService(serviceName);
-        expect(aService instanceof CUORE.Services.Button).toBeTruthy();
-
-    });
-    
-    it("allows baseUrl initialization", function () {
-        var aPage = new CUORE.Page();
+    it("by default has an empty baseUrl", function () {
         expect(aPage.getBaseURL()).toEqual("");
+    });
 
+    it("allows baseUrl initialization using the constructor", function () {
         aPage = new CUORE.Page("A Base URL");
+
         expect(aPage.getBaseURL()).toEqual("A Base URL");
     });
 
-    it("sets baseURL to the services", function () {
-        var aBaseURL = "a base URL";
-        var aPage = new CUORE.Page(aBaseURL);
-        var baseURLSet = "";
-        var aService = {};
-        aService.setBaseURL = function (baseURL) {
-            baseURLSet = baseURL;
+    describe("when a service is added", function() {
+        var aService, aBaseURL="a base URL";
+
+        var mockService = function() {
+            return mock('service', ['getName', 'setBaseURL']);
         };
-        aService.getName = function () {};
-        aPage.addService(aService);
-        expect(baseURLSet).toEqual(aBaseURL);
+
+        beforeEach(function() {
+            aService = mockService();
+            aPage = new CUORE.Page(aBaseURL);
+            aPage.setDirectory(directory);
+
+            aPage.addService(aService);
+        });
+
+        it("it sets the baseURL to the service", function() {
+            expect(aService.setBaseURL).toHaveBeenCalledWith(aBaseURL);
+        });
+
+        it("it adds the service to the directory", function() {
+            expect(directory.add).toHaveBeenCalledWith(aService);
+        });
     });
 
-    it("allow component registration", function () {
-        var aPage = new CUORE.Page();
+    describe("when a component is added", function() {
+        var testingContainer = "testingContainer", aComponent;
 
-        var aComponent = createDummyComponent();
-        var anotherComponent = createDummyComponent(); 
+        var mockComponent=function(name) {
+            var component = mock('component '+name, ['setContainer', 'dontReplace', 'setName', 'getManagedEvents', 'draw']);
+            component.getManagedEvents.andReturn([]);
+            component.getName=function() {
+              return component.setName.mostRecentCall.args[0]
+            };
+            return component;
+        };
 
-        var testingContainer = "testingContainer";
+        beforeEach(function() {
+            aComponent = mockComponent('fake');
+        }),
 
-        aPage.addComponent(aComponent, testingContainer);
-        aPage.addComponent(anotherComponent, testingContainer);
-        var componentName = aComponent.setNameCalled;
-        var anotherComponentName = anotherComponent.setNameCalled;
+        it("registers component with the registry", function () {
+            aPage.addComponent(aComponent, testingContainer, true);
 
-        expect(anotherComponentName).not.toEqual(componentName);
+            expect(registry.register).toHaveBeenCalledWith(aComponent);
+        });
+
+        it("configures the component with a container", function () {
+            aPage.addComponent(aComponent, testingContainer, true);
+
+            expect(aComponent.setContainer).toHaveBeenCalledWith(testingContainer);
+        });
+
+        it("gives the component a name", function () {
+            aPage.addComponent(aComponent, testingContainer, true);
+
+            expect(aComponent.setName).toHaveBeenCalled();
+        });
+
+        it("gives the component an unique name", function () {
+            var otherComponent = mockComponent('other component');
+
+            aPage.addComponent(aComponent, testingContainer, true);
+            aPage.addComponent(otherComponent, testingContainer, true);
+
+            expect(otherComponent.getName()).not.toEqual(aComponent.getName());
+        });
+
+        it("configures component not to replace HTML if false is the last parameter", function () {
+            aPage.addComponent(aComponent, testingContainer, false);
+
+            expect(aComponent.dontReplace).toHaveBeenCalled();
+        });
+
+        it("configures component to replace HTML if true is the last parameter", function () {
+            aPage.addComponent(aComponent, testingContainer, true);
+
+            expect(aComponent.dontReplace).not.toHaveBeenCalled();
+        });
+
+        it("registers its managed events with the bus", function() {
+            var aBus = CUORE.Bus;
+            aBus.reset();
+            aComponent.getManagedEvents.andReturn(['testEvent', 'dummyEvent']);
+
+            aPage.addComponent(aComponent, testingContainer, true);
+
+            expect(aBus.subscribers("testEvent")).toContain(aComponent);
+            expect(aBus.subscribers("dummyEvent")).toContain(aComponent);
+        });
+
+        it("and the page is drawn, it will draw each component", function() {
+            registry.each.andCallFake(function(callback) {
+              callback(aComponent);
+            });
+
+            aPage.draw();
+
+            expect(aComponent.draw).toHaveBeenCalled();
+        });
     });
-
-    it("draw components when it is drawn", function () {
-        var aPage = new CUORE.Page();
-        var aComponent = createDummyComponent();
-        var anotherComponent = createDummyComponent();
-
-        var testingContainer = "testingContainer";
-
-        aPage.addComponent(aComponent, testingContainer);
-        aPage.addComponent(anotherComponent, testingContainer);
-
-        aPage.draw();
-
-        expect(aComponent.drawCalled).toBeTruthy();
-        expect(anotherComponent.drawCalled).toBeTruthy();
-    });
-
-
-    it("drawing can replace container when asked", function () {
-        var container = document.createElement('div');
-        container.id = "testingContainer";
-        var panel = document.getElementById("xhtmlToTest");
-        panel.appendChild(container);
-        var containerHtml = "Lorem ipsum";
-        container.innerHTML = containerHtml;
-
-        var aPage = new CUORE.Page();
-        aPage.addComponent(createDummyComponent(), container);
-        aPage.draw();
-        expect(container.innerHTML).toEqual(containerHtml);
-
-        aPage.addComponent(createDummyComponent(), container, false);
-        aPage.draw();
-        expect(container.innerHTML).toEqual(containerHtml);
-
-        aPage.addComponent(createDummyComponent(), container, true);
-        aPage.draw();
-        expect(container.innerHTML).toEqual("");
-    });
-
-    it("subscribes components to the bus", function () {
-        var aComponent = createDummyComponent();
-        var aBus = CUORE.Bus;
-        aBus.reset();
-
-        var aPage = new CUORE.Page();
-        aPage.addComponent(aComponent, "anyContainer");
-
-        expect(aBus.subscribers("testEvent")).toContain(aComponent);
-        expect(aBus.subscribers("dummyEvent")).toContain(aComponent);
-    });
-
-    var createDummyComponent = function() {
-        var aComponent = {};
-
-        aComponent.setNameCalled = null;
-        aComponent.drawCalled = false;
-        aComponent.container = null;
-        aComponent.getManagedEvents = function () {
-            return ["testEvent", "dummyEvent"];
-        };
-        aComponent.getTypeName = function () {
-            return "dummy";
-        };
-        aComponent.setName = function (name) {
-            this.setNameCalled = name;
-        };
-        aComponent.getName = function () {
-            return this.setNameCalled;
-        };
-        aComponent.setContainer = function (aContainer) {
-            this.container = aContainer;
-        };
-        aComponent.getContainer = function () {
-            return this.container;
-        };
-        aComponent.draw = function () {
-            this.drawCalled = true;
-        };
-
-        return aComponent;
-    };
 });
