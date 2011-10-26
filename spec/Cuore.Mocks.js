@@ -23,7 +23,15 @@ CUORE.Mocks = {
     },
 
     Component: function(name) {
-        var component = CUORE.Mocks.mock('component '+name, ['setContainer', 'dontReplace', 'setName', 'getManagedEvents', 'draw', 'setDirectory']);
+        var component = CUORE.Mocks.mock('component '+name, [
+            'setContainer',
+            'dontReplace',
+            'setName',
+            'getManagedEvents',
+            'draw',
+            'setDirectory',
+            'execute'
+        ]);
         component.getManagedEvents.andReturn([]);
         component.getName=function() {
           return component.setName.mostRecentCall.args[0]

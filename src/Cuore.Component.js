@@ -55,13 +55,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     execute: function(theService, theProcedure, params, asynchronous) {
-        theService || (theService = this.service);
-        theProcedure || (theProcedure = this.procedure);
-        var serviceInstance = this.getService(theService);
-
-        if (serviceInstance) {
-            serviceInstance.execute(theProcedure, params, asynchronous);
-        }
+        this.services.execute(theService, theProcedure, params, asynchronous);
     },
 
     eventDispatch: function(eventName, params) {

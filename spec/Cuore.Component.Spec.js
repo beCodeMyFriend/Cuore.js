@@ -352,28 +352,6 @@ describe("Component", function() {
         expect(aComponent.getContainer()).toEqual(container);
     });
 
-    it("fetch and execute a service from page and execute the procedure when it is executed", function() {
-
-        var procedureName = "aProcedure";
-        var serviceName = "aService";
-        var testingParams = "testingParams";
-
-        var theService = preparePage(serviceName, procedureName);
-
-        var aComponent = new CUORE.Component();
-        aComponent.initializeExecutionContext(serviceName, procedureName);
-        aComponent.execute();
-
-        expect(document.page.expectedService).toEqual(serviceName);
-        expect(theService.procedureExecuted).toEqual(procedureName);
-
-        aComponent.execute(serviceName, procedureName, testingParams, false);
-        expect(theService.paramsExecuted).toEqual(testingParams);
-
-        aComponent.execute(serviceName, procedureName, testingParams, true);
-        expect(theService.asynchronousReceived).toBeTruthy();
-    });
-
     it("has enable state", function() {
 
         var aComponent = new CUORE.Component();
