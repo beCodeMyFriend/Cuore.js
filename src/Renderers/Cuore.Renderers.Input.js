@@ -1,6 +1,6 @@
 CUORE.Renderers.Input = CUORE.Class(CUORE.Renderer, {
 
-    draw: function (component) {
+    paint: function (component) {
         this.panel = CUORE.Dom.createElement('div', {
             id: this.innerDivName(component.getName())
         }, this.container);
@@ -12,6 +12,7 @@ CUORE.Renderers.Input = CUORE.Class(CUORE.Renderer, {
         this.DOMInput = CUORE.Dom.createElement('input', {
             type: component.type 
         }, this.panel);
+
     },
 
     updateWhenDrawn: function (component) {

@@ -19,6 +19,37 @@ describe("NestableComponent", function () {
         expect(aComponent.hosted()).toContain(anyComponent);
     });
 
+    it("when a component is hosted, is configured with the directory", function () {
+        var anyComponent = CUORE.Mocks.Component('any component');
+        var aDirectory=CUORE.Mocks.Directory();
+        var aComponent = new CUORE.Components.Nestable();
+        aComponent.setDirectory(aDirectory);
+
+        aComponent.host(anyComponent);
+
+        expect(anyComponent.setDirectory).toHaveBeenCalledWith(aDirectory);
+    });
+
+    it("when a component is hosted, it won't replace the contents", function () {
+        var anyComponent = CUORE.Mocks.Component('any component');
+        var aComponent = new CUORE.Components.Nestable();
+
+        aComponent.host(anyComponent);
+
+        expect(anyComponent.dontReplace).toHaveBeenCalled();
+    });
+
+    it("when the directory is changed, the hosted components are reconfigured with the new one", function () {
+        var aDirectory=CUORE.Mocks.Directory();
+        var anyComponent = CUORE.Mocks.Component('any component');
+        var aComponent = new CUORE.Components.Nestable();
+        aComponent.host(anyComponent);
+
+        aComponent.setDirectory(aDirectory);
+
+        expect(anyComponent.setDirectory).toHaveBeenCalledWith(aDirectory);
+    });
+
     it("knows events managed by nested Components", function () {
         var anyComponent = new CUORE.Component();
         var aHandler = {};

@@ -49,21 +49,12 @@ describe("Button", function () {
 
     it("default name is 'aButton' and service is defaulted to 'BUTTON'", function () {
         var aButton = new CUORE.Components.Button();
-
-        var calledProcedure = null;
-        var aService = {};
-        aService.execute = function (procedure, data) {
-            calledProcedure = procedure;
-        };
-        var calledService = undefined;
-        aButton.getService = function () {
-            calledService = this.service;
-            return aService;
-        };
+        var aDirectory = CUORE.Mocks.Directory();
+        aButton.setDirectory(aDirectory);
 
         aButton.click();
-        expect(calledProcedure).toEqual("aButton");
-        expect(calledService).toEqual("BUTTON");
+
+        expect(aDirectory.execute).toHaveBeenCalledWith("BUTTON", 'aButton', null);
     });
 
     it("generates an anchor in DOM with a span for css replacement when it is drawn", function () {
@@ -128,15 +119,13 @@ describe("Button", function () {
         var buttonName = "buttonName";
         var aButton = new CUORE.Components.Button(buttonName, "CanonicalKey");
         var someData="Some Data";
-        var myMockedService={};
-        myMockedService.execute=function(){};
-        spyOn(myMockedService,'execute');
         aButton.setData(someData);
-        aButton.getService=function() {
-          return myMockedService;
-        }
-        aButton.click();  
-        expect(myMockedService.execute).toHaveBeenCalledWith(buttonName,someData);
+        var aDirectory = CUORE.Mocks.Directory();
+        aButton.setDirectory(aDirectory);
+
+        aButton.click();
+
+        expect(aDirectory.execute).toHaveBeenCalledWith("BUTTON", buttonName, someData);
     });
     
     it("default event is stopped even when disabled", function () {
@@ -225,10 +214,12 @@ describe("Button", function () {
         expect(DOMButton).toBeFalsy();
     });
 
-    it("requests a label when it is drawn", function () {
+    // Not necessary anymore!
+    xit("requests a label when it is drawn", function () {
         var container = createTestContainer();
         var buttonName = "buttonName";
         var aButton = new CUORE.Components.Button(buttonName, "CanonicalKey");
+
         aButton.setContainer(container.id);
 
         var getLabelCalled = false;
@@ -240,7 +231,6 @@ describe("Button", function () {
         aButton.draw();
 
         expect(getLabelCalled).toBeTruthy();
-
     });
 
      var createTestContainer = function() {

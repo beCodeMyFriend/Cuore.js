@@ -6,7 +6,7 @@ CUORE.Renderers.Button = CUORE.Class(CUORE.Renderer, {
         this.DOMClass = 'button';
     },
 
-    draw: function(component) {
+    paint: function(component) {
         this.panel = CUORE.Dom.createElement('a', {
             id: this.innerDivName(component.getName()),
             href: '#'

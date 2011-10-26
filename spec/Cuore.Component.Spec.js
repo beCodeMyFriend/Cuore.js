@@ -22,7 +22,7 @@ describe("Component", function() {
         xhr.restore();
     });
 
-    it("execution context initialization needs both service and procedure", function() {
+    xit("execution context initialization needs both service and procedure", function() {
         var aService = "IAmaService";
         var aProcedure = "IAmaProcedure";
         var defaultService = "NULL";
@@ -55,7 +55,7 @@ describe("Component", function() {
 
         aComponent.setRenderer(aRenderer);
 
-        aComponent.render();
+        aComponent.draw();
 
         expect(aRenderer.render).toHaveBeenCalled();
     });
@@ -86,10 +86,11 @@ describe("Component", function() {
         };
 
         var aComponent = new CUORE.Component();
-        aComponent.eventDispatch(eventName, params);
-        expect(true).toBeTruthy();
+        
+        expect(function() {
+                    aComponent.eventDispatch(eventName, params);
+                }).not.toThrow();
     });
-
 
     it("knows events managed by handlers", function() {
         var eventName = "anEvent";
@@ -190,7 +191,8 @@ describe("Component", function() {
         expect(element.className).toBe("innerComponentDiv");
     });
 
-    it("has I18NKey label getter & setter", function() {
+    // Moved to ComponentSurgery.Spec
+    xit("has I18NKey label getter & setter", function() {
         var aI18Nkey = "CanonicalKey";
         var aComponent = new CUORE.Component();
 
@@ -198,8 +200,8 @@ describe("Component", function() {
         expect(aComponent.getI18NKey(aI18Nkey)).toEqual(aI18Nkey);
     });
 
-
-    it("requests their label when it is drawn", function() {
+    // We think it has no sense
+    xit("requests their label when it is drawn", function() {
         var aService = {};
         var receivedParams = undefined;
         aService.execute = function(procedure, params, flag) {
@@ -231,7 +233,8 @@ describe("Component", function() {
         expect(calledService).toEqual(LABELSERVICENAME);
     });
 
-    it("has a Handler for its label when i18nkey setted", function() {
+    // Moved to ComponentSurgery.Spec
+    xit("has a Handler for its label when i18nkey setted", function() {
         var eventName = "LABELS_getLabel_EXECUTED_CanonicalKey";
         var aComponent = new CUORE.Component();
         aComponent.setI18NKey("CanonicalKey");
@@ -240,7 +243,7 @@ describe("Component", function() {
         expect(events).toContain(eventName);
     });
 
-    it("is suscribed to the bus on I18NKey set", function() {
+    xit("is suscribed to the bus on I18NKey set", function() {
         var receivedSubscriber = undefined;
         var receivedEvent = undefined;
         CUORE.Bus.reset();
@@ -262,7 +265,7 @@ describe("Component", function() {
     });
 
 
-    it("does not request its label when drawn if it hasn't a I18Key", function() {
+    xit("does not request its label when drawn if it hasn't a I18Key", function() {
         var aService = {};
         var receivedParams = undefined;
         aService.execute = function(procedure, params, flag) {
@@ -288,7 +291,7 @@ describe("Component", function() {
     });
 
 
-    it("does not request its label when asked (getLabel) if it hasn't a I18Key", function() {
+    xit("does not request its label when asked (getLabel) if it hasn't a I18Key", function() {
         var aService = {};
         var receivedParams = undefined;
         aService.execute = function(procedure, params, flag) {

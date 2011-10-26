@@ -6,8 +6,8 @@ CUORE.Renderers.TimeRange = CUORE.Class(CUORE.Renderer, {
         this.endHourSelect = null;
     },
 
-    draw: function(component) {
-        CUORE.Renderers.TimeRange.super.draw.call(this, component);
+    paint: function(component) {
+        CUORE.Renderers.TimeRange.super.paint.call(this, component);
         
         var componentSetStartHour = CUORE.Core.bind(component, component.setStartHour);
         var componentSetEndHour = CUORE.Core.bind(component, component.setEndHour);

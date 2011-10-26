@@ -44,34 +44,21 @@ describe("Page", function () {
         expect(aService).toEqual(expectedService);
     });
 
-    it("by default has an empty baseUrl", function () {
-        expect(aPage.getBaseURL()).toEqual("");
+    it("when baseURL is configured, it informs the directory", function () {
+        var baseURL="A Base URL";
+        aPage = new CUORE.Page(baseURL);
+        aPage.setDirectory(directory);
+
+        expect(directory.setBaseURL).toHaveBeenCalledWith(baseURL);
     });
 
-    it("allows baseUrl initialization using the constructor", function () {
-        aPage = new CUORE.Page("A Base URL");
+    it("when a service is added then adds the service to the directory", function() {
+        var aService = CUORE.Mocks.Service();
+        aPage.setDirectory(directory);
 
-        expect(aPage.getBaseURL()).toEqual("A Base URL");
-    });
+        aPage.addService(aService);
 
-    describe("when a service is added", function() {
-        var aService, aBaseURL="a base URL";
-
-        beforeEach(function() {
-            aService = CUORE.Mocks.Service();
-            aPage = new CUORE.Page(aBaseURL);
-            aPage.setDirectory(directory);
-
-            aPage.addService(aService);
-        });
-
-        it("it sets the baseURL to the service", function() {
-            expect(aService.setBaseURL).toHaveBeenCalledWith(aBaseURL);
-        });
-
-        it("it adds the service to the directory", function() {
-            expect(directory.add).toHaveBeenCalledWith(aService);
-        });
+        expect(directory.add).toHaveBeenCalledWith(aService);
     });
 
     describe("when a component is added", function() {

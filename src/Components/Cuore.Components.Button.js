@@ -13,11 +13,9 @@ CUORE.Components.Button = CUORE.Class(CUORE.Component, {
     },
 
     click: function() {
-        var service = this.getService();
-        service && service.execute(this.buttonName, this.data);
+        if(this.service)
+          this.services.execute(this.service, this.buttonName, this.data);
     },
-
-   
 
     getButtonName: function() {
         return this.buttonName;
@@ -26,6 +24,4 @@ CUORE.Components.Button = CUORE.Class(CUORE.Component, {
     setData: function(data) {
         this.data = data;
     }
-
-    
 });

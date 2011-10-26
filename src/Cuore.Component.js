@@ -15,6 +15,7 @@ CUORE.Component = CUORE.Class(null, {
 
     setDirectory: function(directory) {
         this.services = directory;
+        this._requestLabelText();
     },
 
     initializeExecutionContext: function(service, procedure) {
@@ -29,15 +30,10 @@ CUORE.Component = CUORE.Class(null, {
     },
     
     dontReplace: function() {
-      this.replaces = false;  
+      this.replaces = false;
     },
 
     draw: function() {
-        this.render();
-        this.getLabel();
-    },
-
-    render: function() {
         this.renderer.render(this);
     },
 
@@ -49,12 +45,10 @@ CUORE.Component = CUORE.Class(null, {
         this.renderer.erase();
         CUORE.Bus.unsubscribe(this, this.getManagedEvents());
     },
-    
-    getLabelService: function() {
-        return this.getService('LABELS');
-    },
 
     execute: function(theService, theProcedure, params, asynchronous) {
+        if(!this.services)
+          throw new Error("Cannot call service. A service directory is not configured");
         this.services.execute(theService, theProcedure, params, asynchronous);
     },
 
@@ -101,18 +95,6 @@ CUORE.Component = CUORE.Class(null, {
         return this.renderer.getContainer();
     },
 
-    getService: function(aService) {
-        var theService = aService || this.service;
-        return (document.page.getService(theService) || null);
-    },
-
-    getLabel: function() {
-        if (!this.I18NKey || !this.getLabelService()) return;
-        
-        var params = { key: this.I18NKey };
-        this.getLabelService().execute('getLabel', params, true);
-    },
-
     getUniqueID: function() {
         return this.renderer.innerDivName(this.name);
     },
@@ -136,9 +118,27 @@ CUORE.Component = CUORE.Class(null, {
         if (!key) return;
 
         this.I18NKey = key;
-        this.addHandler('LABELS_getLabel_EXECUTED_' + key, new CUORE.Handlers.setText());
-        CUORE.Bus.subscribe(this, 'LABELS_getLabel_EXECUTED_' + key);
-        this.getLabel();
+        this.setText(this.I18NKey);
+
+        this._requestLabelText();
+    },
+
+    requestLabelText:function(key) {
+        if(!key)
+            return;
+
+        if(this.services)
+          this.services.execute("LABELS", 'getLabel', {key: key}, true);
+    },
+
+    _requestLabelText:function() {
+        if(!this.I18NKey)
+            return;
+      
+        this.addHandler('LABELS_getLabel_EXECUTED_' + this.I18NKey, new CUORE.Handlers.setText());
+        CUORE.Bus.subscribe(this, 'LABELS_getLabel_EXECUTED_' + this.I18NKey);
+
+        this.requestLabelText(this.I18NKey);
     },
 
     getI18NKey: function() {

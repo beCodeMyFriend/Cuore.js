@@ -15,7 +15,7 @@ CUORE.Mocks = {
     },
 
     Directory: function() {
-        return CUORE.Mocks.mock('directory', ['add', 'list', 'execute', 'getService']);
+        return CUORE.Mocks.mock('directory', ['add', 'list', 'execute', 'getService', 'setBaseURL']);
     },
 
     Service: function() {

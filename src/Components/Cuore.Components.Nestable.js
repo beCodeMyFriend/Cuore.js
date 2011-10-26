@@ -7,7 +7,16 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
     },
 
     host: function (anyComponent) {
+        anyComponent.setDirectory(this.services);
+        anyComponent.dontReplace();
         this.hostedComponents.push(anyComponent);
+    },
+
+    setDirectory: function(aDirectory) {
+        CUORE.Components.Nestable.super.setDirectory.call(this, aDirectory);
+
+        for (var i = 0, len = this.hostedComponents.length; i < len; i++)
+            this.hostedComponents[i].setDirectory(aDirectory);
     },
 
     hosted: function (anyComponent) {
@@ -16,7 +25,7 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
     
     getManagedEvents: function () {
         var result = CUORE.Components.Nestable.super.getManagedEvents.call(this);
-        
+
         for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
             result.push.apply(result, this.hostedComponents[i].getManagedEvents());
         }

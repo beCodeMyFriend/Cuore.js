@@ -6,7 +6,7 @@ describe("A Directory", function () {
         return service;
     };
         
-    var aDirectory;
+    var aDirectory, defaultBaseUrl="base URL";
     beforeEach(function() {
         
         this.addMatchers({
@@ -20,14 +20,23 @@ describe("A Directory", function () {
         });
         
         aDirectory = new CUORE.Directory();
+        aDirectory.setBaseURL(defaultBaseUrl);
     });
     
     it("has a Label service built-in", function () {
         expect(aDirectory.getService('LABELS')).toBeInstanceOf(CUORE.Services.Label);
     });
 
+    it("has a Label service built-in with a proper base url", function () {
+        expect(aDirectory.getService('LABELS').getBaseURL()).toEqual(defaultBaseUrl);
+    });
+
     it("has a Button service built-in", function () {
         expect(aDirectory.getService('BUTTON')).toBeInstanceOf(CUORE.Services.Button);
+    });
+
+    it("has a Button service built-in with a proper base url", function () {
+        expect(aDirectory.getService('BUTTON').getBaseURL()).toEqual(defaultBaseUrl);
     });
     
     describe("with a service called 'TAL'", function() {
@@ -43,11 +52,24 @@ describe("A Directory", function () {
         it("the service 'TAL' will be asked for its name", function () {
             expect(talService.getName).toHaveBeenCalled();
         });
+
+        it("the service 'TAL' will be configured with a baseURL", function () {
+            expect(talService.setBaseURL).toHaveBeenCalledWith(defaultBaseUrl);
+        });
     
         it("and the listing will contain 'TAL'", function () {
             expect(aDirectory.list()).toContain(tal);
         });
-        
+
+
+        it("when baseURL is changed, all the services are reconfigured", function() {
+            var anotherURL="another base URL";
+
+            aDirectory.setBaseURL(anotherURL);
+
+            expect(talService.setBaseURL).toHaveBeenCalledWith(anotherURL);
+        });
+      
         it("when service 'PASCUAL' is added, then the listing will contain 'TAL' and 'PASCUAL'", function () {
             var pascual="PASCUAL";
         

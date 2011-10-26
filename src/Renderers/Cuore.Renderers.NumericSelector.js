@@ -6,8 +6,8 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
         this.valueDisplayed = null;
     },
     
-    draw: function (component) {
-        CUORE.Renderers.NumericSelector.super.draw.call(this, component);
+    paint: function (component) {
+        CUORE.Renderers.NumericSelector.super.paint.call(this, component);
 
         this._decorateInput();
         this._addMinusButton(component);

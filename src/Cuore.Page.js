@@ -1,10 +1,10 @@
 CUORE.Page = CUORE.Class(null, {
 
     init: function(baseURL) {
-        this.baseURL = baseURL || '';
+        this.baseURL=baseURL;
         this.components = new CUORE.Registry();
         this.services = new CUORE.Directory();
-        document.page = this;
+        this.services.setBaseURL(baseURL);
         this.setUp();
     },
 
@@ -12,8 +12,13 @@ CUORE.Page = CUORE.Class(null, {
         this.components = registry;
     },
 
+    _getBaseURL:function() {
+      return this.baseURL;
+    },
+  
     setDirectory:function(directory) {
         this.services = directory;
+        this.services.setBaseURL(this._getBaseURL());
     },
 
     initializeServices: function() {},
@@ -25,7 +30,6 @@ CUORE.Page = CUORE.Class(null, {
     },
 
     addService: function(service) {
-        service.setBaseURL(this.getBaseURL());
         this.services.add(service);
     },
 
@@ -51,10 +55,6 @@ CUORE.Page = CUORE.Class(null, {
         this.components.each(function(component) {
             component.draw();
         });
-    },
-
-    getBaseURL: function() {
-        return this.baseURL;
     },
     
     _subcribeComponentEvents: function(component) {

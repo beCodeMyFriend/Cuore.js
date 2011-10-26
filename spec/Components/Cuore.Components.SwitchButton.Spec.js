@@ -1,5 +1,5 @@
 describe("SwitchButton", function () {
-	
+
     var xhr;
 
     beforeEach(function(){
@@ -21,7 +21,7 @@ describe("SwitchButton", function () {
 
         xhr.restore();
     });
-	
+
     it("inherits Component and Button", function () {
 
         var keyActive = "testKeyActive";
@@ -39,50 +39,37 @@ describe("SwitchButton", function () {
         expect(aButton.getInactiveLabel()).toEqual("CLICK!");
     });
 
-    it("should ignore undefined keys when getLabel called", function () {
-        var aButton = new CUORE.Components.SwitchButton();
-        var calledGetLabelService = false;
-        aButton.getLabelService = function () {
-            calledGetLabelService = true;
-        };
-        aButton.getLabel(null);
-        aButton.getLabel(undefined);
-        expect(calledGetLabelService).toBeFalsy();
-    });
-
     it("should request active and inactive key when drawn", function () {
         var container = createTestContainer();
         var keyActive = "testKeyActive";
         var keyInactive = "testKeyInactive";
         var aButton = new CUORE.Components.SwitchButton("buttonName", keyActive, keyInactive);
+        var aDirectory = CUORE.Mocks.Directory();
+        aButton.setDirectory(aDirectory);
         aButton.setContainer(container.id);
-
-        var labelsRequested = [];
-        aButton.getLabel = function (aLabel) {
-            labelsRequested.push(aLabel);
-        };
 
         aButton.draw();
 
         expect(aButton.getActiveKey()).toEqual(keyActive);
         expect(aButton.getInactiveKey()).toEqual(keyInactive);
 
-        expect(labelsRequested).toContain(keyActive);
-        expect(labelsRequested).toContain(keyInactive);
+        expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {key:keyActive}, true);
+        expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {key:keyInactive}, true);
     });
 
     it("should switches state, label and cssclass when clicked", function () {
         var container = createTestContainer();
         var aButton = new CUORE.Components.SwitchButton("buttonName", "testKeyActive", "testKeyInactive");
+        aButton.setDirectory(CUORE.Mocks.Directory());
         aButton.setContainer(container.id);
 
         var activeLabel = "active";
         var inactiveLabel = "inactive";
         var activeMessage = new CUORE.Message();
-		activeMessage.putOnAnswer("text",activeLabel);
-	
+        activeMessage.putOnAnswer("text",activeLabel);
+
         var inactiveMessage = new CUORE.Message();
-		inactiveMessage.putOnAnswer("text",inactiveLabel);
+        inactiveMessage.putOnAnswer("text",inactiveLabel);
 
         aButton.setActiveLabel(activeMessage);
         aButton.setInactiveLabel(inactiveMessage);
@@ -109,25 +96,26 @@ describe("SwitchButton", function () {
     });
 
     it("should emit event when clicked", function () {
-        var aButton = new CUORE.Components.SwitchButton("buttonName", "testKeyActive", "testKeyInactive");
-
-        var aService = {};
-        aService.execute = function() {};
-        spyOn(aService, 'execute');
-
-        aButton.getService = function () {
-            return aService;
-        };
+        var buttonName="buttonName";
+        var someData="someData";
+        var aDirectory=CUORE.Mocks.Directory();
+        var aButton = new CUORE.Components.SwitchButton(buttonName, "testKeyActive", "testKeyInactive");
+        aButton.setDirectory(aDirectory);
+        aButton.setData(someData);
 
         aButton.click();
 
-        expect(aService.execute).toHaveBeenCalled();
+        expect(aDirectory.execute).toHaveBeenCalledWith("BUTTON", buttonName, someData);
+    });
 
-        aService.execute.reset();
+    it("should not emit event when clicked and false is passed as argument", function () {
+        var aDirectory=CUORE.Mocks.Directory();
+        var aButton = new CUORE.Components.SwitchButton("buttonName", "testKeyActive", "testKeyInactive");
+        aButton.setDirectory(CUORE.Mocks.Directory());
 
         aButton.click(false);
 
-        expect(aService.execute).not.toHaveBeenCalled();
+        expect(aDirectory.execute).not.toHaveBeenCalled();
     });
 
     it("should get labelHandler when initialized", function () {
