@@ -14,6 +14,46 @@ describe("A component", function() {
         expect(aComponent.doYouReplace()).toBeFalsy();
     });
 
+    it("by default has a handler set", function() {
+        var handlerSet=aComponent.handlerSet;
+
+        expect(handlerSet).toBeDefined();
+        expect(typeof handlerSet.register).toBe('function');
+        expect(typeof handlerSet.notifyHandlers).toBe('function');
+    });
+
+    describe("can manage handlers", function() {
+        var aHandlerSet;
+        beforeEach(function() {
+            aHandlerSet = CUORE.Mocks.mock('handler set',['register', 'notifyHandlers']);
+            aComponent.setHandlerSet(aHandlerSet);
+        });
+
+        describe("when you add a handler", function() {
+            var aHandler, eventName="an event name";
+            beforeEach(function() {
+                aHandler = CUORE.Mocks.mock('a handler',['setOwner']);
+                aComponent.addHandler(eventName, aHandler);
+            });
+
+            it("it registers the handler in the handler set" , function() {
+                expect(aHandlerSet.register).toHaveBeenCalledWith(eventName, aHandler);
+            });
+
+            it("it configures the handler's owner with itself", function() {
+                expect(aHandler.setOwner).toHaveBeenCalledWith(aComponent);
+            });
+        });
+
+        it("when an event is fired, the handler sets is notified", function() {
+            var eventParams="some params", eventName="an event name";
+          
+            aComponent.eventDispatch(eventName, eventParams);
+
+            expect(aHandlerSet.notifyHandlers).toHaveBeenCalledWith(eventName, eventParams);
+        });
+    });
+
     describe("given a service directory is set", function() {
         var aDirectory;
         beforeEach(function() {
