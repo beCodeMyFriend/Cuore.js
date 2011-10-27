@@ -22,6 +22,18 @@ CUORE.Mocks = {
         return CUORE.Mocks.mock('service', ['getName', 'setBaseURL', 'execute']);
     },
 
+    Handler: function(mockName) {
+        return CUORE.Mocks.mock(mockName || 'a handler',['setOwner', 'handle']);
+    },
+
+    HandlerSet: function() {
+        var handlerSet=CUORE.Mocks.mock('handler set',['register', 'notifyHandlers', 'getManagedEvents']);
+        handlerSet.getLastRegisteredHandler=function() {
+            return this.register.mostRecentCall.args[1];
+        };
+        return handlerSet;
+    },
+
     Component: function(name) {
         var component = CUORE.Mocks.mock('component '+name, [
             'setContainer',

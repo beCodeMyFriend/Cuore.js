@@ -60,7 +60,8 @@ describe("Component", function() {
         expect(aRenderer.render).toHaveBeenCalled();
     });
 
-    it("adds handlers and could dispatch events to the handlers", function() {
+    // Moved to ComponentSurgery.Spec
+    xit("adds handlers and could dispatch events to the handlers", function() {
         var aHandler = createDummyHandler();
 
         var eventName = "anEvent";
@@ -92,7 +93,8 @@ describe("Component", function() {
                 }).not.toThrow();
     });
 
-    it("knows events managed by handlers", function() {
+    // Moved to ComponentSurgery.Spec
+    xit("knows events managed by handlers", function() {
         var eventName = "anEvent";
         var anotherEvent = "anotherEvent";
         var aComponent = new CUORE.Component();

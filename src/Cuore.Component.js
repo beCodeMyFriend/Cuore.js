@@ -1,12 +1,11 @@
 CUORE.Component = CUORE.Class(null, {
 
     init: function() {
-        this.setHandlerSet(new CUORE.HandlersDirectory());
+        this.setHandlerSet(new CUORE.HandlerSet());
         this.name = 'aComponent'; 
         this.service = 'NULL';
         this.procedure = 'nullProcedure';
         this.I18NKey = null;
-        this.handlers = {};
         this.SEPARATOR = '_';
         this.text = '';
         this.renderer = new CUORE.Renderer();
@@ -59,19 +58,11 @@ CUORE.Component = CUORE.Class(null, {
 
     eventDispatch: function(eventName, params) {
         this.handlerSet.notifyHandlers(eventName, params);
-        /*var eventsToDispatch = this.handlers[eventName];
-        if (!eventsToDispatch) return;
-
-        for (var i = 0, len = eventsToDispatch.length; i < len; i++) {
-            eventsToDispatch[i].handle(params);
-        }*/
     },
 
     addHandler: function(eventName, handler) {
         handler.setOwner(this);
         this.handlerSet.register(eventName, handler);
-        /*this.handlers[eventName] = this.handlers[eventName] || [];
-        this.handlers[eventName].push(handler);*/
     },
 
     addClass: function(aClass) {
@@ -107,13 +98,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     getManagedEvents: function() {
-        var handlersKeys = [];
-        for (var handler in this.handlers) {
-            if (CUORE.Core.isOwnProperty(this.handlers, handler)) {
-                handlersKeys.push(handler);
-            }
-        }
-        return handlersKeys;
+        return this.handlerSet.getManagedEvents();
     },
 
     setText: function(aText) {

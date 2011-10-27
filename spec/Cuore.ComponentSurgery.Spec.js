@@ -1,6 +1,18 @@
 describe("A component", function() {
     var aComponent;
     beforeEach(function() {
+        this.addMatchers({
+            'toHaveBeenCalledWithAHandlerForEvent':function(expectedEventName) {
+                var spy=this.actual;
+                var mostRecentCall=spy.mostRecentCall;
+                var supposedToBeAHandler=mostRecentCall.args[1];
+                return mostRecentCall.args[0] == expectedEventName
+                    && supposedToBeAHandler
+                    && typeof supposedToBeAHandler == 'object'
+                    && typeof supposedToBeAHandler.handle == 'function';
+            }
+        });
+
         aComponent = new CUORE.Component();
     });
     
@@ -25,14 +37,22 @@ describe("A component", function() {
     describe("can manage handlers", function() {
         var aHandlerSet;
         beforeEach(function() {
-            aHandlerSet = CUORE.Mocks.mock('handler set',['register', 'notifyHandlers']);
+            aHandlerSet = CUORE.Mocks.HandlerSet();
             aComponent.setHandlerSet(aHandlerSet);
+        });
+
+        it("when is asked about its managed events, it returns the managed events from its handler set", function() {
+            var expectedManagedEvents=['eventA', 'eventB'];
+
+            aHandlerSet.getManagedEvents.andReturn(expectedManagedEvents);
+
+            expect(aComponent.getManagedEvents()).toEqual(expectedManagedEvents);
         });
 
         describe("when you add a handler", function() {
             var aHandler, eventName="an event name";
             beforeEach(function() {
-                aHandler = CUORE.Mocks.mock('a handler',['setOwner']);
+                aHandler = CUORE.Mocks.Handler();
                 aComponent.addHandler(eventName, aHandler);
             });
 
@@ -79,6 +99,12 @@ describe("A component", function() {
         });
 
         describe("when i18n label is changed", function() {
+            var aHandlerSet;
+            beforeEach(function() {
+                aHandlerSet = CUORE.Mocks.HandlerSet();
+                aComponent.setHandlerSet(aHandlerSet);
+            });
+
             it("label service is used to fetch the label text", function() {
                 var labelKey="label.key";
 
@@ -101,22 +127,24 @@ describe("A component", function() {
                 expect(aComponent.getText()).toContain(labelKey);
             });
 
-            it("a handler exists to receive the label value", function() {
+            it("a handler is registered in the handler set to receive the label value", function() {
                 var labelKey="label.key";
 
                 aComponent.setI18NKey(labelKey);
 
-                expect(aComponent.getManagedEvents()).toContain('LABELS_getLabel_EXECUTED_'+labelKey);
+                expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_'+labelKey);
             });
 
             it("when dispatch is called, the handler registered to receive the label value changes the component's text", function() {
                 var labelKey="label.key";
+                aComponent.setI18NKey(labelKey);
+                var handler=aHandlerSet.getLastRegisteredHandler();
+
                 var labelText='label text';
                 var message= CUORE.Mocks.mock("label message", ['getFromAnswer']);
                 message.getFromAnswer.andReturn(labelText);
-                aComponent.setI18NKey(labelKey);
 
-                aComponent.eventDispatch('LABELS_getLabel_EXECUTED_'+labelKey, message);
+                handler.handle(message);
 
                 expect(message.getFromAnswer).toHaveBeenCalledWith('text');
                 expect(aComponent.getText()).toEqual(labelText);
@@ -136,6 +164,12 @@ describe("A component", function() {
         });
 
         describe("when i18n label is changed", function() {
+            var aHandlerSet;
+            beforeEach(function() {
+                aHandlerSet = CUORE.Mocks.HandlerSet();
+                aComponent.setHandlerSet(aHandlerSet);
+            });
+
             it("and the key is empty it won't change the text", function() {
                 var labelKey="label.key";
                 aComponent.setI18NKey(labelKey);
@@ -158,17 +192,19 @@ describe("A component", function() {
 
                 aComponent.setI18NKey(labelKey);
 
-                expect(aComponent.getManagedEvents()).toContain('LABELS_getLabel_EXECUTED_'+labelKey);
+                expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_'+labelKey);
             });
 
             it("when dispatch is called, the handler registered to receive the label value changes the component's text", function() {
                 var labelKey="label.key";
+                aComponent.setI18NKey(labelKey);
+                var handler=aHandlerSet.getLastRegisteredHandler();
+
                 var labelText='label text';
                 var message= CUORE.Mocks.mock("label message", ['getFromAnswer']);
                 message.getFromAnswer.andReturn(labelText);
-                aComponent.setI18NKey(labelKey);
 
-                aComponent.eventDispatch('LABELS_getLabel_EXECUTED_'+labelKey, message);
+                handler.handle(message);
 
                 expect(message.getFromAnswer).toHaveBeenCalledWith('text');
                 expect(aComponent.getText()).toEqual(labelText);
