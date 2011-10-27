@@ -1,4 +1,4 @@
-CUORE.Page = CUORE.Class(null, {
+CUORE.Application = CUORE.Class(null, {
 
     init: function(baseURL) {
         this.baseURL=baseURL;

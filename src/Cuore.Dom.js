@@ -1,5 +1,5 @@
 CUORE.Dom = (function(doc, undefined) {
-    
+
     var ready = function(callback) {
         var checkLoaded = setInterval(function() {
             if (doc.body && doc.getElementById) {

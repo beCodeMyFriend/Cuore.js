@@ -1,8 +1,8 @@
-describe("Page", function () {
+describe("Application", function () {
     var aPage, registry, directory;
 
     beforeEach(function() {
-        aPage = new CUORE.Page();
+        aPage = new CUORE.Application();
         registry = CUORE.Mocks.Registry();
         directory = CUORE.Mocks.Directory();
         aPage.setDirectory(directory);
@@ -46,7 +46,7 @@ describe("Page", function () {
 
     it("when baseURL is configured, it informs the directory", function () {
         var baseURL="A Base URL";
-        aPage = new CUORE.Page(baseURL);
+        aPage = new CUORE.Application(baseURL);
         aPage.setDirectory(directory);
 
         expect(directory.setBaseURL).toHaveBeenCalledWith(baseURL);

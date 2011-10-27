@@ -6,12 +6,13 @@
         
         <!-- Cuore -->
         <script src="../src/Cuore.js" type="text/javascript"></script>
+        <script src="../src/Cuore.Boot.js" type="text/javascript"></script>
         <script src="../src/Cuore.Core.js" type="text/javascript"></script>
         <script src="../src/Cuore.Class.js" type="text/javascript"></script>
         <script src="../src/Cuore.Dom.js" type="text/javascript"></script>
         <script src="../src/Cuore.Dom.Event.js" type="text/javascript"></script>
         <script src="../src/Cuore.Bus.js" type="text/javascript"></script>
-        <script src="../src/Cuore.Page.js" type="text/javascript"></script>
+        <script src="../src/Cuore.Application.js" type="text/javascript"></script>
         <script src="../src/Cuore.Message.js" type="text/javascript"></script>
         <script src="../src/Cuore.Component.js" type="text/javascript"></script>
         <script src="../src/Cuore.Renderer.js" type="text/javascript"></script>
@@ -47,30 +48,10 @@
         <script src="../src/Services/Cuore.Services.Label.js" type="text/javascript"></script>
         <script src="../src/Services/Cuore.Services.Null.js" type="text/javascript"></script>
         
-        <script src="js/ShowCasePage.js" type="text/javascript"></script>
+        <script src="js/ShowCase.js" type="text/javascript"></script>
         
         <script type="text/javascript">
-            CUORE.Dom.ready(function() {
-                // cache for labelService
-                var currentLocale = (navigator.language || navigator.browserLanguage);
-                document.labels = {};
-                document.labels[currentLocale] = {
-                    "label.example": "Example label",
-                    "input.label": "Input Label",
-                    "button.label": "Button label",
-                    "switch.on": "ON",
-                    "switch.off": "OFF",
-                    "numeric.label": "Numeric selection",
-                    "timerange.label": "Select a time range",
-                    "lorem.ipsum": "Lorem Ipsum dolorem",
-                    "button.nested": "A button nested to component",
-                    "label.example.nested": "A label nested to component",
-                    "input.labelnested": "An input nested"
-                };
-
-                document.page = new ShowCasePage("http://www.anydomain.com");
-                document.page.draw();
-            });
+            CUORE.Boot.registerApplication(ShowCase, "http://www.anydomain.com");
         </script>
     </head>
     

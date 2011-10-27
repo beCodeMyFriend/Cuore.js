@@ -1,9 +1,25 @@
-var ShowCasePage = CUORE.Class(CUORE.Page, {
-    
+var ShowCase = CUORE.Class(CUORE.Application, {
+
     initializeServices: function() {
+      var currentLocale = (navigator.language || navigator.browserLanguage);
+      document.labels = {};
+      document.labels[currentLocale] = {
+          "label.example": "Example label",
+          "input.label": "Input Label",
+          "button.label": "Button label",
+          "switch.on": "ON",
+          "switch.off": "OFF",
+          "numeric.label": "Numeric selection",
+          "timerange.label": "Select a time range",
+          "lorem.ipsum": "Lorem Ipsum dolorem",
+          "button.nested": "A button nested to component",
+          "label.example.nested": "A label nested to component",
+          "input.labelnested": "An input nested"
+      };
     },
 
     initializeComponents: function() {
+
         this.labelShowcase();
         this.inputShowcase();
         this.buttonShowcase();
