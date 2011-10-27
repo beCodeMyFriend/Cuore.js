@@ -4,14 +4,14 @@ describe("A HandlersDirectory", function() {
 
     beforeEach(function() {
         aHandlersDirectory = new CUORE.HandlersDirectory();
-        aHandler = new CUORE.Mocks.mock("handler", []);
+        aHandler = CUORE.Mocks.mock("aHandler", []);
 
         aHandlersDirectory.add(aHandler);
     });
 
     describe("with a handler added", function() {
         it("should list added handlers", function () {
-            var anotherHandler = new CUORE.Handler();
+            var anotherHandler = CUORE.Mocks.mock("anotherHandler", []);
             aHandlersDirectory.add(anotherHandler);
 
             expect(aHandlersDirectory.list()).toContain(aHandler);
