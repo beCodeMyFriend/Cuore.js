@@ -1,14 +1,5 @@
 CUORE.Dom = (function(doc, undefined) {
 
-    var ready = function(callback) {
-        var checkLoaded = setInterval(function() {
-            if (doc.body && doc.getElementById) {
-                clearInterval(checkLoaded);
-                callback();
-            }
-        }, 10);
-    };
-    
     var addClass = function(element, cssClass) {
         if (!hasClass(element, cssClass)) {
             element.className += ' ' + cssClass;
@@ -48,7 +39,6 @@ CUORE.Dom = (function(doc, undefined) {
     };
 
     return {
-        ready: ready,
         addClass: addClass,
         removeClass: removeClass,
         hasClass: hasClass,
