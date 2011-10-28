@@ -11,6 +11,7 @@ CUORE.Boot=(function(doc, undefined) {
             var checkLoaded = setInterval(function() {
                 if (doc.body && doc.getElementById) {
                     clearInterval(checkLoaded);
+                    booted=true;
                     callback();
                 }
             }, 10);
