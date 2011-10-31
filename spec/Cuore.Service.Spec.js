@@ -1,20 +1,20 @@
 describe("Service", function() {
     var xhr;
 
-    beforeEach(function(){
+    beforeEach(function() {
         xhr = sinon.useFakeXMLHttpRequest();
         var requests = [];
-        
-        xhr.onCreate = function (xhr) {
+
+        xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
-      
-        CUORE.Core.createXHR = function(){
+
+        CUORE.Core.createXHR = function() {
             return xhr;
         };
     });
 
-    afterEach(function(){
+    afterEach(function() {
         xhr.restore();
     });
 
@@ -216,5 +216,4 @@ describe("Service", function() {
 
         return aBus;
     };
-
 });

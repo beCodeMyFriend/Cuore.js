@@ -1,7 +1,7 @@
 CUORE.Page = CUORE.Class(null, {
 
     init: function(baseURL) {
-        this.baseURL=baseURL;
+        this.baseURL = baseURL;
         this.components = new CUORE.Registry();
         this.services = new CUORE.Directory();
         this.services.setBaseURL(baseURL);
@@ -41,11 +41,9 @@ CUORE.Page = CUORE.Class(null, {
         component.setName(this._generateUUID());
         component.setDirectory(this.services);
       
-        if(!replaceContent)
-            component.dontReplace();
+        if(!replaceContent) component.dontReplace();
 
         this._subcribeComponentEvents(component);
-
         this.components.register(component);
 
         component.setContainer(container);

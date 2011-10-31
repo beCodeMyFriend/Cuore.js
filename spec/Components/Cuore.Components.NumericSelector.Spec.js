@@ -2,7 +2,7 @@ describe("Numeric Selector", function () {
 
     afterEach(function(){
         var panel = document.getElementById('xhtmlToTest');
-        panel.innerHTML = '';    
+        panel.innerHTML = '';
     });
 
     it("inherits Component and Input", function () {
@@ -38,9 +38,9 @@ describe("Numeric Selector", function () {
         var aNumericSelector = getNumericSelector();
         aNumericSelector.draw();
 
-         var DOMObject = document.getElementById(aNumericSelector.getUniqueID());
+        var DOMObject = document.getElementById(aNumericSelector.getUniqueID());
 
-        children = DOMObject.childNodes;
+        var children = DOMObject.childNodes;
         var plusButton = children[2];
         expect(plusButton.tagName).toEqual("A");
         
@@ -54,7 +54,7 @@ describe("Numeric Selector", function () {
         aNumericSelector.draw();
 
         var DOMObject = document.getElementById(aNumericSelector.getUniqueID());
-        children = DOMObject.childNodes;
+        var children = DOMObject.childNodes;
         var minusButton = children[2];
         var eventsClick = CUORE.Dom.Event.hasEvents(minusButton, 'click');
         
@@ -68,7 +68,7 @@ describe("Numeric Selector", function () {
 
         var DOMObject = document.getElementById(aNumericSelector.getUniqueID());
 
-        children = DOMObject.getElementsByTagName('A');
+        var children = DOMObject.getElementsByTagName('A');
         expect(children.length).toEqual(2);
         var minusButton = children[0];
         expect(CUORE.Dom.hasClass(minusButton, 'minusButton')).toBeTruthy();
@@ -267,7 +267,6 @@ describe("Numeric Selector", function () {
         expect(aNumericSelector.getValue()).toEqual('-2');
     });
 
-
      it("disable buttons when disabled ", function () {
         var aNumericSelector = getNumericSelector();
         aNumericSelector.disable();
@@ -280,7 +279,7 @@ describe("Numeric Selector", function () {
         expect(CUORE.Dom.hasClass(minusButton, 'off')).toBeTruthy();
 
     });
-     
+
     it("disallows increments and decrements when disabled ", function () {
         var aNumericSelector = getNumericSelector();
         aNumericSelector.disable();

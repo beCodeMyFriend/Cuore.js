@@ -145,9 +145,8 @@ describe("Input", function() {
     });
 
     var getComponentInput = function() {
-
         var aComponent = new CUORE.Components.Input("CanonicalKey");
         aComponent.setContainer("xhtmlToTest");
         return aComponent;
-    }
+    };
 });

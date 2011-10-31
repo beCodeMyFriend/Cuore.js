@@ -16,7 +16,7 @@ describe("Button", function () {
     });
 
     afterEach(function(){
-        var container = document.getElementById('xhtmlToTest');   
+        var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
 
         xhr.restore();
@@ -91,7 +91,6 @@ describe("Button", function () {
         aButton.setContainer(container.id);
         aButton.draw();
 
-
         var DOMButton = document.getElementById(aButton.getUniqueID());
         expect(CUORE.Dom.hasClass(DOMButton, buttonClass)).toBeTruthy();
     });
@@ -118,7 +117,7 @@ describe("Button", function () {
     it("click calls button service", function () {
         var buttonName = "buttonName";
         var aButton = new CUORE.Components.Button(buttonName, "CanonicalKey");
-        var someData="Some Data";
+        var someData = "Some Data";
         aButton.setData(someData);
         var aDirectory = CUORE.Mocks.Directory();
         aButton.setDirectory(aDirectory);
@@ -193,7 +192,7 @@ describe("Button", function () {
         expect(DOMButton.className.indexOf("disabled") > -1).toBeTruthy();
 
         aButton.enable();
-		
+
         expect(DOMButton.className.indexOf("disabled") > -1).toBeFalsy();
         aButton.disable();
         expect(CUORE.Dom.hasClass(DOMButton, "disabled")).toBeTruthy();
@@ -213,33 +212,13 @@ describe("Button", function () {
         DOMButton =  document.getElementById(aButton.getUniqueID());
         expect(DOMButton).toBeFalsy();
     });
-
-    // Not necessary anymore!
-    xit("requests a label when it is drawn", function () {
-        var container = createTestContainer();
-        var buttonName = "buttonName";
-        var aButton = new CUORE.Components.Button(buttonName, "CanonicalKey");
-
-        aButton.setContainer(container.id);
-
-        var getLabelCalled = false;
-
-        aButton.getLabel = function () {
-            getLabelCalled = true;
-        };
-
-        aButton.draw();
-
-        expect(getLabelCalled).toBeTruthy();
-    });
-
-     var createTestContainer = function() {
+    
+    var createTestContainer = function() {
         var container = document.createElement('div');
         container.id = "testingContainer";
         var panel = document.getElementById("xhtmlToTest");
         panel.appendChild(container);
-       
+
         return container;
     };
-
 });

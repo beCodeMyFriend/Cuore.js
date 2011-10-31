@@ -1,123 +1,121 @@
-describe("A Directory", function () {
+describe("A Directory", function() {
 
-    var mockService=function (name){
-        var service=CUORE.Mocks.Service();
+    var mockService = function(name) {
+        var service = CUORE.Mocks.Service();
         service.getName.andReturn(name);
         return service;
     };
-        
-    var aDirectory, defaultBaseUrl="base URL";
+
+    var aDirectory, defaultBaseUrl = "base URL";
     beforeEach(function() {
-        
         this.addMatchers({
-            toBeInstanceOf:function(expectedType){
-                var actual=this.actual;
-                this.message=function (){
-                    return actual+" isn't an instance of expected type"; 
+            toBeInstanceOf: function(expectedType) {
+                var actual = this.actual;
+                this.message = function() {
+                    return actual + " isn't an instance of expected type";
                 }
-                return actual instanceof expectedType;       
+                return actual instanceof expectedType;
             }
         });
-        
+
         aDirectory = new CUORE.Directory();
         aDirectory.setBaseURL(defaultBaseUrl);
     });
-    
-    it("has a Label service built-in", function () {
+
+    it("has a Label service built-in", function() {
         expect(aDirectory.getService('LABELS')).toBeInstanceOf(CUORE.Services.Label);
     });
 
-    it("has a Label service built-in with a proper base url", function () {
+    it("has a Label service built-in with a proper base url", function() {
         expect(aDirectory.getService('LABELS').getBaseURL()).toEqual(defaultBaseUrl);
     });
 
-    it("has a Button service built-in", function () {
+    it("has a Button service built-in", function() {
         expect(aDirectory.getService('BUTTON')).toBeInstanceOf(CUORE.Services.Button);
     });
 
-    it("has a Button service built-in with a proper base url", function () {
+    it("has a Button service built-in with a proper base url", function() {
         expect(aDirectory.getService('BUTTON').getBaseURL()).toEqual(defaultBaseUrl);
     });
-    
+
     describe("with a service called 'TAL'", function() {
-        var tal="TAL";
+        var tal = "TAL";
         var talService;
-        
+
         beforeEach(function() {
             talService = mockService(tal);
-            
+
             aDirectory.add(talService);
         });
-        
-        it("the service 'TAL' will be asked for its name", function () {
+
+        it("the service 'TAL' will be asked for its name", function() {
             expect(talService.getName).toHaveBeenCalled();
         });
 
-        it("the service 'TAL' will be configured with a baseURL", function () {
+        it("the service 'TAL' will be configured with a baseURL", function() {
             expect(talService.setBaseURL).toHaveBeenCalledWith(defaultBaseUrl);
         });
-    
-        it("and the listing will contain 'TAL'", function () {
+
+        it("and the listing will contain 'TAL'", function() {
             expect(aDirectory.list()).toContain(tal);
         });
 
 
         it("when baseURL is changed, all the services are reconfigured", function() {
-            var anotherURL="another base URL";
+            var anotherURL = "another base URL";
 
             aDirectory.setBaseURL(anotherURL);
 
             expect(talService.setBaseURL).toHaveBeenCalledWith(anotherURL);
         });
-      
-        it("when service 'PASCUAL' is added, then the listing will contain 'TAL' and 'PASCUAL'", function () {
-            var pascual="PASCUAL";
-        
+
+        it("when service 'PASCUAL' is added, then the listing will contain 'TAL' and 'PASCUAL'", function() {
+            var pascual = "PASCUAL";
+
             aDirectory.add(mockService(pascual));
-            
+
             expect(talService.getName).toHaveBeenCalled();
             expect(aDirectory.list()).toContain(tal);
             expect(aDirectory.list()).toContain(pascual);
         });
-        
-        
-        it("when another service 'TAL' is added replaces old service", function () {
-            var otherTal=mockService(tal);
-            
+
+
+        it("when another service 'TAL' is added replaces old service", function() {
+            var otherTal = mockService(tal);
+
             aDirectory.add(otherTal);
-            aDirectory.execute(tal,'anyProcedure');
-            
+            aDirectory.execute(tal, 'anyProcedure');
+
             expect(otherTal.execute).toHaveBeenCalled();
         });
-        
-        
+
+
         it("when execute is called for 'TAL' service, the execute method of the 'TAL' service will be called", function() {
             var procedureName = "CUAL";
             var params = "parameters";
             var asynchronous = false;
-            
+
             aDirectory.execute(tal, procedureName, params, asynchronous);
-            
+
             expect(talService.execute).toHaveBeenCalledWith(procedureName, params, asynchronous);
         });
-        
+
         it("when execute is called with a non existing service name, it will do nothing", function() {
             var procedureName = "CUAL";
             var params = "parameters";
             var asynchronous = false;
-            
+
             aDirectory.execute("NOT EXISTS", procedureName, params, asynchronous);
-            
+
             expect(talService.execute).not.toHaveBeenCalled();
         });
-        
-        it("(DEPRECATED) getService('TAL') will return the 'TAL' service",function(){
+
+        it("(DEPRECATED) getService('TAL') will return the 'TAL' service", function() {
             expect(aDirectory.getService(tal)).toBe(talService);
         });
-        
-        it("(DEPRECATED) getService('NOT EXISTS') will return an instance of NullService",function(){
+
+        it("(DEPRECATED) getService('NOT EXISTS') will return an instance of NullService", function() {
             expect(aDirectory.getService('NOT EXISTS') instanceof CUORE.Services.Null).toBeTruthy();
         });
     });
-
 });

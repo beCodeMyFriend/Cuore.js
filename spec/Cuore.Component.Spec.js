@@ -60,25 +60,6 @@ describe("Component", function() {
         expect(aRenderer.render).toHaveBeenCalled();
     });
 
-    // Moved to ComponentSurgery.Spec
-    xit("adds handlers and could dispatch events to the handlers", function() {
-        var aHandler = createDummyHandler();
-
-        var eventName = "anEvent";
-        var params = {
-            aParam: "aparam",
-            anotherParam: "anotherParam"
-        };
-
-        var aComponent = new CUORE.Component();
-        aComponent.addHandler(eventName, aHandler);
-
-        aComponent.eventDispatch(eventName, params);
-
-        expect(aHandler.recievedParams).toEqual(params);
-        expect(aHandler.owner.getName()).toEqual(aComponent.getName());
-    });
-
     it("can dispatch events even when it has no handlers", function() {
         var eventName = "anEvent";
         var params = {
@@ -92,25 +73,6 @@ describe("Component", function() {
                     aComponent.eventDispatch(eventName, params);
                 }).not.toThrow();
     });
-
-    // Moved to ComponentSurgery.Spec
-    xit("knows events managed by handlers", function() {
-        var eventName = "anEvent";
-        var anotherEvent = "anotherEvent";
-        var aComponent = new CUORE.Component();
-
-        aComponent.addHandler(eventName, createDummyHandler());
-        aComponent.addHandler(eventName, createDummyHandler());
-
-        var managedEvents = aComponent.getManagedEvents();
-        expect(managedEvents).toEqual([eventName]);
-
-        aComponent.addHandler(anotherEvent, createDummyHandler());
-
-        var managedEvents = aComponent.getManagedEvents();
-        expect(managedEvents).toEqual([eventName, anotherEvent]);
-    });
-
 
     it("has a default name or could be explicitly named", function() {
         var aComponent = new CUORE.Component("aService", "aProcedure");
@@ -192,128 +154,6 @@ describe("Component", function() {
         aComponent.removeClass("testingClass");
         expect(element.className).toBe("innerComponentDiv");
     });
-
-    // Moved to ComponentSurgery.Spec
-    xit("has I18NKey label getter & setter", function() {
-        var aI18Nkey = "CanonicalKey";
-        var aComponent = new CUORE.Component();
-
-        aComponent.setI18NKey(aI18Nkey);
-        expect(aComponent.getI18NKey(aI18Nkey)).toEqual(aI18Nkey);
-    });
-
-    // We think it has no sense
-    xit("requests their label when it is drawn", function() {
-        var aService = {};
-        var receivedParams = undefined;
-        aService.execute = function(procedure, params, flag) {
-            receivedParams = params;
-        };
-
-        var container = createTestContainer();
-        var calledService = null;
-
-        var aComponent = new CUORE.Component();
-        var LABELSERVICENAME = 'LABELS';
-        aComponent.setContainer(container.id);
-
-        document.page = {};
-        document.page.getService = function(anyService) {
-            calledService = anyService;
-            return aService;
-        };
-
-
-        aComponent.setI18NKey("CanonicalKey");
-        aComponent.draw();
-
-        var expectedParams = {
-            key: "CanonicalKey"
-        };
-
-        expect(receivedParams).toEqual(expectedParams);
-        expect(calledService).toEqual(LABELSERVICENAME);
-    });
-
-    // Moved to ComponentSurgery.Spec
-    xit("has a Handler for its label when i18nkey setted", function() {
-        var eventName = "LABELS_getLabel_EXECUTED_CanonicalKey";
-        var aComponent = new CUORE.Component();
-        aComponent.setI18NKey("CanonicalKey");
-
-        var events = aComponent.getManagedEvents();
-        expect(events).toContain(eventName);
-    });
-
-    xit("is suscribed to the bus on I18NKey set", function() {
-        var receivedSubscriber = undefined;
-        var receivedEvent = undefined;
-        CUORE.Bus.reset();
-        var oldSubscribe = CUORE.Bus.subscribe;
-        CUORE.Bus.subscribe = function(subscriber, event) {
-            receivedSubscriber = subscriber;
-            receivedEvent = event;
-        };
-
-        var eventName = "LABELS_getLabel_EXECUTED_CanonicalKey";
-        var aComponent = new CUORE.Component();
-        aComponent.testFlag = true;
-        aComponent.setI18NKey("CanonicalKey");
-
-        expect(aComponent.testFlag).toEqual(receivedSubscriber.testFlag);
-        expect(receivedEvent).toEqual(eventName);
-
-        CUORE.Bus.subscribe = oldSubscribe;
-    });
-
-
-    xit("does not request its label when drawn if it hasn't a I18Key", function() {
-        var aService = {};
-        var receivedParams = undefined;
-        aService.execute = function(procedure, params, flag) {
-            receivedParams = params;
-        };
-
-        var container = createTestContainer();
-        var calledService = null;
-
-        var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id);
-
-        document.page = {};
-        document.page.getService = function(anyService) {
-            calledService = anyService;
-            return aService;
-        };
-
-        aComponent.draw();
-
-        expect(receivedParams).toBeUndefined();
-        expect(calledService).toBeNull();
-    });
-
-
-    xit("does not request its label when asked (getLabel) if it hasn't a I18Key", function() {
-        var aService = {};
-        var receivedParams = undefined;
-        aService.execute = function(procedure, params, flag) {
-            receivedParams = params;
-        };
-
-        var container = createTestContainer();
-        var calledService = null;
-
-        var aComponent = new CUORE.Component();
-        aComponent.getLabelService = function() {
-            return aService;
-        };
-
-        aComponent.getLabel();
-
-        expect(receivedParams).toBeUndefined();
-        expect(calledService).toBeNull();
-    });
-
 
     it("can draw a text into the page", function() {
         var container = createTestContainer();

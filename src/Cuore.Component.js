@@ -30,7 +30,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     doYouReplace:function(){
-        return this.replaces;    
+        return this.replaces;
     },
     
     dontReplace: function() {
@@ -116,16 +116,13 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     requestLabelText:function(key) {
-        if(!key)
-            return;
-
-        if(this.services)
-          this.services.execute("LABELS", 'getLabel', {key: key}, true);
+        if(key && this.services) {
+            this.services.execute("LABELS", 'getLabel', {key: key}, true);
+        }
     },
 
     _requestLabelText:function() {
-        if(!this.I18NKey)
-            return;
+        if(!this.I18NKey) return;
       
         this.addHandler('LABELS_getLabel_EXECUTED_' + this.I18NKey, new CUORE.Handlers.setText());
         CUORE.Bus.subscribe(this, 'LABELS_getLabel_EXECUTED_' + this.I18NKey);
@@ -140,8 +137,7 @@ CUORE.Component = CUORE.Class(null, {
     setRenderer: function(renderer) {
         this.renderer = renderer;
     },
-    
-    
+
     isEnabled: function() {
         return this.enabled;
     },

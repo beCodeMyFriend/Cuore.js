@@ -7,7 +7,6 @@ describe("ButtonService", function() {
     });
 
     it("emits to bus with correct eventname and buttonname property is added to message Query when it is executed", function() {
-
         var testingProcedure = "testingProcedure";
         var thePrefix = "CLICKED";
 
@@ -38,5 +37,4 @@ describe("ButtonService", function() {
         expect(paramEmitted.getFromQuery("key")).toEqual("value");
         expect(paramEmitted.getFromQuery("buttonName")).toEqual(testingProcedure);
     });
-    
 });

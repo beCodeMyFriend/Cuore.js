@@ -43,5 +43,5 @@ CUORE.Renderers.Button = CUORE.Class(CUORE.Renderer, {
             var componentClick = CUORE.Core.bind(component, component.click);
             CUORE.Dom.Event.add(this.panel, 'click', componentClick);
         }
-    }   
+    }
 });

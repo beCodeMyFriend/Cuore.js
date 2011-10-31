@@ -16,7 +16,7 @@ describe("TimeRange", function () {
     });
 
     afterEach(function(){
-        var container = document.getElementById('xhtmlToTest');   
+        var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
 
         xhr.restore();
@@ -229,7 +229,6 @@ describe("TimeRange", function () {
         expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
     });
     
-    
     it("when disabling has disabled selects", function () {
         var aComponent = getTimeRange();
         
@@ -256,5 +255,4 @@ describe("TimeRange", function () {
         aComponent.setContainer("xhtmlToTest");
         return aComponent;
     };
-
 });

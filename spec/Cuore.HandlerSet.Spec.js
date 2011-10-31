@@ -6,7 +6,7 @@ describe("A HandlerSet", function() {
     });
 
     describe("with a handler registered", function() {
-        var aHandler, eventName="an event name";
+        var aHandler, eventName = "an event name";
         beforeEach(function() {
             aHandler = CUORE.Mocks.Handler();
 
@@ -26,8 +26,8 @@ describe("A HandlerSet", function() {
         });
 
         it("when an event is notified, all the registered handlers for this event are called", function() {
-            var anEventData="some data for the event";
-            var otherHandler=CUORE.Mocks.Handler('other handler');
+            var anEventData = "some data for the event";
+            var otherHandler = CUORE.Mocks.Handler('other handler');
             aHandlerSet.register(eventName, otherHandler);
 
             aHandlerSet.notifyHandlers(eventName, anEventData);
@@ -43,8 +43,8 @@ describe("A HandlerSet", function() {
         });
 
         it("when a handler is notified and it throws an error, the other ones will be called", function() {
-            var anEventData="some data for the event";
-            var otherHandler=CUORE.Mocks.Handler('other handler');
+            var anEventData = "some data for the event";
+            var otherHandler = CUORE.Mocks.Handler('other handler');
             aHandler.handle.andThrow('FAIL!');
             aHandlerSet.register(eventName, otherHandler);
 
@@ -54,5 +54,5 @@ describe("A HandlerSet", function() {
             expect(otherHandler.handle).toHaveBeenCalledWith(anEventData);
         });
     });
-
+ 
 });

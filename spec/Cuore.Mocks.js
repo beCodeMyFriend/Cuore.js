@@ -1,13 +1,15 @@
 CUORE.Mocks = {
     mock: function(name, methodNames) {
-      var r = {'_description':name}
-          , numberOfMethods = methodNames.length
-          , methodName;
-      for(var i = 0; i < numberOfMethods; i++) {
-        methodName = methodNames[i];
-        r[methodName] = jasmine.createSpy(name + "." + methodName);
-      }
-      return r;
+        var r = {
+            '_description': name
+        },
+            numberOfMethods = methodNames.length,
+            methodName;
+        for (var i = 0; i < numberOfMethods; i++) {
+            methodName = methodNames[i];
+            r[methodName] = jasmine.createSpy(name + "." + methodName);
+        }
+        return r;
     },
 
     Registry: function() {
@@ -23,19 +25,19 @@ CUORE.Mocks = {
     },
 
     Handler: function(mockName) {
-        return CUORE.Mocks.mock(mockName || 'a handler',['setOwner', 'handle']);
+        return CUORE.Mocks.mock(mockName || 'a handler', ['setOwner', 'handle']);
     },
 
     HandlerSet: function() {
-        var handlerSet=CUORE.Mocks.mock('handler set',['register', 'notifyHandlers', 'getManagedEvents']);
-        handlerSet.getLastRegisteredHandler=function() {
+        var handlerSet = CUORE.Mocks.mock('handler set', ['register', 'notifyHandlers', 'getManagedEvents']);
+        handlerSet.getLastRegisteredHandler = function() {
             return this.register.mostRecentCall.args[1];
         };
         return handlerSet;
     },
 
     Component: function(name) {
-        var component = CUORE.Mocks.mock('component '+name, [
+        var component = CUORE.Mocks.mock('component ' + name, [
             'setContainer',
             'dontReplace',
             'setName',
@@ -43,10 +45,10 @@ CUORE.Mocks = {
             'draw',
             'setDirectory',
             'execute'
-        ]);
+            ]);
         component.getManagedEvents.andReturn([]);
-        component.getName=function() {
-          return component.setName.mostRecentCall.args[0]
+        component.getName = function() {
+            return component.setName.mostRecentCall.args[0]
         };
         return component;
     }

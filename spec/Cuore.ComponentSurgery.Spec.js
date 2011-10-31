@@ -2,32 +2,29 @@ describe("A component", function() {
     var aComponent;
     beforeEach(function() {
         this.addMatchers({
-            'toHaveBeenCalledWithAHandlerForEvent':function(expectedEventName) {
-                var spy=this.actual;
-                var mostRecentCall=spy.mostRecentCall;
-                var supposedToBeAHandler=mostRecentCall.args[1];
-                return mostRecentCall.args[0] == expectedEventName
-                    && supposedToBeAHandler
-                    && typeof supposedToBeAHandler == 'object'
-                    && typeof supposedToBeAHandler.handle == 'function';
+            'toHaveBeenCalledWithAHandlerForEvent': function(expectedEventName) {
+                var spy = this.actual;
+                var mostRecentCall = spy.mostRecentCall;
+                var supposedToBeAHandler = mostRecentCall.args[1];
+                return mostRecentCall.args[0] == expectedEventName && supposedToBeAHandler && typeof supposedToBeAHandler == 'object' && typeof supposedToBeAHandler.handle == 'function';
             }
         });
 
         aComponent = new CUORE.Component();
     });
-    
+
     it("has a replace behaviour by default", function() {
         expect(aComponent.doYouReplace()).toBeTruthy();
     });
 
     it("can cancel its replace behaviour", function() {
         aComponent.dontReplace();
-      
+
         expect(aComponent.doYouReplace()).toBeFalsy();
     });
 
     it("by default has a handler set", function() {
-        var handlerSet=aComponent.handlerSet;
+        var handlerSet = aComponent.handlerSet;
 
         expect(handlerSet).toBeDefined();
         expect(typeof handlerSet.register).toBe('function');
@@ -42,7 +39,7 @@ describe("A component", function() {
         });
 
         it("when is asked about its managed events, it returns the managed events from its handler set", function() {
-            var expectedManagedEvents=['eventA', 'eventB'];
+            var expectedManagedEvents = ['eventA', 'eventB'];
 
             aHandlerSet.getManagedEvents.andReturn(expectedManagedEvents);
 
@@ -50,13 +47,13 @@ describe("A component", function() {
         });
 
         describe("when you add a handler", function() {
-            var aHandler, eventName="an event name";
+            var aHandler, eventName = "an event name";
             beforeEach(function() {
                 aHandler = CUORE.Mocks.Handler();
                 aComponent.addHandler(eventName, aHandler);
             });
 
-            it("it registers the handler in the handler set" , function() {
+            it("it registers the handler in the handler set", function() {
                 expect(aHandlerSet.register).toHaveBeenCalledWith(eventName, aHandler);
             });
 
@@ -66,8 +63,9 @@ describe("A component", function() {
         });
 
         it("when an event is fired, the handler sets is notified", function() {
-            var eventParams="some params", eventName="an event name";
-          
+            var eventParams = "some params",
+                eventName = "an event name";
+
             aComponent.eventDispatch(eventName, eventParams);
 
             expect(aHandlerSet.notifyHandlers).toHaveBeenCalledWith(eventName, eventParams);
@@ -81,7 +79,7 @@ describe("A component", function() {
             aComponent.setDirectory(aDirectory);
         });
 
-        it("should ignore undefined keys when getLabel called", function () {
+        it("should ignore undefined keys when getLabel called", function() {
             aComponent.requestLabelText(null);
             aComponent.requestLabelText(undefined);
 
@@ -106,11 +104,13 @@ describe("A component", function() {
             });
 
             it("label service is used to fetch the label text", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
 
                 aComponent.setI18NKey(labelKey);
 
-                expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {key:labelKey}, true);
+                expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {
+                    key: labelKey
+                }, true);
             });
 
             it("and the key is empty, label service won't be used to fetch the label text", function() {
@@ -120,7 +120,7 @@ describe("A component", function() {
             });
 
             it("the component's text is set to the label key while the label service has not yet replied", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
 
                 aComponent.setI18NKey(labelKey);
 
@@ -128,20 +128,20 @@ describe("A component", function() {
             });
 
             it("a handler is registered in the handler set to receive the label value", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
 
                 aComponent.setI18NKey(labelKey);
 
-                expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_'+labelKey);
+                expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_' + labelKey);
             });
 
             it("when dispatch is called, the handler registered to receive the label value changes the component's text", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
                 aComponent.setI18NKey(labelKey);
-                var handler=aHandlerSet.getLastRegisteredHandler();
+                var handler = aHandlerSet.getLastRegisteredHandler();
 
-                var labelText='label text';
-                var message= CUORE.Mocks.mock("label message", ['getFromAnswer']);
+                var labelText = 'label text';
+                var message = CUORE.Mocks.mock("label message", ['getFromAnswer']);
                 message.getFromAnswer.andReturn(labelText);
 
                 handler.handle(message);
@@ -159,8 +159,8 @@ describe("A component", function() {
             var params = "these are the mock params";
 
             expect(function() {
-                      aComponent.execute(theServiceName, theProcedureName, params, true);
-                  }).toThrow("Cannot call service. A service directory is not configured");
+                aComponent.execute(theServiceName, theProcedureName, params, true);
+            }).toThrow("Cannot call service. A service directory is not configured");
         });
 
         describe("when i18n label is changed", function() {
@@ -171,7 +171,7 @@ describe("A component", function() {
             });
 
             it("and the key is empty it won't change the text", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
                 aComponent.setI18NKey(labelKey);
 
                 aComponent.setI18NKey(null);
@@ -180,7 +180,7 @@ describe("A component", function() {
             });
 
             it("the component's text is set to the label key", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
 
                 aComponent.setI18NKey(labelKey);
 
@@ -188,20 +188,20 @@ describe("A component", function() {
             });
 
             it("a handler exists to receive the label value", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
 
                 aComponent.setI18NKey(labelKey);
 
-                expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_'+labelKey);
+                expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_' + labelKey);
             });
 
             it("when dispatch is called, the handler registered to receive the label value changes the component's text", function() {
-                var labelKey="label.key";
+                var labelKey = "label.key";
                 aComponent.setI18NKey(labelKey);
-                var handler=aHandlerSet.getLastRegisteredHandler();
+                var handler = aHandlerSet.getLastRegisteredHandler();
 
-                var labelText='label text';
-                var message= CUORE.Mocks.mock("label message", ['getFromAnswer']);
+                var labelText = 'label text';
+                var message = CUORE.Mocks.mock("label message", ['getFromAnswer']);
                 message.getFromAnswer.andReturn(labelText);
 
                 handler.handle(message);
@@ -211,13 +211,15 @@ describe("A component", function() {
             });
 
             it("a label service is used to fetch the label text but only when the directory is configured", function() {
-                var labelKey="label.key";
-                var aDirectory=CUORE.Mocks.Directory();
+                var labelKey = "label.key";
+                var aDirectory = CUORE.Mocks.Directory();
 
                 aComponent.setI18NKey(labelKey);
                 aComponent.setDirectory(aDirectory);
 
-                expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {key:labelKey}, true);
+                expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {
+                    key: labelKey
+                }, true);
             });
         });
     });

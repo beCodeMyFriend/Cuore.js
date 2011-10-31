@@ -47,7 +47,7 @@ CUORE.Components.NumericSelector = CUORE.Class(CUORE.Components.Input, {
 
     getBus: function() {
         return CUORE.Bus;
-    }, //@TODO
+    }, // TODO SUT?
 
     setLimSup: function(newLimSup) {
         if (newLimSup < this.limInf) newlimSup = this.limInf;

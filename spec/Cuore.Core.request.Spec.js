@@ -47,5 +47,4 @@ describe("Core.response", function() {
         
         xhr.restore();
     });
-    
 });

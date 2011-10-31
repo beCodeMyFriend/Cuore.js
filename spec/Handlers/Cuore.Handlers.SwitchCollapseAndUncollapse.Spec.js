@@ -5,7 +5,6 @@ describe("SwitchCollapseAndUncollapseHandler", function () {
 
         expect(aSwitchCollapseHandler instanceof CUORE.Handler).toBeTruthy();
         expect(aSwitchCollapseHandler instanceof CUORE.Handlers.SwitchCollapseAndUncollapse).toBeTruthy();
-
     });
 
     it("should collapse and uncollapse", function () {

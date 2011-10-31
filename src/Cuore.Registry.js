@@ -5,12 +5,13 @@ CUORE.Registry = CUORE.Class(null, {
     },
 
     register: function (component) {
-        if(!this._contains(component))
+        if(!this._contains(component)) {
             this.components.push(component);
+        }
     },
 
     _contains: function(component) {
-        return this.components.indexOf(component) != -1;
+        return (this.components.indexOf(component) !== -1);
     },
 
     size: function() {
@@ -19,15 +20,16 @@ CUORE.Registry = CUORE.Class(null, {
 
     each:function(callback) {
         var componentsLength = this.size();
-        for(var position = 0; position < componentsLength; position++)
+        
+        for(var position = 0; position < componentsLength; position++) {
             this._safeInvoke(callback, this.components[position])
+        }
     },
 
     _safeInvoke:function(callback, component) {
         var err;
         try {
             callback(component);
-        } catch(err) {
-        }
+        } catch(err) {}
     }
 });

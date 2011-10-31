@@ -33,7 +33,6 @@ describe("The Bus", function () {
         expect(aBus.subscribers("anUndefinedEvent")).toEqual([]);
     });
 
-
     it("registers suscribers and emits events to them", function () {
         var aBus = CUORE.Bus;
         aBus.reset();
@@ -69,7 +68,6 @@ describe("The Bus", function () {
         expect(dummySubscriber.recievedParams).toEqual(anotherParams);
     });
 
-
     it("unregister subscribers", function () {
         var aBus = CUORE.Bus;
         aBus.reset();
@@ -102,7 +100,6 @@ describe("The Bus", function () {
         expect(dummySubscriber.recievedParams).toEqual(params);
         expect(anotherDummySubscriber.recievedParams).toEqual(anotherParams);
     });
-
 
     it("cannot have subscribed the same object twice for the same event", function () {
         var aBus = CUORE.Bus;
@@ -145,5 +142,4 @@ describe("The Bus", function () {
         return dummySubscriber;
 
     };
-
 });

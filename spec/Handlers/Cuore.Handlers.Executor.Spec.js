@@ -30,5 +30,4 @@ describe("ExecutorHandler", function () {
 
         expect(aComponent.paramsCalled).toEqual(aParams);
     });
-
 });

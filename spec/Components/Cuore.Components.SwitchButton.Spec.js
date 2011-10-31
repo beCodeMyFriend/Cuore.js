@@ -16,14 +16,13 @@ describe("SwitchButton", function () {
     });
 
     afterEach(function(){
-        var container = document.getElementById('xhtmlToTest');   
+        var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
 
         xhr.restore();
     });
 
     it("inherits Component and Button", function () {
-
         var keyActive = "testKeyActive";
         var keyInactive = "testKeyInactive";
         var aButton = new CUORE.Components.SwitchButton("buttonName", keyActive, keyInactive);
@@ -96,23 +95,23 @@ describe("SwitchButton", function () {
     });
 
     it("should emit event when clicked", function () {
-        var buttonName="buttonName";
-        var someData="someData";
-        var aDirectory=CUORE.Mocks.Directory();
+        var buttonName = "buttonName";
+        var someData = "someData";
+        var aDirectory = CUORE.Mocks.Directory();
         var aButton = new CUORE.Components.SwitchButton(buttonName, "testKeyActive", "testKeyInactive");
+        
         aButton.setDirectory(aDirectory);
         aButton.setData(someData);
-
         aButton.click();
 
         expect(aDirectory.execute).toHaveBeenCalledWith("BUTTON", buttonName, someData);
     });
 
     it("should not emit event when clicked and false is passed as argument", function () {
-        var aDirectory=CUORE.Mocks.Directory();
+        var aDirectory = CUORE.Mocks.Directory();
         var aButton = new CUORE.Components.SwitchButton("buttonName", "testKeyActive", "testKeyInactive");
+        
         aButton.setDirectory(CUORE.Mocks.Directory());
-
         aButton.click(false);
 
         expect(aDirectory.execute).not.toHaveBeenCalled();
@@ -121,14 +120,12 @@ describe("SwitchButton", function () {
     it("should get labelHandler when initialized", function () {
         var activeKeyEvent = "LABELS_getLabel_EXECUTED_activeKey";
         var inactiveKeyEvent = "LABELS_getLabel_EXECUTED_inactiveKey";
-
         var aButton = new CUORE.Components.SwitchButton("ButtonName", "activeKey", "inactiveKey");
 
         var events = aButton.getManagedEvents();
 
         expect(events).toContain(activeKeyEvent);
         expect(events).toContain(inactiveKeyEvent);
-
     });
 
     var createTestContainer = function() {

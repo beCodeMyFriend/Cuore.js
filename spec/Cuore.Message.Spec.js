@@ -93,8 +93,8 @@ describe("Message", function () {
         expect(aMessage instanceof CUORE.Message).toBeTruthy();
     });
     
-    it ("does not allows bad values", function(){
-        var jsonMessage = '{"header":{"aHeaderKey":"null","anotherHeaderKey":null},"query":{"aQueryKey":null},"answer":{"anAnswerKey":"undefined","anotherAnswerKey":null}}';                
+    it("does not allows bad values", function(){
+        var jsonMessage = '{"header":{"aHeaderKey":"null","anotherHeaderKey":null},"query":{"aQueryKey":null},"answer":{"anAnswerKey":"undefined","anotherAnswerKey":null}}';
         var goodMessage = '{"header":{"aHeaderKey":"null"},"query":{},"answer":{"anAnswerKey":"undefined"}}';
         
         var aMessage = new CUORE.Message(jsonMessage); 
@@ -102,7 +102,7 @@ describe("Message", function () {
         expect(aMessage.asJson()).toEqual(goodMessage);
     });
 
-    it ("does not allows bad values", function(){
+    it("does not allows bad values", function(){
         var goodMessage = '{"header":{},"query":{},"answer":{}}';
         var aMessage = new CUORE.Message();
         
