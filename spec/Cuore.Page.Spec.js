@@ -1,4 +1,4 @@
-describe("Page", function () {
+describe("Page", function() {
     var aPage, registry, directory;
 
     beforeEach(function() {
@@ -9,10 +9,10 @@ describe("Page", function () {
         aPage.setRegistry(registry);
     });
 
-    it("initialization calls initializeServices", function () {
+    it("initialization calls initializeServices", function() {
         var initializeServicesCalled = false;
 
-        aPage.initializeServices = function () {
+        aPage.initializeServices = function() {
             initializeServicesCalled = true;
         };
 
@@ -21,10 +21,10 @@ describe("Page", function () {
         expect(initializeServicesCalled).toBeTruthy();
     });
 
-    it("initialization calls initializeComponents", function () {
+    it("initialization calls initializeComponents", function() {
         var initializeComponentsCalled = false;
 
-        aPage.initializeComponents = function () {
+        aPage.initializeComponents = function() {
             initializeComponentsCalled = true;
         };
 
@@ -33,7 +33,20 @@ describe("Page", function () {
         expect(initializeComponentsCalled).toBeTruthy();
     });
 
-    it("can lookup for services by name", function () {
+
+    it("should set and retrieve states by key", function() {
+        var retrievedState = undefined;
+        var key = 'arbitraryKey';
+        var savedState = 'savedState';
+        
+        aPage.save(key, savedState);
+        retrievedState = aPage.retrieve(key);
+        
+        expect(retrievedState).toEqual(savedState);
+    });
+
+
+    it("can lookup for services by name", function() {
         var aServiceName = "a service to be looked up";
         var expectedService = "resulting service";
         directory.getService.andReturn(expectedService);
@@ -44,8 +57,8 @@ describe("Page", function () {
         expect(aService).toEqual(expectedService);
     });
 
-    it("when baseURL is configured, it informs the directory", function () {
-        var baseURL="A Base URL";
+    it("when baseURL is configured, it informs the directory", function() {
+        var baseURL = "A Base URL";
         aPage = new CUORE.Page(baseURL);
         aPage.setDirectory(directory);
 
@@ -62,37 +75,38 @@ describe("Page", function () {
     });
 
     describe("when a component is added", function() {
-        var testingContainer = "testingContainer", aComponent;
+        var testingContainer = "testingContainer",
+            aComponent;
 
         beforeEach(function() {
             aComponent = CUORE.Mocks.Component('fake');
         }),
 
-        it("registers component with the registry", function () {
+        it("registers component with the registry", function() {
             aPage.addComponent(aComponent, testingContainer, true);
 
             expect(registry.register).toHaveBeenCalledWith(aComponent);
         });
 
-        it("configures the component with the service directory", function () {
+        it("configures the component with the service directory", function() {
             aPage.addComponent(aComponent, testingContainer, true);
 
             expect(aComponent.setDirectory).toHaveBeenCalledWith(directory);
         });
 
-        it("configures the component with a container", function () {
+        it("configures the component with a container", function() {
             aPage.addComponent(aComponent, testingContainer, true);
 
             expect(aComponent.setContainer).toHaveBeenCalledWith(testingContainer);
         });
 
-        it("gives the component a name", function () {
+        it("gives the component a name", function() {
             aPage.addComponent(aComponent, testingContainer, true);
 
             expect(aComponent.setName).toHaveBeenCalled();
         });
 
-        it("gives the component an unique name", function () {
+        it("gives the component an unique name", function() {
             var otherComponent = CUORE.Mocks.Component('other component');
 
             aPage.addComponent(aComponent, testingContainer, true);
@@ -101,13 +115,13 @@ describe("Page", function () {
             expect(otherComponent.getName()).not.toEqual(aComponent.getName());
         });
 
-        it("configures component not to replace HTML if false is the last parameter", function () {
+        it("configures component not to replace HTML if false is the last parameter", function() {
             aPage.addComponent(aComponent, testingContainer, false);
 
             expect(aComponent.dontReplace).toHaveBeenCalled();
         });
 
-        it("configures component to replace HTML if true is the last parameter", function () {
+        it("configures component to replace HTML if true is the last parameter", function() {
             aPage.addComponent(aComponent, testingContainer, true);
 
             expect(aComponent.dontReplace).not.toHaveBeenCalled();
@@ -126,7 +140,7 @@ describe("Page", function () {
 
         it("and the page is drawn, it will draw each component", function() {
             registry.each.andCallFake(function(callback) {
-              callback(aComponent);
+                callback(aComponent);
             });
 
             aPage.draw();

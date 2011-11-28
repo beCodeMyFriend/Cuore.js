@@ -5,6 +5,7 @@ CUORE.Page = CUORE.Class(null, {
         this.components = new CUORE.Registry();
         this.services = new CUORE.Directory();
         this.services.setBaseURL(baseURL);
+        this.state = new CUORE.State();
         this.setUp();
     },
 
@@ -54,6 +55,16 @@ CUORE.Page = CUORE.Class(null, {
             component.draw();
         });
     },
+    
+    save: function(key,value) {
+        this.state.save(key,value);    
+    },
+    
+    
+    retrieve: function(key) {
+        return this.state.retrieve(key);
+    },
+    
     
     _subcribeComponentEvents: function(component) {
         var events = component.getManagedEvents();
