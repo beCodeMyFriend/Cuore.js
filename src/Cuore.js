@@ -15,6 +15,7 @@
  * @link       http://www.github.com/beCodeMyFriend/Cuore.js
  */
 
+
 var CUORE = CUORE || {};
 
 CUORE.VERSION = '1.0';
