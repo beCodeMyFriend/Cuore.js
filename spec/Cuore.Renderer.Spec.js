@@ -17,6 +17,7 @@ describe("A Renderer", function() {
             aComponent.getName = jasmine.createSpy().andReturn('anyName');
             aComponent.getText = jasmine.createSpy().andReturn('anyText');
             aComponent.doYouReplace = jasmine.createSpy().andReturn(true);
+            aComponent.doYouHijack = jasmine.createSpy().andReturn(true);
             return aComponent;
         };
 
@@ -34,7 +35,12 @@ describe("A Renderer", function() {
                 toContainAnElement: function(HTMLElementType) {
                     var figures = this.actual.getElementsByTagName(HTMLElementType);
                     return (figures.length > 0);
+                },
+                
+                toContainClass: function(classname) {
+                    return CUORE.Dom.hasClass(this.actual,classname);
                 }
+                
             });
 
             createContainer();
@@ -56,9 +62,20 @@ describe("A Renderer", function() {
 
         it("doesnt replaces container innerHTML when component has append behaviour", function() {
             aComponent.doYouReplace.andReturn(false);
+            aComponent.doYouHijack.andReturn(false);
+            aRenderer.render(aComponent);
+            console.log(container);
+            expect(container).toContainAnElement('figure');
+        });
+        
+        it("uses the container as panel when component has hijack behaviour", function() {
+            aComponent.doYouHijack.andReturn(true);
+            aRenderer.addClass('hijacked');
             aRenderer.render(aComponent);
 
-            expect(container).toContainAnElement('figure');
+            expect(container).not.toContainAnElement('figure');
+            expect(container).not.toContainAnElement('div');
+            expect(container).toContainClass('hijacked');
         });
     });
 });

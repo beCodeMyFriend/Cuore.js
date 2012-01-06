@@ -38,11 +38,12 @@ CUORE.Page = CUORE.Class(null, {
         return this.services.getService(name);
     },
 
-    addComponent: function(component, container, replaceContent) {
+    addComponent: function(component, container, behaviour) {
         component.setName(this._generateUUID());
         component.setDirectory(this.services);
       
-        if(!replaceContent) component.dontReplace();
+        if(!behaviour) behaviour = CUORE.Behaviours.APPEND;
+        component.behave(behaviour);
 
         this._subcribeComponentEvents(component);
         this.components.register(component);

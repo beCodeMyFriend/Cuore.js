@@ -8,7 +8,6 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
 
     host: function (anyComponent) {
         anyComponent.setDirectory(this.services);
-        anyComponent.dontReplace();
         this.hostedComponents.push(anyComponent);
     },
 

@@ -19,6 +19,12 @@
 var CUORE = CUORE || {};
 
 CUORE.VERSION = '1.0';
+
+CUORE.Behaviours = CUORE.Behaviours || {};
+CUORE.Behaviours.APPEND = 'APPEND';
+CUORE.Behaviours.REPLACE = 'REPLACE';
+CUORE.Behaviours.HIJACK = 'HIJACK';
+
 CUORE.Components = CUORE.Components || {};
 CUORE.Services = CUORE.Services || {};
 CUORE.Handlers = CUORE.Handlers || {};

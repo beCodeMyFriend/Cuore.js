@@ -65,7 +65,7 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     draw: function(component) {
-        if (component.doYouReplace()) {
+        if (component.doYouReplace() || component.doYouHijack()) {
             this.container.innerHTML = '';
         }
 
@@ -73,12 +73,18 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     paint: function(component) {
-        var divID = this.innerDivName(component.getName());
-
-        this.panel = CUORE.Dom.createElement('div', {
-            id: divID
-        }, this.container);
-
+        
+        
+        if (!component.doYouHijack()){
+            var divID = this.innerDivName(component.getName());
+    
+            this.panel = CUORE.Dom.createElement('div', {
+                id: divID
+            }, this.container);
+        }else{
+            this.panel = this.container;
+        }
+        
         this.showDisabledState(component);
 
         this.setCurrentClasses();

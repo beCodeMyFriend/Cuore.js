@@ -1,4 +1,4 @@
-describe("A component", function() {
+describe("A  Better component", function() {
     var aComponent;
     beforeEach(function() {
         this.addMatchers({
@@ -13,14 +13,19 @@ describe("A component", function() {
         aComponent = new CUORE.Component();
     });
 
-    it("has a replace behaviour by default", function() {
-        expect(aComponent.doYouReplace()).toBeTruthy();
+    it("has a append behaviour by default", function() {
+        expect(aComponent.doYouReplace()).toBeFalsy();
     });
 
-    it("can cancel its replace behaviour", function() {
-        aComponent.dontReplace();
-
-        expect(aComponent.doYouReplace()).toBeFalsy();
+    it("can set the behaviour", function() {
+        aComponent.behave(CUORE.Behaviours.REPLACE);
+        expect(aComponent.doYouReplace()).toBeTruthy();
+    });
+    
+    it("supports hijack behaviour", function() {
+        expect(aComponent.doYouHijack()).toBeFalsy();
+        aComponent.behave(CUORE.Behaviours.HIJACK);
+        expect(aComponent.doYouHijack()).toBeTruthy();
     });
 
     it("by default has a handler set", function() {

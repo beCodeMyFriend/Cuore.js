@@ -115,17 +115,18 @@ describe("Page", function() {
             expect(otherComponent.getName()).not.toEqual(aComponent.getName());
         });
 
-        it("configures component not to replace HTML if false is the last parameter", function() {
-            aPage.addComponent(aComponent, testingContainer, false);
+        
+        it("configures component with the Injecting behaviour provided", function() {
+            aPage.addComponent(aComponent, testingContainer, CUORE.Behaviours.REPLACE);
 
-            expect(aComponent.dontReplace).toHaveBeenCalled();
+            expect(aComponent.behave).toHaveBeenCalledWith(CUORE.Behaviours.REPLACE);
+        });
+        
+        it("configures component with the APPEND Injecting behaviour by default", function() {
+            aPage.addComponent(aComponent, testingContainer);
+            expect(aComponent.behave).toHaveBeenCalledWith(CUORE.Behaviours.APPEND)
         });
 
-        it("configures component to replace HTML if true is the last parameter", function() {
-            aPage.addComponent(aComponent, testingContainer, true);
-
-            expect(aComponent.dontReplace).not.toHaveBeenCalled();
-        });
 
         it("registers its managed events with the bus", function() {
             var aBus = CUORE.Bus;

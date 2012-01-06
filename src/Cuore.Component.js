@@ -1,3 +1,4 @@
+
 CUORE.Component = CUORE.Class(null, {
 
     init: function() {
@@ -10,7 +11,7 @@ CUORE.Component = CUORE.Class(null, {
         this.text = '';
         this.renderer = new CUORE.Renderer();
         this.enabled = true;
-        this.replaces = true;
+        this.behaviour = CUORE.Behaviours.APPEND;
     },
 
     setHandlerSet: function(handlerSet) {
@@ -29,14 +30,21 @@ CUORE.Component = CUORE.Class(null, {
         }
     },
 
-    doYouReplace:function(){
-        return this.replaces;
+    behave: function (behaviour)
+    {
+        this.behaviour=behaviour;
+    },
+   
+    doYouReplace: function ()
+    {
+      return this.behaviour === CUORE.Behaviours.REPLACE;  
     },
     
-    dontReplace: function() {
-      this.replaces = false;
+    doYouHijack: function ()
+    {
+      return this.behaviour === CUORE.Behaviours.HIJACK;  
     },
-
+    
     draw: function() {
         this.renderer.render(this);
     },

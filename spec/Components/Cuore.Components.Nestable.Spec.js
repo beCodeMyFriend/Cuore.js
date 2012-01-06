@@ -30,14 +30,6 @@ describe("NestableComponent", function () {
         expect(anyComponent.setDirectory).toHaveBeenCalledWith(aDirectory);
     });
 
-    it("when a component is hosted, it won't replace the contents", function () {
-        var anyComponent = CUORE.Mocks.Component('any component');
-        var aComponent = new CUORE.Components.Nestable();
-
-        aComponent.host(anyComponent);
-
-        expect(anyComponent.dontReplace).toHaveBeenCalled();
-    });
 
     it("when the directory is changed, the hosted components are reconfigured with the new one", function () {
         var aDirectory=CUORE.Mocks.Directory();
