@@ -64,7 +64,6 @@ describe("A Renderer", function() {
             aComponent.doYouReplace.andReturn(false);
             aComponent.doYouHijack.andReturn(false);
             aRenderer.render(aComponent);
-            console.log(container);
             expect(container).toContainAnElement('figure');
         });
         

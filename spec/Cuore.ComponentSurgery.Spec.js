@@ -28,6 +28,14 @@ describe("A  Better component", function() {
         expect(aComponent.doYouHijack()).toBeTruthy();
     });
 
+    it("uses container id as UniqueID when hijacking", function() {
+        aComponent.behave(CUORE.Behaviours.HIJACK);
+        var container= "anID";
+        aComponent.setContainer(container);
+        expect(aComponent.getName()).toEqual('anID');
+        expect(aComponent.getUniqueID()).toEqual('anID');
+    });
+    
     it("by default has a handler set", function() {
         var handlerSet = aComponent.handlerSet;
 

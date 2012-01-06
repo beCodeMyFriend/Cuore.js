@@ -94,6 +94,7 @@ CUORE.Component = CUORE.Class(null, {
     },
     
     setContainer: function(container) {
+        if (this.doYouHijack()) this.setName(container);
         this.renderer.setContainer(container);
     },
 
@@ -102,7 +103,9 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     getUniqueID: function() {
-        return this.renderer.innerDivName(this.name);
+        var id = this.renderer.innerDivName(this.name);
+        if (this.doYouHijack()) id= this.name;
+        return id; 
     },
 
     getManagedEvents: function() {
