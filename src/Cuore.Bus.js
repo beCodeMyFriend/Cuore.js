@@ -32,7 +32,6 @@ CUORE.Bus = (function(undefined) {
 
     var emit = function(eventName, params) {
         var subscribersList = this.subscribers(eventName);
-
         for (var i = 0, len = subscribersList.length; i < len; i++) {
             subscribersList[i].eventDispatch(eventName, params);
         }

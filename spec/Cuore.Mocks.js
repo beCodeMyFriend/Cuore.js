@@ -45,7 +45,8 @@ CUORE.Mocks = {
             'draw',
             'setDirectory',
             'execute',
-            'behave'
+            'behave',
+            'onEnvironmentUp'
             ]);
         component.getManagedEvents.andReturn([]);
         component.getName = function() {

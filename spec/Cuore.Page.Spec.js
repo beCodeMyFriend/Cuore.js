@@ -122,11 +122,22 @@ describe("Page", function() {
             expect(aComponent.behave).toHaveBeenCalledWith(CUORE.Behaviours.REPLACE);
         });
         
-        it("configures component with the APPEND Injecting behaviour by default", function() {
+        it("lets component behaviour untouched by default", function() {
             aPage.addComponent(aComponent, testingContainer);
-            expect(aComponent.behave).toHaveBeenCalledWith(CUORE.Behaviours.APPEND)
+            expect(aComponent.behave).not.toHaveBeenCalled();
         });
-
+        
+        it("calls component onEnvinromentUp after bus registering", function() {
+            var aBus = CUORE.Bus;
+            var subscribersOnCall=[];
+            aBus.reset();
+            aComponent.getManagedEvents.andReturn(['testEvent', 'dummyEvent']);
+            aComponent.onEnvironmentUp=function(){
+                subscribersOnCall=aBus.subscribers("testEvent");
+            }
+            aPage.addComponent(aComponent, testingContainer);
+            expect(subscribersOnCall).toContain(aComponent);
+        });
 
         it("registers its managed events with the bus", function() {
             var aBus = CUORE.Bus;

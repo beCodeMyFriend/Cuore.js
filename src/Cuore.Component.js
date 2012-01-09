@@ -161,5 +161,8 @@ CUORE.Component = CUORE.Class(null, {
     disable: function() {
         this.enabled = false;
         this.updateRender();
-    }
+    },
+    
+    onEnvironmentUp: function() {}
+    
 });

@@ -2,7 +2,6 @@ CUORE.Components.LabelPanel = CUORE.Class(CUORE.Component, {
 
     init: function(key, granularity) {
         CUORE.Components.LabelPanel.super.init.call(this);
-        
         this.setI18NKey(key);
     },
     

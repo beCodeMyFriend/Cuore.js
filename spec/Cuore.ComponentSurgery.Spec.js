@@ -44,6 +44,10 @@ describe("A  Better component", function() {
         expect(typeof handlerSet.notifyHandlers).toBe('function');
     });
 
+    it("has a hook for calling when its environment is up", function() {
+        expect(typeof aComponent.onEnvironmentUp === 'function').toBeTruthy();
+    });
+    
     describe("can manage handlers", function() {
         var aHandlerSet;
         beforeEach(function() {

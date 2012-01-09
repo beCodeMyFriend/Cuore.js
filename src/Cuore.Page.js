@@ -42,13 +42,12 @@ CUORE.Page = CUORE.Class(null, {
         component.setName(this._generateUUID());
         component.setDirectory(this.services);
       
-        if(!behaviour) behaviour = CUORE.Behaviours.APPEND;
-        component.behave(behaviour);
-
+        if(behaviour) component.behave(behaviour);
         this._subcribeComponentEvents(component);
         this.components.register(component);
 
         component.setContainer(container);
+        component.onEnvironmentUp();
     },
 
     draw: function() {
