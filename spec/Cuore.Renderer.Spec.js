@@ -12,22 +12,22 @@ describe("A Renderer", function() {
         var aComponent;
 
         var dummyComponent = function() {
-            var aComponent = {};
-            aComponent.isEnabled = jasmine.createSpy().andReturn(true);
-            aComponent.getName = jasmine.createSpy().andReturn('anyName');
-            aComponent.getText = jasmine.createSpy().andReturn('anyText');
-            aComponent.doYouReplace = jasmine.createSpy().andReturn(true);
-            aComponent.doYouHijack = jasmine.createSpy().andReturn(true);
-            return aComponent;
-        };
+                var aComponent = {};
+                aComponent.isEnabled = jasmine.createSpy().andReturn(true);
+                aComponent.getName = jasmine.createSpy().andReturn('anyName');
+                aComponent.getText = jasmine.createSpy().andReturn('anyText');
+                aComponent.doYouReplace = jasmine.createSpy().andReturn(true);
+                aComponent.doYouHijack = jasmine.createSpy().andReturn(true);
+                return aComponent;
+            };
 
         var createContainer = function() {
-            panel = document.getElementById("xhtmlToTest");
-            container = document.createElement('div');
-            container.id = "testingContainer";
-            container.appendChild(document.createElement('figure'));
-            panel.appendChild(container);
-        };
+                panel = document.getElementById("xhtmlToTest");
+                container = document.createElement('div');
+                container.id = "testingContainer";
+                container.appendChild(document.createElement('figure'));
+                panel.appendChild(container);
+            };
 
         beforeEach(function() {
 
@@ -36,11 +36,11 @@ describe("A Renderer", function() {
                     var figures = this.actual.getElementsByTagName(HTMLElementType);
                     return (figures.length > 0);
                 },
-                
+
                 toContainClass: function(classname) {
-                    return CUORE.Dom.hasClass(this.actual,classname);
+                    return CUORE.Dom.hasClass(this.actual, classname);
                 }
-                
+
             });
 
             createContainer();
@@ -66,7 +66,7 @@ describe("A Renderer", function() {
             aRenderer.render(aComponent);
             expect(container).toContainAnElement('figure');
         });
-        
+
         it("uses the container as panel when component has hijack behaviour", function() {
             aComponent.doYouHijack.andReturn(true);
             aRenderer.addClass('hijacked');
@@ -76,5 +76,27 @@ describe("A Renderer", function() {
             expect(container).not.toContainAnElement('div');
             expect(container).toContainClass('hijacked');
         });
+
+        it("can render an arbitrary tag", function() {
+            aComponent.doYouReplace = jasmine.createSpy().andReturn(false);
+            aComponent.doYouHijack = jasmine.createSpy().andReturn(false);
+            aRenderer.setTagName('span')
+
+            aRenderer.render(aComponent);
+            console.log(container);
+            expect(container).not.toContainAnElement('div');
+            expect(container).toContainAnElement('span');
+        });
+
+        it("sets the tagname for rendering at initialization", function() {
+            spyOn(aRenderer, 'setTagName');
+
+            aRenderer.init();
+
+            expect(aRenderer.setTagName).toHaveBeenCalled();
+        });
+
+
+
     });
 });
