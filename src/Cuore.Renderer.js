@@ -6,6 +6,7 @@ CUORE.Renderer = CUORE.Class(null, {
         this.container = document.body;
         this.tagName = undefined;
         this.setTagName('div');
+        this.decorators=[];
     },
 
     setTagName: function(tagName) {
@@ -76,6 +77,7 @@ CUORE.Renderer = CUORE.Class(null, {
         }
 
         this.paint(component);
+        this._postPaint();
     },
 
     paint: function(component) {
@@ -95,6 +97,12 @@ CUORE.Renderer = CUORE.Class(null, {
 
         this.setCurrentClasses();
     },
+    
+    _postPaint:function(){
+        for (var i = 0, len = this.decorators.length; i < len; i++) {
+            this.decorators[i].postPaint(this.panel);
+        }
+    },
 
     setCurrentClasses: function() {
         for (var i = 0, len = this.panelClasses.length; i < len; i++) {
@@ -113,5 +121,10 @@ CUORE.Renderer = CUORE.Class(null, {
                 i++;
             }
         }
+    },
+    
+    addDecoration: function(decorator)
+    {
+        this.decorators.push(decorator);
     }
 });

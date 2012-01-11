@@ -1,9 +1,8 @@
-
 CUORE.Component = CUORE.Class(null, {
 
     init: function() {
         this.setHandlerSet(new CUORE.HandlerSet());
-        this.name = 'aComponent'; 
+        this.name = 'aComponent';
         this.service = 'NULL';
         this.procedure = 'nullProcedure';
         this.I18NKey = null;
@@ -30,21 +29,18 @@ CUORE.Component = CUORE.Class(null, {
         }
     },
 
-    behave: function (behaviour)
-    {
-        this.behaviour=behaviour;
+    behave: function(behaviour) {
+        this.behaviour = behaviour;
     },
-   
-    doYouReplace: function ()
-    {
-      return this.behaviour === CUORE.Behaviours.REPLACE;  
+
+    doYouReplace: function() {
+        return this.behaviour === CUORE.Behaviours.REPLACE;
     },
-    
-    doYouHijack: function ()
-    {
-      return this.behaviour === CUORE.Behaviours.HIJACK;  
+
+    doYouHijack: function() {
+        return this.behaviour === CUORE.Behaviours.HIJACK;
     },
-    
+
     draw: function() {
         this.renderer.render(this);
     },
@@ -59,8 +55,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     execute: function(theService, theProcedure, params, asynchronous) {
-        if(!this.services)
-          throw new Error("Cannot call service. A service directory is not configured");
+        if (!this.services) throw new Error("Cannot call service. A service directory is not configured");
         this.services.execute(theService, theProcedure, params, asynchronous);
     },
 
@@ -92,7 +87,7 @@ CUORE.Component = CUORE.Class(null, {
     setName: function(aName) {
         this.name = aName;
     },
-    
+
     setContainer: function(container) {
         if (this.doYouHijack()) this.setName(container);
         this.renderer.setContainer(container);
@@ -104,8 +99,8 @@ CUORE.Component = CUORE.Class(null, {
 
     getUniqueID: function() {
         var id = this.renderer.innerDivName(this.name);
-        if (this.doYouHijack()) id= this.name;
-        return id; 
+        if (this.doYouHijack()) id = this.name;
+        return id;
     },
 
     getManagedEvents: function() {
@@ -126,15 +121,17 @@ CUORE.Component = CUORE.Class(null, {
         this._requestLabelText();
     },
 
-    requestLabelText:function(key) {
-        if(key && this.services) {
-            this.services.execute("LABELS", 'getLabel', {key: key}, true);
+    requestLabelText: function(key) {
+        if (key && this.services) {
+            this.services.execute("LABELS", 'getLabel', {
+                key: key
+            }, true);
         }
     },
 
-    _requestLabelText:function() {
-        if(!this.I18NKey) return;
-      
+    _requestLabelText: function() {
+        if (!this.I18NKey) return;
+
         this.addHandler('LABELS_getLabel_EXECUTED_' + this.I18NKey, new CUORE.Handlers.setText());
         CUORE.Bus.subscribe(this, 'LABELS_getLabel_EXECUTED_' + this.I18NKey);
 
@@ -162,7 +159,13 @@ CUORE.Component = CUORE.Class(null, {
         this.enabled = false;
         this.updateRender();
     },
-    
+
+    addDecoration: function(decoration) {
+        if (decoration instanceof CUORE.Decoration) {
+            this.renderer.addDecoration(decoration);
+        }
+    },
+
     onEnvironmentUp: function() {}
-    
+
 });

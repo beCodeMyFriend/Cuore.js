@@ -83,7 +83,6 @@ describe("A Renderer", function() {
             aRenderer.setTagName('span')
 
             aRenderer.render(aComponent);
-            console.log(container);
             expect(container).not.toContainAnElement('div');
             expect(container).toContainAnElement('span');
         });
@@ -96,6 +95,19 @@ describe("A Renderer", function() {
             expect(aRenderer.setTagName).toHaveBeenCalled();
         });
 
+        it("calls its decorators after paint", function() {
+            var decorator= new CUORE.Decoration();
+            spyOn(decorator,'postPaint');
+            var anotherDecorator= new CUORE.Decoration();
+            spyOn(anotherDecorator,'postPaint');
+            
+            aRenderer.addDecoration(decorator);
+            aRenderer.addDecoration(anotherDecorator);
+            aRenderer.render(aComponent);
+            
+            expect(decorator.postPaint).toHaveBeenCalledWith(aRenderer.panel);
+            expect(anotherDecorator.postPaint).toHaveBeenCalledWith(aRenderer.panel);
+        });
 
 
     });

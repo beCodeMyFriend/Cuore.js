@@ -36,6 +36,21 @@ describe("A  Better component", function() {
         expect(aComponent.getUniqueID()).toEqual('anID');
     });
     
+    it("can inject decorations in its renderer", function() {
+        var aRenderer={};
+        aRenderer.addDecoration ='';
+        spyOn(aRenderer,'addDecoration');
+        
+        aComponent.setRenderer(aRenderer);
+                
+        aComponent.addDecoration(undefined);
+        expect(aRenderer.addDecoration).not.toHaveBeenCalled();
+        aComponent.addDecoration(new CUORE.Decoration());
+        expect(aRenderer.addDecoration).toHaveBeenCalled();
+        
+    });
+    
+    
     it("by default has a handler set", function() {
         var handlerSet = aComponent.handlerSet;
 
