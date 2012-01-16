@@ -1,7 +1,7 @@
 CUORE.Components.Input = CUORE.Class(CUORE.Component, {
     
     init: function(key, type) {
-        CUORE.Components.Input.super.init.call(this);
+        CUORE.Components.Input.parent.init.call(this);
 
         this.setRenderer(new CUORE.Renderers.Input());
         this.setI18NKey(key);

@@ -7,7 +7,7 @@ CUORE.Renderers.TimeRange = CUORE.Class(CUORE.Renderer, {
     },
 
     paint: function(component) {
-        CUORE.Renderers.TimeRange.super.paint.call(this, component);
+        CUORE.Renderers.TimeRange.parent.paint.call(this, component);
         
         var componentSetStartHour = CUORE.Core.bind(component, component.setStartHour);
         var componentSetEndHour = CUORE.Core.bind(component, component.setEndHour);
@@ -42,7 +42,7 @@ CUORE.Renderers.TimeRange = CUORE.Class(CUORE.Renderer, {
     },
 
     showDisabledState:function(component) {
-        CUORE.Renderers.TimeRange.super.showDisabledState.call(this,component);
+        CUORE.Renderers.TimeRange.parent.showDisabledState.call(this,component);
        
         if (!this.startHourSelect || !this.endHourSelect) return;
         this.startHourSelect.disabled = !component.isEnabled();

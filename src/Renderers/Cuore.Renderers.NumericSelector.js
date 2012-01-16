@@ -1,13 +1,13 @@
 CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
     
     init: function () {
-        CUORE.Renderers.NumericSelector.super.init.call(this);
+        CUORE.Renderers.NumericSelector.parent.init.call(this);
         
         this.valueDisplayed = null;
     },
     
     paint: function (component) {
-        CUORE.Renderers.NumericSelector.super.paint.call(this, component);
+        CUORE.Renderers.NumericSelector.parent.paint.call(this, component);
 
         this._decorateInput();
         this._addMinusButton(component);
@@ -15,7 +15,7 @@ CUORE.Renderers.NumericSelector = CUORE.Class(CUORE.Renderers.Input, {
     },
     
     updateWhenDrawn: function (component) {
-        CUORE.Renderers.NumericSelector.super.updateWhenDrawn.call(this, component);
+        CUORE.Renderers.NumericSelector.parent.updateWhenDrawn.call(this, component);
 
         this._checkDecorations(component);
     },

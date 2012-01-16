@@ -1,7 +1,7 @@
 CUORE.Components.NumericSelector = CUORE.Class(CUORE.Components.Input, {
 
     init: function(key) {
-        CUORE.Components.NumericSelector.super.init.call(this, key);
+        CUORE.Components.NumericSelector.parent.init.call(this, key);
 
         this.limSup = 999999999999999999999999;
         this.limInf = 0;
@@ -10,7 +10,7 @@ CUORE.Components.NumericSelector = CUORE.Class(CUORE.Components.Input, {
     },
 
     draw: function() {
-        CUORE.Components.NumericSelector.super.draw.call(this);
+        CUORE.Components.NumericSelector.parent.draw.call(this);
         
         this.setValue(this.getValue());
     },
@@ -31,7 +31,7 @@ CUORE.Components.NumericSelector = CUORE.Class(CUORE.Components.Input, {
 
     setValue: function(aValue) {
         var normalizedValue = this._normalizeValue(aValue);
-        CUORE.Components.NumericSelector.super.setValue.call(this, normalizedValue);
+        CUORE.Components.NumericSelector.parent.setValue.call(this, normalizedValue);
         
         this.updateRender();
         this.notifyChanges();
