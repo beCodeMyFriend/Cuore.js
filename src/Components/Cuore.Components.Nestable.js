@@ -1,8 +1,8 @@
 CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
-    
+
     init: function() {
         CUORE.Components.Nestable.parent.init.call(this);
-        
+
         this.hostedComponents = [];
     },
 
@@ -21,7 +21,7 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
     hosted: function (anyComponent) {
         return this.hostedComponents;
     },
-    
+
     getManagedEvents: function () {
         var result = CUORE.Components.Nestable.parent.getManagedEvents.call(this);
 
@@ -30,10 +30,10 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
         }
         return result;
     },
-    
+
     eventDispatch: function (eventName, params) {
         CUORE.Components.Nestable.parent.eventDispatch.call(this, eventName, params);
-        
+
         for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
             this.hostedComponents[i].eventDispatch(eventName, params);
         }
@@ -41,7 +41,7 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
 
     draw: function () {
         CUORE.Components.Nestable.parent.draw.call(this);
-        
+
         for (var i = 0, aComponent; aComponent = this.hostedComponents[i]; i++) {
             var containerId = this.renderer.innerDivName(this.getName());
             aComponent.setContainer(containerId);
@@ -51,14 +51,14 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
 
     updateRender: function () {
         CUORE.Components.Nestable.parent.updateRender.call(this);
-        
+
         for (var i = 0, aComponent; aComponent = this.hostedComponents[i]; i++) {
             aComponent.updateRender();
         }
     },
 
     destroy: function () {
-        for (var i = 0, len = this.hostedComponents.length; len < i; i++) {
+        for (var i = 0, len = this.hostedComponents.length; i < len ; i++) {
             this.hostedComponents[i].destroy();
         }
         CUORE.Components.Nestable.parent.destroy.call(this);
@@ -66,7 +66,7 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
 
     setName: function (name) {
         CUORE.Components.Nestable.parent.setName.call(this, name);
-        
+
         var ordinal = 1;
         for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
             var component = this.hostedComponents[i];
@@ -78,7 +78,7 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
 
     enable: function () {
         CUORE.Components.Nestable.parent.enable.call(this);
-        
+
         for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
             var component = this.hostedComponents[i];
             component.enable();
@@ -87,7 +87,7 @@ CUORE.Components.Nestable = CUORE.Class(CUORE.Component, {
 
     disable: function () {
         CUORE.Components.Nestable.parent.disable.call(this);
-        
+
         for (var i = 0, len = this.hostedComponents.length; i < len; i++) {
             var component = this.hostedComponents[i];
             component.disable();
