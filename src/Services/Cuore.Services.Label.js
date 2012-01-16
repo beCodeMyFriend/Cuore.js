@@ -1,7 +1,7 @@
 CUORE.Services.Label = CUORE.Class(CUORE.Service, {
 
     init: function() {
-        CUORE.Services.Label.super.init.call(this);
+        CUORE.Services.Label.parent.init.call(this);
         
         this.name = 'LABELS';
         this.cache = document.labels || {};
@@ -47,7 +47,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
         if (!this.cache[this.locale][theKey]) {
             theMessage.putOnAnswer('text', theKey);
         }
-        CUORE.Services.Label.super.emit.call(this, eventName, theMessage.asJson());
+        CUORE.Services.Label.parent.emit.call(this, eventName, theMessage.asJson());
     },
 
     extractKey: function(eventName) {

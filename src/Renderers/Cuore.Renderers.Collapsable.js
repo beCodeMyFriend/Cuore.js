@@ -1,7 +1,7 @@
 CUORE.Renderers.Collapsable = CUORE.Class(CUORE.Renderer, {
 
     updateWhenDrawn: function(component) {
-        CUORE.Renderers.Collapsable.super.updateWhenDrawn.call(this, component);
+        CUORE.Renderers.Collapsable.parent.updateWhenDrawn.call(this, component);
         
         this.collapseBehaviour(component);
         this.setCurrentClasses();

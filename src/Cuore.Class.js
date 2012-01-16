@@ -3,8 +3,8 @@ CUORE.Class = function(Parent, props) {
     var hasOwn = Object.prototype.hasOwnProperty;
 
     var Child = function() {
-        if (Child.super && hasOwn.call(Child.super, 'init')) {
-            Child.super.init.apply(this, arguments);
+        if (Child.parent && hasOwn.call(Child.parent, 'init')) {
+            Child.parent.init.apply(this, arguments);
         }
         if (hasOwn.call(Child.prototype, 'init')) {
             Child.prototype.init.apply(this, arguments);
@@ -13,9 +13,9 @@ CUORE.Class = function(Parent, props) {
 
     var F = function() {};
     F.prototype = Parent.prototype;
-    
+
     Child.prototype = new F();
-    Child.super = Parent.prototype;
+    Child.parent = Parent.prototype;
     Child.prototype.constructor = Child;
 
     for (var i in props) {

@@ -1,7 +1,7 @@
 CUORE.Components.Link = CUORE.Class(CUORE.Component, {
 
     init: function(url,key) {
-        CUORE.Components.Link.super.init.call(this);
+        CUORE.Components.Link.parent.init.call(this);
         this.url = url;
         this.text = url;
         this.setI18NKey(key);

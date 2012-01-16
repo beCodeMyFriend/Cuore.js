@@ -1,7 +1,7 @@
 CUORE.Renderers.Button = CUORE.Class(CUORE.Renderer, {
 
     init: function() {
-        CUORE.Renderers.Button.super.init.call(this);
+        CUORE.Renderers.Button.parent.init.call(this);
         
         this.DOMClass = 'button';
     },
