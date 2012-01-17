@@ -29,3 +29,4 @@ CUORE.Components = CUORE.Components || {};
 CUORE.Services = CUORE.Services || {};
 CUORE.Handlers = CUORE.Handlers || {};
 CUORE.Renderers = CUORE.Renderers || {};
+CUORE.Dom = CUORE.Dom || {};

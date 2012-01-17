@@ -1,7 +1,7 @@
 CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
 
     init: function(key, granularity) {
-        CUORE.Components.TimeRange.super.init.call(this);
+        CUORE.Components.TimeRange.parent.init.call(this);
         
         this.label = null;
         this.startHourSelect = null;

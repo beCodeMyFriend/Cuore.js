@@ -1,7 +1,7 @@
 CUORE.Components.Button = CUORE.Class(CUORE.Component, {
 
     init: function(buttonName, key) {
-        CUORE.Components.Button.super.init.call(this);
+        CUORE.Components.Button.parent.init.call(this);
 
         this.service = 'BUTTON';
         this.data = null;

@@ -1,7 +1,7 @@
 CUORE.Renderers.Link = CUORE.Class(CUORE.Renderer, {
 
     init: function() {
-        CUORE.Renderers.Link.super.init.call(this);
+        CUORE.Renderers.Link.parent.init.call(this);
         
         this.DOMClass = 'link';
         this.anchor = undefined;

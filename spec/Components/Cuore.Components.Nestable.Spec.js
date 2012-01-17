@@ -1,7 +1,7 @@
 describe("NestableComponent", function () {
 
     afterEach(function(){
-        var container = document.getElementById('xhtmlToTest');   
+        var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
     });
 
@@ -65,7 +65,7 @@ describe("NestableComponent", function () {
         var anyComponent = new CUORE.Component();
 
         spyOn(anyComponent, "eventDispatch");
-        
+
         var aComponent = new CUORE.Components.Nestable();
 
         aComponent.host(anyComponent);
@@ -91,7 +91,7 @@ describe("NestableComponent", function () {
         var anyComponent = new CUORE.Component();
         var aComponent = new CUORE.Components.Nestable();
         var container = createTestContainer();
-        
+
         aComponent.setContainer(container.id);
         aComponent.host(anyComponent);
 
@@ -101,12 +101,12 @@ describe("NestableComponent", function () {
         var firstChildId = aComponentDOMElement.childNodes[0].id;
         expect(firstChildId).toEqual(anyComponent.getUniqueID());
     });
-    
+
     it("updates nested components inside parent component", function () {
         var anyComponent = new CUORE.Component();
         spyOn(anyComponent,'updateRender');
         var aComponent = new CUORE.Components.Nestable();
-        
+
         aComponent.host(anyComponent);
 
         aComponent.updateRender();
@@ -152,22 +152,24 @@ describe("NestableComponent", function () {
         aComponent.setContainer(container.id);
         aComponent.host(anyComponent);
 
-        aComponent.draw()
+        aComponent.draw();
+
+        spyOn(anyComponent, 'destroy');
         var anyComponentId = anyComponent.getUniqueID();
         var aComponentId = aComponent.getUniqueID();
         aComponent.destroy();
 
-        expect(!! document.getElementById(aComponentId)).toBeFalsy();
-        expect(!! document.getElementById(anyComponentId)).toBeFalsy();
-
+        expect(anyComponent.destroy).toHaveBeenCalled();
+        expect(document.getElementById(aComponentId)).toBeFalsy();
+        expect(document.getElementById(anyComponentId)).toBeFalsy();
     });
- 
+
     it("transmits enable/disable behaviour to nestedComponents", function () {
         var anyComponent = new CUORE.Component();
 
         spyOn(anyComponent, "enable");
         spyOn(anyComponent, "disable");
-        
+
         var aComponent = new CUORE.Components.Nestable();
 
         aComponent.host(anyComponent);
@@ -178,13 +180,13 @@ describe("NestableComponent", function () {
         aComponent.enable();
         expect(anyComponent.enable).toHaveBeenCalled();
     });
-    
+
     var createTestContainer = function() {
         var container = document.createElement('div');
         container.id = "testingContainer";
         var panel = document.getElementById("xhtmlToTest");
         panel.appendChild(container);
-       
+
         return container;
     };
 });
