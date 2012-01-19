@@ -70,6 +70,16 @@ describe("Input", function() {
         expect(value).toEqual("testText");
     });
 
+    it("allows to set an empty value", function() {
+        var aComponent = getComponentInput();
+        aComponent.draw();
+
+        aComponent.setValue("testText");
+        aComponent.renderer.DOMInput.value = "";
+
+        expect(aComponent.getValue()).toEqual("");
+    });
+
     it("allows no be enabled or disable", function() {
         var aComponent = getComponentInput();
         aComponent.draw();

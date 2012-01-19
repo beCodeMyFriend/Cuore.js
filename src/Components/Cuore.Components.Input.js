@@ -11,7 +11,10 @@ CUORE.Components.Input = CUORE.Class(CUORE.Component, {
     },
 
     getValue: function () {
-        return (this.renderer.getValue() || this.value);
+        rendererValue = this.renderer.getValue();
+        if (rendererValue == "")
+            return "";
+        return (rendererValue || this.value);
     },
 
     setValue: function (value) {
