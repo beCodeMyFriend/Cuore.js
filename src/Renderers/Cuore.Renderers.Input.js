@@ -1,9 +1,7 @@
 CUORE.Renderers.Input = CUORE.Class(CUORE.Renderer, {
 
     paint: function (component) {
-        this.panel = CUORE.Dom.createElement('div', {
-            id: this.innerDivName(component.getName())
-        }, this.container);
+        CUORE.Renderers.Input.parent.paint.call(this,component);
         
         this.label = CUORE.Dom.createElement('label', null, this.panel);
         

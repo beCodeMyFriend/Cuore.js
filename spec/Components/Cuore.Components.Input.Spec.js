@@ -137,6 +137,15 @@ describe("Input", function() {
         expect(value).toMatch("testText");
     });
 
+    it("uses the container as panel when component has hijack behaviour", function() {
+        var aComponent = getComponentInput();
+        aComponent.behave(CUORE.Behaviours.HIJACK);
+        aComponent.draw();
+        DOMObject = document.getElementById('xhtmlToTest');
+        
+        expect(DOMObject.childNodes[0].tagName).toEqual('LABEL');
+    });
+
     it("when disabling has disable class", function() {
         var aComponent = getComponentInput();
 

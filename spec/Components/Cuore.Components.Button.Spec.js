@@ -209,8 +209,36 @@ describe("Button", function () {
         expect(DOMButton).toBeTruthy();
 
         aButton.destroy();
-        DOMButton =  document.getElementById(aButton.getUniqueID());
+        var DOMButton =  document.getElementById(aButton.getUniqueID());
         expect(DOMButton).toBeFalsy();
+    });
+    
+    it("uses the container as panel when component has hijack behaviour", function() {
+        var container = document.createElement('a');
+        container.id = "testingContainer";
+        var panel = document.getElementById("xhtmlToTest");
+        panel.appendChild(container);
+	
+	var aButton = new CUORE.Components.Button('buttonName', "CanonicalKey");
+        aButton.behave(CUORE.Behaviours.HIJACK);
+	aButton.setContainer(container.id);
+        aButton.draw();
+        
+        expect(container.childNodes[0].tagName).toEqual('SPAN');
+    });
+    
+    it("only hijacks when panel it's an 'a' defaulting to append", function() {
+        var container = document.createElement('div');
+        container.id = "testingContainer";
+        var panel = document.getElementById("xhtmlToTest");
+        panel.appendChild(container);
+	
+	var aButton = new CUORE.Components.Button('buttonName', "CanonicalKey");
+        aButton.behave(CUORE.Behaviours.HIJACK);
+	aButton.setContainer(container.id);
+        aButton.draw();
+        
+        expect(container.childNodes[0].tagName).toEqual('A');
     });
     
     var createTestContainer = function() {
