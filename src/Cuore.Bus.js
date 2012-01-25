@@ -83,7 +83,11 @@ CUORE.Bus = (function(undefined) {
     var enableDebug = function(){
         debugModeON = true;
     }
-
+    
+    var disableDebug = function(){
+        debugModeON = false;
+    }
+    
     return {
         subscribe: subscribe,
         unsubscribe: unsubscribe,
@@ -91,7 +95,8 @@ CUORE.Bus = (function(undefined) {
         subscribers: subscribers,
         emit: emit,
         reset: reset,
-        enableDebug: enableDebug
+        enableDebug: enableDebug,
+        disableDebug: disableDebug
     };
 
 })();

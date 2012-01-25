@@ -38,10 +38,13 @@ CUORE.Service = CUORE.Class(null, {
     },
     
     emit: function (eventName, response) {
+        
         var theMessage = new CUORE.Message(response);
         this.lastDataSent = theMessage;
         
-        var theBus = this.getBus() || CUORE.Bus;
+        var theBus = this.getBus && this.getBus();
+        theBus= theBus || CUORE.Bus ;
+        
         theBus.emit(eventName, theMessage);
     },
 

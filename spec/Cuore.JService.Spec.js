@@ -32,4 +32,18 @@ describe("JService", function() {
         
         expect(CUORE.Core.requestJSONP.mostRecentCall.args[1]).toEqual(theParams);
     });
+    
+    it("emits a message with response at answer", function() {
+        var aService = new CUORE.JService();
+        var response = {'tal':'pascual'};
+
+        spyOn(CUORE.Bus, "emit");
+        
+
+        aService.emit("eventname", response);
+
+        var theMessage = CUORE.Bus.emit.mostRecentCall.args[1];
+
+        expect(theMessage.answer).toEqual(response);
+    });
 });

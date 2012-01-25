@@ -146,6 +146,7 @@ describe("The Bus", function () {
         expect(console.log.argsForCall[1]).toEqual(['eventName']);
         expect(console.log.argsForCall[2]).toEqual([{ aParamName : 'aParamValue' }]);
         expect(console.log.argsForCall[3]).toEqual(['------------']);
+        aBus.disableDebug();
     });
 
     var createDummySubscriber = function() {
