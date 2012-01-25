@@ -29,14 +29,20 @@ CUORE.Service = CUORE.Class(null, {
         var paramsData = {'query': theMessage.asJson()};
         
         var callback = this._responseCallback(eventName);
-        
-        CUORE.Core.request(url, paramsData, callback);
+        this._doRequest(url, paramsData, callback);
     },
 
+    _doRequest: function (url, paramsData, callback)
+    {
+        CUORE.Core.request(url, paramsData, callback);
+    },
+    
     emit: function (eventName, response) {
         var theMessage = new CUORE.Message(response);
         this.lastDataSent = theMessage;
-        this.getBus().emit(eventName, theMessage);
+        
+        var theBus = this.getBus() || CUORE.Bus;
+        theBus.emit(eventName, theMessage);
     },
 
     getEventNameForExecution: function (procedure) {
