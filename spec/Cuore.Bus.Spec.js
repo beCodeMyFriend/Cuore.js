@@ -129,7 +129,23 @@ describe("The Bus", function () {
         aBus.subscribe(similarDummySubscriber, event);
 
         expect(aBus.subscribers(event).length, 2);
+    });
 
+    it("logs at console the events emitted if debug mode is enabled", function() {
+        spyOn(console, 'log');
+        var aBus = CUORE.Bus;
+
+        aBus.emit("eventName", {aParamName: 'aParamValue'});
+        expect(console.log).not.toHaveBeenCalled();
+
+        aBus.enableDebug();
+        aBus.emit("eventName", {aParamName: 'aParamValue'});
+
+        expect(console.log).toHaveBeenCalled();
+        expect(console.log.argsForCall[0]).toEqual(['Bus.emit (event, params)']);
+        expect(console.log.argsForCall[1]).toEqual(['eventName']);
+        expect(console.log.argsForCall[2]).toEqual([{ aParamName : 'aParamValue' }]);
+        expect(console.log.argsForCall[3]).toEqual(['------------']);
     });
 
     var createDummySubscriber = function() {

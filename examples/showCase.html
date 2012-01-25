@@ -3,7 +3,7 @@
     <head>
         <title>Cuore ShowCase</title>
         <link href="css/showCase.css" rel="stylesheet" type="text/css">
-        
+
         <!-- Cuore -->
         <script src="../src/Cuore.js" type="text/javascript"></script>
         <script src="../src/Cuore.Core.js" type="text/javascript"></script>
@@ -11,6 +11,7 @@
         <script src="../src/Cuore.Dom.js" type="text/javascript"></script>
         <script src="../src/Cuore.Dom.Event.js" type="text/javascript"></script>
         <script src="../src/Cuore.Bus.js" type="text/javascript"></script>
+        <script src="../src/Cuore.State.js" type="text/javascript"></script>
         <script src="../src/Cuore.Page.js" type="text/javascript"></script>
         <script src="../src/Cuore.Message.js" type="text/javascript"></script>
         <script src="../src/Cuore.Component.js" type="text/javascript"></script>
@@ -46,9 +47,9 @@
         <script src="../src/Services/Cuore.Services.Button.js" type="text/javascript"></script>
         <script src="../src/Services/Cuore.Services.Label.js" type="text/javascript"></script>
         <script src="../src/Services/Cuore.Services.Null.js" type="text/javascript"></script>
-        
+
         <script src="js/ShowCasePage.js" type="text/javascript"></script>
-        
+
         <script type="text/javascript">
             CUORE.Dom.ready(function() {
                 // cache for labelService
@@ -67,13 +68,13 @@
                     "label.example.nested": "A label nested to component",
                     "input.labelnested": "An input nested"
                 };
-
+                CUORE.Bus.enableDebug();
                 document.page = new ShowCasePage("http://www.anydomain.com");
                 document.page.draw();
             });
         </script>
     </head>
-    
+
 <body>
         <h1>Showing use and functionality of our javascript framework</h1>
         <ul>
