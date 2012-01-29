@@ -2,14 +2,14 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
 
     init: function(key, granularity) {
         CUORE.Components.TimeRange.parent.init.call(this);
-        
+
         this.label = null;
         this.startHourSelect = null;
         this.endHourSelect = null;
         this.setRenderer(new CUORE.Renderers.TimeRange());
         this.journey = new CUORE.Journey();
         this.setI18NKey(key);
-        
+
         if (granularity) {
             this.journey.withGranularityOf(granularity);
         }
@@ -19,7 +19,7 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
         if (!hour || typeof hour === "object") {
             hour = this.renderer.getStartTime();
         }
-        
+
         this.journey.setStartTime(hour);
         this.updateRender();
         this.emitValues();
@@ -55,7 +55,7 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
     getEndHour: function() {
         return this.journey.ends();
     },
-    
+
     getBus: function() {
         return CUORE.Bus;
     }
