@@ -13,13 +13,17 @@ CUORE.Service = CUORE.Class(null, {
     },
 
     request: function (url, params, eventName) {
-        var theMessage = new CUORE.Message();
-        theMessage.putMapOnQuery(params);
-    
-        var paramsData = {'query': theMessage.asJson()};
+        var paramsData = this.wrapRequestParams(params)
         
         var callback = this._responseCallback(eventName);
         this._doRequest(url, paramsData, callback);
+    },
+    
+    wrapRequestParams: function(params){
+        var theMessage = new CUORE.Message();
+        theMessage.putMapOnQuery(params);
+    
+        return theMessage.asJson();
     },
 
     _doRequest: function (url, paramsData, callback)
@@ -28,12 +32,16 @@ CUORE.Service = CUORE.Class(null, {
     },
     
     emit: function (eventName, response) {
-        var theMessage = new CUORE.Message(response);
+        var theMessage = this.wrapResponse(response);
         
         var theBus = this.getBus && this.getBus();
         theBus = theBus || CUORE.Bus ;
         
         theBus.emit(eventName, theMessage);
+    },
+    
+    wrapResponse: function(response){
+        return new CUORE.Message(response);
     },
 
     getEventNameForExecution: function (procedure) {

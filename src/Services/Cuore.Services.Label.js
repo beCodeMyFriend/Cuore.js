@@ -23,16 +23,22 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
             var cachedResponse = new CUORE.Message();
             cachedResponse.putMapOnQuery(params);
             cachedResponse.putOnAnswer('text', cachedLabel);
-            this.emit(eventNameWithKey, cachedResponse.asJson());
+            CUORE.Services.Label.parent.emit.call(this, eventNameWithKey, cachedResponse.asJson());
         } else {
             if (!params.locale) params.locale = this.locale;
             var url = this.getBaseURL() + '/labels/get';
-            this.request(url, params, eventNameWithKey)
+            this.request(url, params, eventNameWithKey);
         }
     },
 
     fromCache: function(key) {
         return this.cache[this.locale][key];
+    },
+    
+    feedCache: function(theKey, value){
+        if (value) {
+            this.cache[this.locale][theKey] = value;
+        }
     },
 
     emit: function(eventName, response) {
@@ -40,13 +46,13 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
         if (!theKey) return;
         
         var theMessage = new CUORE.Message(response);
+        var text = theMessage.getFromAnswer('text');  
         
-        if (theMessage.getFromAnswer('text')) {
-            this.cache[this.locale][theKey] = theMessage.getFromAnswer('text');
-        }
-        if (!this.cache[this.locale][theKey]) {
-            theMessage.putOnAnswer('text', theKey);
-        }
+        this.feedCache(theKey, text);   
+        
+        text = text || theKey;
+        theMessage.putOnAnswer('text', text);
+        
         CUORE.Services.Label.parent.emit.call(this, eventName, theMessage.asJson());
     },
 
