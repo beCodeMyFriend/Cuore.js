@@ -4,28 +4,18 @@ CUORE.Service = CUORE.Class(null, {
         this.name = 'ABSTRACT';
         this.executionPrefix = 'EXECUTED';
         this.SEPARATOR = '_';
-        this.lastDataSent = null;
         this.baseURL = '';
     },
 
-    execute: function (procedure, params, asynchronous) {
+    execute: function (procedure, params) {
         var eventName = this.getEventNameForExecution(procedure);
-        this[procedure](params, eventName);
-       
-        var theMessage = new CUORE.Message();
-        theMessage.putMapOnQuery(params);
-        this.lastDataSent = theMessage;
-
-        if (!asynchronous) {
-            this.emit(eventName, theMessage.asJson());
-        }
+        this[procedure](params, eventName);       
     },
 
     request: function (url, params, eventName) {
         var theMessage = new CUORE.Message();
         theMessage.putMapOnQuery(params);
-        this.lastDataSent = theMessage;
-        
+    
         var paramsData = {'query': theMessage.asJson()};
         
         var callback = this._responseCallback(eventName);
@@ -38,12 +28,10 @@ CUORE.Service = CUORE.Class(null, {
     },
     
     emit: function (eventName, response) {
-        
         var theMessage = new CUORE.Message(response);
-        this.lastDataSent = theMessage;
         
         var theBus = this.getBus && this.getBus();
-        theBus= theBus || CUORE.Bus ;
+        theBus = theBus || CUORE.Bus ;
         
         theBus.emit(eventName, theMessage);
     },
@@ -54,10 +42,6 @@ CUORE.Service = CUORE.Class(null, {
 
     getName: function () {
         return this.name;
-    },
-
-    getLastDataSent: function () {
-        return this.lastDataSent;
     },
 
     getBaseURL: function () {

@@ -18,48 +18,6 @@ describe("Service", function() {
         xhr.restore();
     });
 
-    it("calls procedure and bus emits the event when service is executed", function() {
-        var aService = new CUORE.Service();
-        aService = addTestProcedure(aService);
-        var bus = createDummyBus();
-        aService.getBus = function() {
-            return bus;
-        };
-
-        var procedureName = "testProcedure";
-        spyOn(aService, "testProcedure");
-        var params = {
-            "testParam1": "true",
-            "testParam2": "true"
-        };
-
-        aService.execute(procedureName, params);
-
-        expect(aService.testProcedure.mostRecentCall.args[0]).toEqual(params);
-        expect(aService.getBus().broadcastEvent).toEqual(aService.getEventNameForExecution(procedureName));
-    });
-
-    it("calls procedure and bus emits the event when Service executes a procedure synchronously", function() {
-        var aService = new CUORE.Service();
-        aService = addTestProcedure(aService);
-        var bus = createDummyBus();
-        aService.getBus = function() {
-            return bus;
-        };
-
-        var procedureName = "testProcedure";
-        spyOn(aService, "testProcedure");
-        var params = {
-            "testParam1": true,
-            "testParam2": true
-        };
-
-        aService.execute(procedureName, params, false);
-
-        expect(aService.testProcedure.mostRecentCall.args[0]).toEqual(params);
-        expect(aService.getBus().broadcastEvent).toEqual(aService.getEventNameForExecution(procedureName));
-    });
-
     it("calls procedure asynchronously but bus cannot emit yet when service is executed asynchronously", function() {
         var aService = new CUORE.Service();
         aService = addTestProcedure(aService);
@@ -90,43 +48,6 @@ describe("Service", function() {
         expect(aService.getBaseURL()).toEqual(aBaseURL);
     });
 
-    it("stores the last data sent when executed ", function() {
-        var aService = new CUORE.Service();
-        var asyncService = new CUORE.Service();
-
-        expect(aService.getLastDataSent()).toBeNull();
-        expect(asyncService.getLastDataSent()).toBeNull();
-
-        aService = addTestProcedure(aService);
-        asyncService = addTestProcedure(asyncService);
-
-        var bus = createDummyBus();
-
-        aService.getBus = function() {
-            return bus;
-        };
-        asyncService.getBus = function() {
-            return bus;
-        };
-
-        var procedureName = "testProcedure";
-
-        spyOn(aService, "testProcedure");
-        spyOn(asyncService, "testProcedure");
-
-        var params = {
-            "aKey": "aValue"
-        };
-        aService.execute(procedureName, params, false);
-
-        expect(aService.getLastDataSent().getFromQuery("aKey")).toEqual("aValue");
-
-        asyncService.execute(procedureName, params, true);
-
-        expect(asyncService.getLastDataSent().getFromQuery("aKey")).toEqual("aValue");
-
-    });
-
     it("executes a procedure asynchronously and bus emits the event when request completes", function() {
         var aService = new CUORE.Service();
         var procedureName = "testProcedure";
@@ -147,25 +68,6 @@ describe("Service", function() {
         };
 
         aService.execute(procedureName, {}, true);
-    });
-
-
-    it("emits a message ", function() {
-        var aService = new CUORE.Service();
-        var procedureName = "testProcedure";
-
-        aService.testProcedure = function(params, eventName) {
-            this.request("aUrl", params, eventName);
-        };
-
-        var mockedBus = {};
-        mockedBus.emit = function(eventName, response) {};
-
-        spyOn(mockedBus, "emit");
-        spyOn(aService, "getBus").andReturn(mockedBus);
-        aService.execute(procedureName, {}, false);
-
-        expect(mockedBus.emit.mostRecentCall.args[1] instanceof CUORE.Message).toBeTruthy();
     });
 
     it("emits a message with response encoded as a message", function() {
