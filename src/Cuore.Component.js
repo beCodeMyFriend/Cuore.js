@@ -68,6 +68,10 @@ CUORE.Component = CUORE.Class(null, {
         this.handlerSet.register(eventName, handler);
     },
 
+    addExecHandler: function(eventName, handler) {
+        this.addHandler(eventName, new CUORE.Handlers.Executor(handler));
+    },
+
     addClass: function(aClass) {
         this.renderer.addClass(aClass);
     },

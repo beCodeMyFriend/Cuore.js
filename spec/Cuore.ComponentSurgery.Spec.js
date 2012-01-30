@@ -93,7 +93,25 @@ describe("A  Better component", function() {
                 expect(aHandler.setOwner).toHaveBeenCalledWith(aComponent);
             });
         });
+        
+        it("has a shortcut for adding executor handlers", function() {
+            var method = 'methodForExecutorHandler';
+            var eventName = 'an event name';
+            aComponent.addHandler = jasmine.createSpy('addHandler');
+            aComponent.methodForExecutorHandler = jasmine.createSpy('daMethod');
 
+            aComponent.addExecHandler(eventName, method);
+
+            var daHandler = aComponent.addHandler.mostRecentCall.args[1];
+            daHandler.setOwner(aComponent);
+            daHandler.handle();
+
+            expect(aComponent.addHandler).toHaveBeenCalled();
+            expect(daHandler instanceof CUORE.Handlers.Executor).toBeTruthy();
+            expect(aComponent.methodForExecutorHandler).toHaveBeenCalled();
+
+        });
+        
         it("when an event is fired, the handler sets is notified", function() {
             var eventParams = "some params",
                 eventName = "an event name";
