@@ -128,26 +128,13 @@ describe("Page", function() {
         });
         
         it("calls component onEnvinromentUp after bus registering", function() {
-            var aBus = CUORE.Bus;
-            var subscribersOnCall=[];
-            aBus.reset();
-            aComponent.getManagedEvents.andReturn(['testEvent', 'dummyEvent']);
+            var container = null;
+            aComponent.setContainer = jasmine.createSpy('setContainer');
             aComponent.onEnvironmentUp=function(){
-                subscribersOnCall=aBus.subscribers("testEvent");
+                expect(aComponent.setContainer).toHaveBeenCalledWith(testingContainer);
             }
+
             aPage.addComponent(aComponent, testingContainer);
-            expect(subscribersOnCall).toContain(aComponent);
-        });
-
-        it("registers its managed events with the bus", function() {
-            var aBus = CUORE.Bus;
-            aBus.reset();
-            aComponent.getManagedEvents.andReturn(['testEvent', 'dummyEvent']);
-
-            aPage.addComponent(aComponent, testingContainer, true);
-
-            expect(aBus.subscribers("testEvent")).toContain(aComponent);
-            expect(aBus.subscribers("dummyEvent")).toContain(aComponent);
         });
 
         it("and the page is drawn, it will draw each component", function() {

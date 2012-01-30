@@ -82,15 +82,23 @@ describe("A  Better component", function() {
             var aHandler, eventName = "an event name";
             beforeEach(function() {
                 aHandler = CUORE.Mocks.Handler();
-                aComponent.addHandler(eventName, aHandler);
             });
 
             it("it registers the handler in the handler set", function() {
+                aComponent.addHandler(eventName, aHandler);
                 expect(aHandlerSet.register).toHaveBeenCalledWith(eventName, aHandler);
             });
 
             it("it configures the handler's owner with itself", function() {
+                aComponent.addHandler(eventName, aHandler);
                 expect(aHandler.setOwner).toHaveBeenCalledWith(aComponent);
+            });
+
+             it("registers the handler in the bus", function() {
+                CUORE.Bus.subscribe = jasmine.createSpy('subscribe');
+                
+                aComponent.addHandler(eventName, aHandler);
+                expect(CUORE.Bus.subscribe).toHaveBeenCalledWith(aComponent, eventName);
             });
         });
         

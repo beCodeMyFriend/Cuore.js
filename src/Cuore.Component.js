@@ -66,6 +66,7 @@ CUORE.Component = CUORE.Class(null, {
     addHandler: function(eventName, handler) {
         handler.setOwner(this);
         this.handlerSet.register(eventName, handler);
+        CUORE.Bus.subscribe(this, eventName);
     },
 
     addExecHandler: function(eventName, handler) {

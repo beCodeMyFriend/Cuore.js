@@ -43,7 +43,6 @@ CUORE.Page = CUORE.Class(null, {
         component.setDirectory(this.services);
       
         if(behaviour) component.behave(behaviour);
-        this._subcribeComponentEvents(component);
         this.components.register(component);
 
         component.setContainer(container);
@@ -63,16 +62,6 @@ CUORE.Page = CUORE.Class(null, {
     
     retrieve: function(key) {
         return this.state.retrieve(key);
-    },
-    
-    
-    _subcribeComponentEvents: function(component) {
-        var events = component.getManagedEvents();
-        var bus = this._getBus();
-
-        for (var i = 0, len = events.length; i < len; i++) {
-            bus.subscribe(component, events[i]);
-        }
     },
     
     _getBus: function() {
