@@ -16,15 +16,33 @@ CUORE.Core = (function(undefined) {
                 var isStatusOK = (request.status === 200 || request.status === 304);
 
                 if (isReadyStateOK && isStatusOK) {
-                    var parsedResponse = JSON.parse(request.responseText); // TODO
+                    var parsedResponse = JSON.parse(request.responseText);
                     callback(parsedResponse);
                 }
 
             }
 
             request.open('POST', url, true);
-            request.send(JSON.stringify(data)); // TODO
+            request.send(JSON.stringify(data));
         };
+
+     var requestGet = function(url, data, callback) {
+        if (!_createXHR()) return;
+        var request = _createXHR();
+        request.onreadystatechange = function() {
+            var isReadyStateOK = (request.readyState === 4);
+            var isStatusOK = (request.status === 200 || request.status === 304);
+
+            if (isReadyStateOK && isStatusOK) {
+                var parsedResponse = JSON.parse(request.responseText); 
+                callback(parsedResponse);
+            }
+
+        }
+
+        request.open('GET', url + _map2query(data), true);
+        request.send(); 
+    };
 
     var requestJSONP = function(url, data, callback) {
         
@@ -58,20 +76,36 @@ CUORE.Core = (function(undefined) {
     }
 
     var isOwnProperty = function(object, property) {
-            return OBJ_PROTO.hasOwnProperty.call(object, property);
-        };
+        return OBJ_PROTO.hasOwnProperty.call(object, property);
+    };
 
     var toType = function(object) {
-            return OBJ_PROTO.toString.call(object).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
-        };
+        return OBJ_PROTO.toString.call(object).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
+    };
 
     var _createXHR = function() {
-            return new XMLHttpRequest();
-        };
+        return new XMLHttpRequest();
+    };
+
+   var _map2query = function(map){
+      
+       if( typeof map != 'object' ) return '';
+
+       var query = '';
+       for(var prop in map) if (map.hasOwnProperty(prop) ) {
+            query += '&' + encodeURIComponent(prop) + '=' + encodeURIComponent(map[prop]);
+       }
+
+       var url = query.replace(/^&/,'');
+       if(url !== '') url = '?' + url;
+
+       return url;
+    };
 
     return {
         bind: bind,
         request: request,
+        requestGet: requestGet,
         requestJSONP: requestJSONP,
         isOwnProperty: isOwnProperty,
         toType: toType
