@@ -5,6 +5,12 @@ describe("A HandlerSet", function() {
         aHandlerSet = new CUORE.HandlerSet();
     });
 
+    it ("doesn't crash whith an event not handled",function(){
+         expect(function() {
+                    aHandlerSet.notifyHandlers("notHandledEvent", null);
+                }).not.toThrow();    
+    });
+    
     describe("with a handler registered", function() {
         var aHandler, eventName = "an event name";
         beforeEach(function() {

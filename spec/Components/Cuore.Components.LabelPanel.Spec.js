@@ -46,7 +46,7 @@ describe("Label Panel", function() {
         thePanel.draw();
 
         var panelDOM = document.getElementById(id);
-        expect(CUORE.Dom.hasClass(panelDOM, "innerComponentDiv")).toBeTruthy();
+        
         expect(CUORE.Dom.hasClass(panelDOM, "labelPanel")).toBeTruthy();
     });
 

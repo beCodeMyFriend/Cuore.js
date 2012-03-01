@@ -2,7 +2,7 @@ CUORE.Component = CUORE.Class(null, {
 
     init: function() {
         this.setHandlerSet(new CUORE.HandlerSet());
-        this.name = 'aComponent';
+        this.name = this._generateUUID();
         this.service = 'NULL';
         this.procedure = 'nullProcedure';
         this.I18NKey = null;
@@ -19,7 +19,7 @@ CUORE.Component = CUORE.Class(null, {
 
     setDirectory: function(directory) {
         this.services = directory;
-        this._requestLabelText();
+        this.requestLabelText();
     },
 
     initializeExecutionContext: function(service, procedure) {
@@ -123,24 +123,18 @@ CUORE.Component = CUORE.Class(null, {
         this.I18NKey = key;
         this.setText(this.I18NKey);
 
-        this._requestLabelText();
+        this.addHandler('LABELS_getLabel_EXECUTED_' + this.I18NKey, new CUORE.Handlers.setText());
+        this.requestLabelText(this.I18NKey);
     },
 
-    requestLabelText: function(key) {
-        if (key && this.services) {
+    requestLabelText: function(aKey) {
+        aKey = aKey || this.I18NKey;
+        
+        if (this.services) {
             this.services.execute("LABELS", 'getLabel', {
-                key: key
+                key: aKey
             }, true);
         }
-    },
-
-    _requestLabelText: function() {
-        if (!this.I18NKey) return;
-
-        this.addHandler('LABELS_getLabel_EXECUTED_' + this.I18NKey, new CUORE.Handlers.setText());
-        CUORE.Bus.subscribe(this, 'LABELS_getLabel_EXECUTED_' + this.I18NKey);
-
-        this.requestLabelText(this.I18NKey);
     },
 
     getI18NKey: function() {
@@ -171,6 +165,10 @@ CUORE.Component = CUORE.Class(null, {
         }
     },
 
-    onEnvironmentUp: function() {}
+    onEnvironmentUp: function() {},
+    
+    _generateUUID: function() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
 
 });

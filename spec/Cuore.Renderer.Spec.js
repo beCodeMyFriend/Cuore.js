@@ -54,7 +54,16 @@ describe("A Renderer", function() {
         afterEach(function() {
             panel.removeChild(container);
         });
+        
+        it("renders a div tag  by default", function() {
+            aComponent.doYouReplace = jasmine.createSpy().andReturn(false);
+            aComponent.doYouHijack = jasmine.createSpy().andReturn(false);
 
+            aRenderer.render(aComponent);
+            expect(container).toContainAnElement('div');
+        });
+        
+        
         it("replaces container innerHTML when component has replace behaviour", function() {
             aRenderer.render(aComponent);
             expect(container).not.toContainAnElement('figure');

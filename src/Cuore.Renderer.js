@@ -2,7 +2,7 @@ CUORE.Renderer = CUORE.Class(null, {
 
     init: function() {
         this.panel = null;
-        this.panelClasses = ['innerComponentDiv'];
+        this.panelClasses = [];
         this.container = document.body;
         this.tagName = undefined;
         this.setTagName('div');
@@ -21,9 +21,8 @@ CUORE.Renderer = CUORE.Class(null, {
         return this.container;
     },
 
-    innerDivName: function(componentName) {
-        var divNameSuffix = '_inner';
-        return componentName + divNameSuffix;
+    innerDivName: function(componentName) {   
+        return componentName ;
     },
 
     render: function(component) {
