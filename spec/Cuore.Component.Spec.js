@@ -1,213 +1,285 @@
-describe("Component", function() {
+describe("A  Better component", function() {
+    var aComponent;
+    beforeEach(function() {
+        this.addMatchers({
+            'toHaveBeenCalledWithAHandlerForEvent': function(expectedEventName) {
+                var spy = this.actual;
+                var mostRecentCall = spy.mostRecentCall;
+                var supposedToBeAHandler = mostRecentCall.args[1];
+                return mostRecentCall.args[0] == expectedEventName && supposedToBeAHandler && typeof supposedToBeAHandler == 'object' && typeof supposedToBeAHandler.handle == 'function';
+            }
+        });
 
-    var xhr;
-    //
-    //beforeEach(function() {
-    //    xhr = sinon.useFakeXMLHttpRequest();
-    //    var requests = [];
-    //
-    //    xhr.onCreate = function(xhr) {
-    //        requests.push(xhr);
-    //    };
-    //
-    //    CUORE.Core.createXHR = function() {
-    //        return xhr;
-    //    };
-    //});
+        aComponent = new CUORE.Component();
+    });
+    
+    
+    describe (" can have different behaviours ",function(){
+        
+        it("has a append behaviour by default", function() {
+            expect(aComponent.doYouReplace()).toBeFalsy();
+        });
+    
+        it("can set the behaviour", function() {
+            aComponent.behave(CUORE.Behaviours.REPLACE);
+            expect(aComponent.doYouReplace()).toBeTruthy();
+        });
+        
+        it("supports hijack behaviour", function() {
+            expect(aComponent.doYouHijack()).toBeFalsy();
+            aComponent.behave(CUORE.Behaviours.HIJACK);
+            expect(aComponent.doYouHijack()).toBeTruthy();
+        });
+    
+        it("uses container id as UniqueID when hijacking", function() {
+            aComponent.behave(CUORE.Behaviours.HIJACK);
+            var container= "anID";
+            aComponent.setContainer(container);
+            expect(aComponent.getName()).toEqual(container);
+            expect(aComponent.getUniqueID()).toEqual(container);
+        });
+    });
+    
+    
+    describe("manages handlers", function() {
+        var aHandlerSet;
+        beforeEach(function() {
+            aHandlerSet = CUORE.Mocks.HandlerSet();
+            aComponent.setHandlerSet(aHandlerSet);
+        });
+        
+        it("by default has a handler set", function() {
+            var handlerSet = aComponent.handlerSet;
+    
+            expect(handlerSet).toBeDefined();
+            expect(typeof handlerSet.register).toBe('function');
+            expect(typeof handlerSet.notifyHandlers).toBe('function');
+        });
+        
+        it("when is asked about its managed events, it returns the managed events from its handler set", function() {
+            var expectedManagedEvents = ['eventA', 'eventB'];
+            aHandlerSet.getManagedEvents.andReturn(expectedManagedEvents);
 
-    afterEach(function() {
-        var container = document.getElementById('xhtmlToTest');
-        container.innerHTML = '';
+            expect(aComponent.getManagedEvents()).toEqual(expectedManagedEvents);
+        });
 
-        //xhr.restore();
+        describe("when you add a handler", function() {
+            var aHandler, eventName = "an event name";
+            beforeEach(function() {
+                aHandler = CUORE.Mocks.Handler();
+            });
+
+            it("registers the handler in the handler set", function() {
+                aComponent.addHandler(eventName, aHandler);
+                expect(aHandlerSet.register).toHaveBeenCalledWith(eventName, aHandler);
+            });
+
+            it("configures the handler's owner with itself", function() {
+                aComponent.addHandler(eventName, aHandler);
+                expect(aHandler.setOwner).toHaveBeenCalledWith(aComponent);
+            });
+
+            it("registers the handler in the bus", function() {
+                CUORE.Bus.subscribe = jasmine.createSpy('subscribe');    
+                aComponent.addHandler(eventName, aHandler);
+                expect(CUORE.Bus.subscribe).toHaveBeenCalledWith(aComponent, eventName);
+            });
+        });
+        
+        it("has a shortcut for adding executor handlers", function() {
+            var method = 'methodForExecutorHandler';
+            var eventName = 'an event name';
+            aComponent.addHandler = jasmine.createSpy('addHandler');
+            aComponent.methodForExecutorHandler = jasmine.createSpy('daMethod');
+
+            aComponent.addExecHandler(eventName, method);
+
+            var daHandler = aComponent.addHandler.mostRecentCall.args[1];
+            daHandler.setOwner(aComponent);
+            daHandler.handle();
+
+            expect(aComponent.addHandler).toHaveBeenCalled();
+            expect(daHandler instanceof CUORE.Handlers.Executor).toBeTruthy();
+            expect(aComponent.methodForExecutorHandler).toHaveBeenCalled();
+
+        });
+        
+        it("when an event is fired, the handlersets notifies", function() {
+            var eventParams = "some params",
+                eventName = "an event name";
+            aComponent.eventDispatch(eventName, eventParams);
+            expect(aHandlerSet.notifyHandlers).toHaveBeenCalledWith(eventName, eventParams);
+        });
     });
 
     
+    describe("given a service directory is set", function() {
+        var aDirectory;
+        beforeEach(function() {
+            aDirectory = CUORE.Mocks.Directory();
+            aComponent.setDirectory(aDirectory);
+        });
 
+        it("can execute a service through the directory", function() {
+            var theServiceName = "serviceName";
+            var theProcedureName = "procedureName";
+            var params = "these are the mock params";
+
+            aComponent.execute(theServiceName, theProcedureName, params, true);
+
+            expect(aDirectory.execute).toHaveBeenCalledWith(theServiceName, theProcedureName, params, true);
+        });
+
+        describe("when i18n label is changed", function() {
+            var aHandlerSet;
+            beforeEach(function() {
+                aHandlerSet = CUORE.Mocks.HandlerSet();
+                aComponent.setHandlerSet(aHandlerSet);
+            });
+
+            it("label service is used to fetch the label text", function() {
+                var labelKey = "label.key";
+
+                aComponent.setI18NKey(labelKey);
+
+                expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {
+                    key: labelKey
+                }, true);
+            });
+
+
+            it("the component's text is set to the label key while the label service has not yet replied", function() {
+                var labelKey = "label.key";
+
+                aComponent.setI18NKey(labelKey);
+
+                expect(aComponent.getText()).toContain(labelKey);
+            });
+
+            it("a handler is registered in the handler set to receive the label value", function() {
+                var labelKey = "label.key";
+
+                aComponent.setI18NKey(labelKey);
+
+                expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_' + labelKey);
+            });
+
+        });
+    });
+
+    describe("given the directory has not yet been set", function() {
+        it("can execute a service through the directory", function() {
+            var theServiceName = "serviceName";
+            var theProcedureName = "procedureName";
+            var params = "these are the mock params";
+
+            expect(function() {
+                aComponent.execute(theServiceName, theProcedureName, params, true);
+            }).toThrow("Cannot call service. A service directory is not configured");
+        });     
+
+
+        it("retrieves labels when a directory is set", function() {
+            var labelKey = "label.key";
+            var aDirectory = CUORE.Mocks.Directory();
+
+            aComponent.setI18NKey(labelKey);
+            aComponent.setDirectory(aDirectory);
+
+            expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {
+                key: labelKey
+            }, true);
+        });
+        
+    });
     
+    
+    describe ("has a Renderer",function(){
+        var aComponent;
+        var aRenderer;
+        
+        beforeEach(function(){
+            aComponent = new CUORE.Component();
+            aRenderer = {};
+            aComponent.setRenderer(aRenderer);            
+        });
+        
+        it("calling it when the component is drawn", function() {        
+            aRenderer.render = jasmine.createSpy('render');
+    
+            aComponent.draw();
+    
+            expect(aRenderer.render).toHaveBeenCalled();
+        });
+        
+        it("calling it whenever enabled state is changed", function() {        
+            aRenderer.update = jasmine.createSpy('update');    
+            aComponent.enable();
+            aComponent.disable();
+            expect(aRenderer.update.callCount).toEqual(2);
+        });
+            
+        it("can inject decorations in its renderer", function() {
+            aRenderer.addDecoration = jasmine.createSpy('addDecoration');
+                    
+            aComponent.addDecoration(undefined);
+            expect(aRenderer.addDecoration).not.toHaveBeenCalled();
+            
+            aComponent.addDecoration(new CUORE.Decoration());
+            expect(aRenderer.addDecoration).toHaveBeenCalled();    
+        });
+        
+        it("calls renderer when the component is destroyed", function() {        
+            aRenderer.erase = jasmine.createSpy('erase');
+            aComponent.destroy();
+            expect(aRenderer.erase).toHaveBeenCalled();
+        });
+        
+        it("delegates html class behaviour ", function() {        
+            aRenderer.addClass = jasmine.createSpy('addClass');
+            aRenderer.removeClass = jasmine.createSpy('removeClass');
+            aComponent.addClass('aClass');
+            aComponent.removeClass('aClass');
+            expect(aRenderer.addClass).toHaveBeenCalledWith('aClass');
+            expect(aRenderer.removeClass).toHaveBeenCalledWith('aClass');
+        });
+    });
 
+    it("has a hook for calling when its environment is up", function() {
+        expect(typeof aComponent.onEnvironmentUp === 'function').toBeTruthy();
+    });
+
+    it("set unique name by default", function() {
+        var anotherComponent = new CUORE.Component();
+        expect(aComponent.getName()).not.toEqual(anotherComponent.getName());
+    });
+
+    it("could be explicitly named", function() {
+        var testingName = "aTestName";
+        aComponent.setName(testingName);
+        expect(aComponent.getName()).toEqual(testingName);
+    });
+    
     it("could be removed", function() {
-        var container = createTestContainer();
-        var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id);
-
-        var id = aComponent.getUniqueID();
-
-        aComponent.draw();
-
+        spyOn(CUORE.Bus,"unsubscribe");
         aComponent.destroy();
-        var createdElement = document.getElementById(id);
-
-        expect( !! (createdElement)).toBeFalsy();
+        expect (CUORE.Bus.unsubscribe).toHaveBeenCalledWith(aComponent,aComponent.getManagedEvents());
+        
     });
-
-    it("allow adding css classes after drawing", function() {
-        var container = createTestContainer();
-        var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id);
-        var componentId = aComponent.getUniqueID();
-
-        aComponent.addClass("testingClass");
-        aComponent.draw();
-
-        var element = document.getElementById(componentId);
-
-        expect(element.className).toBe("testingClass");
-
-        aComponent.addClass("testingClass2");
-        expect(element.className).toBe("testingClass testingClass2");
-    });
-
-
-    it("allow removing classes after drawing", function() {
-        var container = createTestContainer();
-        var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id);
-        var componentId = aComponent.getUniqueID();
-
-        aComponent.addClass("testingClass");
-        aComponent.draw();
-
-        var element = document.getElementById(componentId);
-
-        expect(element.className).toBe("testingClass");
-
-        aComponent.removeClass("testingClass");
-        expect(element.className).toBe("");
-    });
-
-    it("can draw a text into the page", function() {
-        var container = createTestContainer();
-
-        var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id);
-
-        var testText = "testText";
-        aComponent.setText(testText);
-        aComponent.draw();
-        var componentId = aComponent.getUniqueID();
-        var createdElement = document.getElementById(componentId);
-
-        expect(aComponent.getText()).toEqual(testText);
-
-        expect(createdElement.innerHTML).toEqual(testText);
-
-        var dummyText = "dummyTextIntoAPage";
-        aComponent.setText(dummyText);
-        expect(createdElement.innerHTML).toEqual(dummyText);
-    });
-
-    it("setting a text doesn't draw", function() {
-        var container = createTestContainer();
-        var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id);
-        var testText = "testText";
-        aComponent.setText(testText);
-
-        var component = document.getElementById(aComponent.getUniqueID());
-
-        expect(component).toBeNull();
-
-    });
-
-    it("has a method that retrieves its container", function() {
-        var container = createTestContainer();
-        var aComponent = new CUORE.Component();
-        expect(aComponent.getContainer()).toEqual(document.body);
-        aComponent.setContainer(container.id);
-        expect(aComponent.getContainer()).toEqual(container);
-    });
-
+    
     it("has enable state", function() {
-
-        var aComponent = new CUORE.Component();
-
         expect(aComponent.isEnabled()).toBeTruthy();
     });
 
     it("can be disabled", function() {
-
-        var aComponent = new CUORE.Component();
         aComponent.disable();
-
         expect(aComponent.isEnabled()).toBeFalsy();
     });
 
     it("can be enabled", function() {
-
-        var aComponent = new CUORE.Component();
         aComponent.disable();
         aComponent.enable();
 
         expect(aComponent.isEnabled()).toBeTruthy();
     });
-
-    it("when disabling has disable class", function() {
-        var container = createTestContainer();
-        var aComponent = new CUORE.Component();
-        aComponent.setContainer(container.id);
-        var componentId = aComponent.getUniqueID();
-
-        aComponent.disable();
-        aComponent.draw();
-
-        var element = document.getElementById(componentId);
-        var classes = element.className.split(" ");
-
-        expect(classes).toContain("disabled");
-
-        aComponent.enable();
-        classes = element.className.split(" ");
-        expect(classes).not.toContain("disabled");
-    });
-
-    var preparePage = function(serviceName, procedureName) {
-        document.page = {};
-
-        var aService = prepareService();
-
-        var expectedService = null;
-        document.page.getService = function(theService) {
-            document.page.expectedService = theService;
-            return aService;
-        };
-
-        return aService;
-    };
-
-    var prepareService = function() {
-        var aService = {};
-
-        aService.paramsExecuted = null;
-        aService.asynchronousReceived = false;
-        aService.procedureExecuted = null;
-
-        aService.execute = function(procedure, params, asynchronous) {
-            this.procedureExecuted = procedure;
-            this.paramsExecuted = params;
-            this.asynchronousReceived = asynchronous;
-        };
-
-        return aService;
-    };
-
-    var createTestContainer = function() {
-        var container = document.createElement('div');
-        container.id = "testingContainer";
-        var panel = document.getElementById("xhtmlToTest");
-        panel.appendChild(container);
-
-        return container;
-    };
-
-    var createDummyHandler = function() {
-        var aHandler = {};
-        aHandler.handle = function(params) {
-            this.recievedParams = params;
-        };
-        aHandler.setOwner = function(owner) {
-            this.owner = owner;
-        };
-        return aHandler;
-    };
 });

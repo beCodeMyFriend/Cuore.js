@@ -63,6 +63,51 @@ describe("A Renderer", function() {
             expect(container).toContainAnElement('div');
         });
         
+        it("can be erased", function() {
+            aComponent.doYouReplace = jasmine.createSpy().andReturn(false);
+            aComponent.doYouHijack = jasmine.createSpy().andReturn(false);
+
+            aRenderer.render(aComponent);
+            expect(container).toContainAnElement('div');
+            aRenderer.erase();
+            expect(container).not.toContainAnElement('div');
+        });
+        
+        it("can add CSS classes before and after render", function() {
+            aRenderer.addClass('aClass');
+            aRenderer.render(aComponent);
+            aRenderer.addClass('anotherClass');
+
+            expect(container).toContainClass('aClass');
+            expect(container).toContainClass('anotherClass');
+        });
+        
+        it("can remove CSS classes before and after render", function() {
+            aRenderer.addClass('aClass');
+            aRenderer.addClass('anotherClass');
+            aRenderer.removeClass('aClass');
+            aRenderer.render(aComponent);
+            aRenderer.removeClass('anotherClass');
+            
+            expect(container).not.toContainClass('aClass');
+            expect(container).not.toContainClass('anotherClass');
+        });
+        
+        it("reflects disabled state with a proper CSS class", function() {
+            aComponent.isEnabled.andReturn(false);
+            aRenderer.render(aComponent);
+            expect(container).toContainClass('disabled');
+            aComponent.isEnabled.andReturn(true);
+            aRenderer.render(aComponent);
+            expect(container).not.toContainClass('disabled');
+        });
+        
+        it("renders the text of the component", function() {
+            aRenderer.render(aComponent);
+            var panel= container.firstChild;
+            console.log(panel);
+            expect(panel.data).toEqual('anyText');
+        });
         
         it("replaces container innerHTML when component has replace behaviour", function() {
             aRenderer.render(aComponent);

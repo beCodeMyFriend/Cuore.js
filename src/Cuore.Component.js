@@ -98,10 +98,6 @@ CUORE.Component = CUORE.Class(null, {
         this.renderer.setContainer(container);
     },
 
-    getContainer: function() {
-        return this.renderer.getContainer();
-    },
-
     getUniqueID: function() {
         var id = this.renderer.innerDivName(this.name);
         if (this.doYouHijack()) id = this.name;
