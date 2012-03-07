@@ -45,7 +45,7 @@ CUORE.Bus = (function(undefined) {
     };
 
     var reset = function() {
-        subscriptions = [];
+        //subscriptions = [];
     };
 
     var _subscriptionExists = function(subscriber, eventName) {

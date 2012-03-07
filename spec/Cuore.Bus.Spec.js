@@ -7,18 +7,6 @@ describe("The Bus", function () {
         expect(aBus).toBe(anotherBus);
     });
 
-    it("could be reset", function () {
-        var aBus = CUORE.Bus;
-
-        expect(aBus.hasSubscriptions()).toBeFalsy();
-
-        aBus.subscribe("dummy", "test");
-        aBus.subscribe("test", "dummy");
-        expect(aBus.hasSubscriptions()).toBeTruthy();
-
-        aBus.reset();
-        expect(aBus.hasSubscriptions()).toBeFalsy();
-    });
 
     it("has accountability of subscribers to every event", function () {
         var aBus = CUORE.Bus;
@@ -35,7 +23,7 @@ describe("The Bus", function () {
 
     it("registers suscribers and emits events to them", function () {
         var aBus = CUORE.Bus;
-        aBus.reset();
+        
 
         var dummySubscriber = createDummySubscriber();
         var event = "myEvent";
@@ -51,7 +39,7 @@ describe("The Bus", function () {
         expect(dummySubscriber.recievedParams).toEqual(params);
 
         var anotherDummySubscriber = createDummySubscriber();
-        var anotherEvent = "anotherEvent";
+        var anotherEvent = "anotherEventuos";
         var anotherParams = {
             param: "randomParam",
             anotherParam: "testParam"
@@ -70,13 +58,13 @@ describe("The Bus", function () {
 
     it("unregister subscribers", function () {
         var aBus = CUORE.Bus;
-        aBus.reset();
+        
 
         var dummySubscriber = createDummySubscriber();
         var anotherDummySubscriber = createDummySubscriber();
 
         var event = "myEvent";
-        var anotherEvent = "anotherEvent";
+        var anotherEvent = "anotherEventicoloso";
         var params = {
             aParam: "old"
         };

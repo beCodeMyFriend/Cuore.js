@@ -243,7 +243,7 @@ describe("LabelsService", function() {
         expect(labelInCache).toBeTruthy();
     });
 
-    it("emits a message which query containing key and locale and answer contains the label"), function() {
+    it("emits a message which query containing key and locale and answer contains the label", function() {
         var baseURL = "http://baseurl";
 
         var labelService = new CUORE.Services.Label();
@@ -260,16 +260,16 @@ describe("LabelsService", function() {
         var messageExpected = new CUORE.Message('{"header":{},"query":{"key":"' + testKey + '","locale":"' + browserLocale + '"},"answer":{"text":"testLabel"}}');
 
         var aBus = {};
-        aBus.emit = function(event, params) {}
+        aBus.emit = function(event, params) {};
         spyOn(labelService, "getBus").andReturn(aBus);
 
 
         spyOn(labelService, "request").andCallFake(function(url, params, eventName) {
-            this.emit(eventName, messageExpected.asJson())
+            this.emit(eventName, messageExpected.asJson());
         });
 
         spyOn(aBus, "emit");
         labelService.getLabel(testParams, testEvent);
         expect(aBus.emit).toHaveBeenCalledWith(eventNameExpected, messageExpected);
-    };
+    });
 });
