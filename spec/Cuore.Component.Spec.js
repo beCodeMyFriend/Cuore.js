@@ -12,50 +12,50 @@ describe("A  Better component", function() {
 
         aComponent = new CUORE.Component();
     });
-    
-    
-    describe (" can have different behaviours ",function(){
-        
+
+
+    describe(" can have different behaviours ", function() {
+
         it("has a append behaviour by default", function() {
             expect(aComponent.doYouReplace()).toBeFalsy();
         });
-    
+
         it("can set the behaviour", function() {
             aComponent.behave(CUORE.Behaviours.REPLACE);
             expect(aComponent.doYouReplace()).toBeTruthy();
         });
-        
+
         it("supports hijack behaviour", function() {
             expect(aComponent.doYouHijack()).toBeFalsy();
             aComponent.behave(CUORE.Behaviours.HIJACK);
             expect(aComponent.doYouHijack()).toBeTruthy();
         });
-    
+
         it("uses container id as UniqueID when hijacking", function() {
             aComponent.behave(CUORE.Behaviours.HIJACK);
-            var container= "anID";
+            var container = "anID";
             aComponent.setContainer(container);
             expect(aComponent.getName()).toEqual(container);
             expect(aComponent.getUniqueID()).toEqual(container);
         });
     });
-    
-    
+
+
     describe("manages handlers", function() {
         var aHandlerSet;
         beforeEach(function() {
             aHandlerSet = CUORE.Mocks.HandlerSet();
             aComponent.setHandlerSet(aHandlerSet);
         });
-        
+
         it("by default has a handler set", function() {
             var handlerSet = aComponent.handlerSet;
-    
+
             expect(handlerSet).toBeDefined();
             expect(typeof handlerSet.register).toBe('function');
             expect(typeof handlerSet.notifyHandlers).toBe('function');
         });
-        
+
         it("when is asked about its managed events, it returns the managed events from its handler set", function() {
             var expectedManagedEvents = ['eventA', 'eventB'];
             aHandlerSet.getManagedEvents.andReturn(expectedManagedEvents);
@@ -80,12 +80,12 @@ describe("A  Better component", function() {
             });
 
             it("registers the handler in the bus", function() {
-                CUORE.Bus.subscribe = jasmine.createSpy('subscribe');    
+                CUORE.Bus.subscribe = jasmine.createSpy('subscribe');
                 aComponent.addHandler(eventName, aHandler);
                 expect(CUORE.Bus.subscribe).toHaveBeenCalledWith(aComponent, eventName);
             });
         });
-        
+
         it("has a shortcut for adding executor handlers", function() {
             var method = 'methodForExecutorHandler';
             var eventName = 'an event name';
@@ -103,7 +103,7 @@ describe("A  Better component", function() {
             expect(aComponent.methodForExecutorHandler).toHaveBeenCalled();
 
         });
-        
+
         it("when an event is fired, the handlersets notifies", function() {
             var eventParams = "some params",
                 eventName = "an event name";
@@ -112,7 +112,7 @@ describe("A  Better component", function() {
         });
     });
 
-    
+
     describe("given a service directory is set", function() {
         var aDirectory;
         beforeEach(function() {
@@ -176,7 +176,7 @@ describe("A  Better component", function() {
             expect(function() {
                 aComponent.execute(theServiceName, theProcedureName, params, true);
             }).toThrow("Cannot call service. A service directory is not configured");
-        });     
+        });
 
 
         it("retrieves labels when a directory is set", function() {
@@ -190,52 +190,52 @@ describe("A  Better component", function() {
                 key: labelKey
             }, true);
         });
-        
+
     });
-    
-    
-    describe ("has a Renderer",function(){
+
+
+    describe("has a Renderer", function() {
         var aComponent;
         var aRenderer;
-        
-        beforeEach(function(){
+
+        beforeEach(function() {
             aComponent = new CUORE.Component();
             aRenderer = {};
-            aComponent.setRenderer(aRenderer);            
+            aComponent.setRenderer(aRenderer);
         });
-        
-        it("calling it when the component is drawn", function() {        
+
+        it("calling it when the component is drawn", function() {
             aRenderer.render = jasmine.createSpy('render');
-    
+
             aComponent.draw();
-    
+
             expect(aRenderer.render).toHaveBeenCalled();
         });
-        
-        it("calling it whenever enabled state is changed", function() {        
-            aRenderer.update = jasmine.createSpy('update');    
+
+        it("calling it whenever enabled state is changed", function() {
+            aRenderer.update = jasmine.createSpy('update');
             aComponent.enable();
             aComponent.disable();
             expect(aRenderer.update.callCount).toEqual(2);
         });
-            
+
         it("can inject decorations in its renderer", function() {
             aRenderer.addDecoration = jasmine.createSpy('addDecoration');
-                    
+
             aComponent.addDecoration(undefined);
             expect(aRenderer.addDecoration).not.toHaveBeenCalled();
-            
+
             aComponent.addDecoration(new CUORE.Decoration());
-            expect(aRenderer.addDecoration).toHaveBeenCalled();    
+            expect(aRenderer.addDecoration).toHaveBeenCalled();
         });
-        
-        it("calls renderer when the component is destroyed", function() {        
+
+        it("calls renderer when the component is destroyed", function() {
             aRenderer.erase = jasmine.createSpy('erase');
             aComponent.destroy();
             expect(aRenderer.erase).toHaveBeenCalled();
         });
-        
-        it("delegates html class behaviour ", function() {        
+
+        it("delegates html class behaviour ", function() {
             aRenderer.addClass = jasmine.createSpy('addClass');
             aRenderer.removeClass = jasmine.createSpy('removeClass');
             aComponent.addClass('aClass');
@@ -259,14 +259,14 @@ describe("A  Better component", function() {
         aComponent.setName(testingName);
         expect(aComponent.getName()).toEqual(testingName);
     });
-    
+
     it("could be removed", function() {
-        spyOn(CUORE.Bus,"unsubscribe");
+        spyOn(CUORE.Bus, "unsubscribe");
         aComponent.destroy();
-        expect (CUORE.Bus.unsubscribe).toHaveBeenCalledWith(aComponent,aComponent.getManagedEvents());
-        
+        expect(CUORE.Bus.unsubscribe).toHaveBeenCalledWith(aComponent, aComponent.getManagedEvents());
+
     });
-    
+
     it("has enable state", function() {
         expect(aComponent.isEnabled()).toBeTruthy();
     });

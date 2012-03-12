@@ -125,7 +125,7 @@ CUORE.Component = CUORE.Class(null, {
 
     requestLabelText: function(aKey) {
         aKey = aKey || this.I18NKey;
-        
+
         if (this.services) {
             this.services.execute("LABELS", 'getLabel', {
                 key: aKey
@@ -162,7 +162,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     onEnvironmentUp: function() {},
-    
+
     _generateUUID: function() {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
