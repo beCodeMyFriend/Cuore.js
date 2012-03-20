@@ -5,17 +5,16 @@ describe("A HandlerSet", function() {
         aHandlerSet = new CUORE.HandlerSet();
     });
 
-    it ("doesn't crash whith an event not handled",function(){
-         expect(function() {
-                    aHandlerSet.notifyHandlers("notHandledEvent", null);
-                }).not.toThrow();    
+    it("doesn't crash when no handler for an event", function() {
+        expect(function() {
+            aHandlerSet.notifyHandlers("notHandledEvent", null);
+        }).not.toThrow();
     });
-    
+
     describe("with a handler registered", function() {
         var aHandler, eventName = "an event name";
         beforeEach(function() {
             aHandler = CUORE.Mocks.Handler();
-
             aHandlerSet.register(eventName, aHandler);
         });
 
@@ -60,5 +59,5 @@ describe("A HandlerSet", function() {
             expect(otherHandler.handle).toHaveBeenCalledWith(anEventData);
         });
     });
- 
+
 });
