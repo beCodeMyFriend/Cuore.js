@@ -3,13 +3,7 @@ describe("A Registry", function() {
 
     beforeEach(function() {
         this.addMatchers({
-            toHaveBeenCalledOnceWithTheComponent: function(comp) {
-                var spy = this.actual;
-                this.message = function() {
-                    return "Expected the spy " + jasmine.pp(spy) + " to have been called with the component " + comp.getName();
-                }
-                return spy.callCount == 1 && spy.mostRecentCall.args[0] == comp;
-            }
+            toHaveBeenCalledOnceWithTheComponent: CUORE.Matchers.toHaveBeenCalledOnceWithTheComponent
         });
 
         aRegistry = new CUORE.Registry();
@@ -31,7 +25,6 @@ describe("A Registry", function() {
     describe("can iterate over its contents", function() {
         it("given it's empty, the callback won't be called", function() {
             var callback = jasmine.createSpy('callback');
-
             aRegistry.each(callback);
 
             expect(callback).not.toHaveBeenCalled();
