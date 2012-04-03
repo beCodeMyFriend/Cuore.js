@@ -2,12 +2,7 @@ describe("A  Better component", function() {
     var aComponent;
     beforeEach(function() {
         this.addMatchers({
-            'toHaveBeenCalledWithAHandlerForEvent': function(expectedEventName) {
-                var spy = this.actual;
-                var mostRecentCall = spy.mostRecentCall;
-                var supposedToBeAHandler = mostRecentCall.args[1];
-                return mostRecentCall.args[0] == expectedEventName && supposedToBeAHandler && typeof supposedToBeAHandler == 'object' && typeof supposedToBeAHandler.handle == 'function';
-            }
+            toHaveBeenCalledWithAHandlerForEvent: CUORE.Matchers.toHaveBeenCalledWithAHandlerForEvent
         });
 
         aComponent = new CUORE.Component();

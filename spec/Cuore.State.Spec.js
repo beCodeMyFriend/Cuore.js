@@ -6,10 +6,13 @@ describe("State", function() {
         beforeEach(function() {
             aState = new CUORE.State();
             key = 'arbitrary';
+            this.addMatchers({
+                toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+            });
         });
 
         it("is a State", function() {
-            expect(aState instanceof CUORE.State).toBeTruthy();
+            expect(aState).toBeInstanceOf(CUORE.State);
         });
 
         it("stores a value under a key", function() {

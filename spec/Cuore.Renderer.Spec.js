@@ -32,15 +32,8 @@ describe("A Renderer", function() {
         beforeEach(function() {
 
             this.addMatchers({
-                toContainAnElement: function(HTMLElementType) {
-                    var figures = this.actual.getElementsByTagName(HTMLElementType);
-                    return (figures.length > 0);
-                },
-
-                toContainClass: function(classname) {
-                    return CUORE.Dom.hasClass(this.actual, classname);
-                }
-
+                toContainAnElement: CUORE.Matchers.toContainAnElement,
+                toContainClass: CUORE.Matchers.toContainClass
             });
 
             createContainer();

@@ -9,13 +9,7 @@ describe("A Directory", function() {
 
     beforeEach(function() {
         this.addMatchers({
-            toBeInstanceOf: function(expectedType) {
-                var actual = this.actual;
-                this.message = function() {
-                    return actual + " isn't an instance of expected type";
-                }
-                return actual instanceof expectedType;
-            }
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
         });
 
         aDirectory = new CUORE.Directory();
