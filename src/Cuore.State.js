@@ -12,17 +12,8 @@ CUORE.State = CUORE.Class(null, {
         return this.keys.indexOf(key) != -1;
     },
 
-    getKeys: function() {
-
-        var clonedKeys = this.keys.slice(0, this.keys.length);
-
-        return clonedKeys;
-    },
-
-
     _addKey: function(key) {
         if (this.hasKey(key)) return;
-
         this.keys.push(key);
     },
 
@@ -30,12 +21,8 @@ CUORE.State = CUORE.Class(null, {
         this.keys.splice(this.keys.indexOf(key), 1);
     },
 
-
     save: function(key, value) {
-
-
         this._addKey(key);
-
         this.map[key] = value;
 
         if (value === undefined) {
@@ -48,4 +35,5 @@ CUORE.State = CUORE.Class(null, {
         if (!this.hasKey(key)) return undefined;
         return this.map[key];
     }
+    
 });

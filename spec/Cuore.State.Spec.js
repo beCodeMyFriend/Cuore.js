@@ -9,7 +9,6 @@ describe("State", function() {
         });
 
         it("is a State", function() {
-
             expect(aState instanceof CUORE.State).toBeTruthy();
         });
 
@@ -22,10 +21,6 @@ describe("State", function() {
         it("retrieves undefined when no value is stored", function() {
             expect(aState.retrieve(key)).toBeUndefined();
         });
-        
-        it("gets stored keys", function() {
-            expect(aState.getKeys()).toEqual([]);
-        });
 
 
         describe("and  a value is stored ", function() {
@@ -35,31 +30,21 @@ describe("State", function() {
                 aState.save(key, value);
             });
 
-
             it("retrieves value with its key", function() {
                 expect(aState.retrieve(key)).toEqual(value);
             });
 
-
-
             it("overwrites with new value", function() {
                 var aNewValue = 'a_new_value';
-                var storedKeys = aState.getKeys();
-               
+
                 aState.save(key, aNewValue);
                 expect(aState.retrieve(key)).toEqual(aNewValue);
-                expect(aState.getKeys()).toEqual(storedKeys);
-               
             });
-
 
             it("removes key when value is null or undefined", function() {
                 aState.save(key, undefined);
                 expect(aState.hasKey(key)).toBeFalsy();
-
             });
-
-
         });
     });
 
