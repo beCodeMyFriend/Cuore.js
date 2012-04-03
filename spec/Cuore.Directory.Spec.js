@@ -1,12 +1,12 @@
 describe("A Directory", function() {
 
-    var mockService = function(name) {
-        var service = CUORE.Mocks.Service();
-        service.getName.andReturn(name);
-        return service;
-    };
-
     var aDirectory, defaultBaseUrl = "base URL";
+    var mockService = function(name) {
+            var service = CUORE.Mocks.Service();
+            service.getName.andReturn(name);
+            return service;
+        };
+
     beforeEach(function() {
         this.addMatchers({
             toBeInstanceOf: function(expectedType) {
@@ -44,7 +44,6 @@ describe("A Directory", function() {
 
         beforeEach(function() {
             talService = mockService(tal);
-
             aDirectory.add(talService);
         });
 
@@ -56,10 +55,9 @@ describe("A Directory", function() {
             expect(talService.setBaseURL).toHaveBeenCalledWith(defaultBaseUrl);
         });
 
-        it("and the listing will contain 'TAL'", function() {
-            expect(aDirectory.list()).toContain(tal);
+        it(" getService('TAL') will return the 'TAL' service", function() {
+            expect(aDirectory.getService(tal)).toBe(talService);
         });
-
 
         it("when baseURL is changed, all the services are reconfigured", function() {
             var anotherURL = "another base URL";
@@ -67,16 +65,37 @@ describe("A Directory", function() {
             aDirectory.setBaseURL(anotherURL);
 
             expect(talService.setBaseURL).toHaveBeenCalledWith(anotherURL);
+            expect(aDirectory.getService('BUTTON').getBaseURL()).toEqual(anotherURL);
+            expect(aDirectory.getService('LABELS').getBaseURL()).toEqual(anotherURL);
         });
 
-        it("when service 'PASCUAL' is added, then the listing will contain 'TAL' and 'PASCUAL'", function() {
+        it("when service 'PASCUAL' is added, then directory  contains 'TAL' and 'PASCUAL'", function() {
             var pascual = "PASCUAL";
+            var pascualService = mockService(pascual);
 
-            aDirectory.add(mockService(pascual));
+            aDirectory.add(pascualService);
 
             expect(talService.getName).toHaveBeenCalled();
-            expect(aDirectory.list()).toContain(tal);
-            expect(aDirectory.list()).toContain(pascual);
+            expect(aDirectory.getService(tal)).toBe(talService);
+            expect(aDirectory.getService(pascual)).toBe(pascualService);
+        });
+
+        it("when execute is called for 'TAL' service, the execute method of the 'TAL' service will be called", function() {
+            var procedureName = "aProcedure";
+            var params = "parameters";
+
+            aDirectory.execute(tal, procedureName, params);
+
+            expect(talService.execute).toHaveBeenCalledWith(procedureName, params);
+        });
+
+        it("when execute is called with a non existing service name, it will do nothing", function() {
+            var procedureName = "CUAL";
+            var params = "parameters";
+
+            aDirectory.execute("NOT EXISTS", procedureName, params);
+
+            expect(talService.execute).not.toHaveBeenCalled();
         });
 
 
@@ -84,37 +103,12 @@ describe("A Directory", function() {
             var otherTal = mockService(tal);
 
             aDirectory.add(otherTal);
-            aDirectory.execute(tal, 'anyProcedure');
 
-            expect(otherTal.execute).toHaveBeenCalled();
+            expect(aDirectory.getService(tal)).toBe(otherTal);
         });
 
 
-        it("when execute is called for 'TAL' service, the execute method of the 'TAL' service will be called", function() {
-            var procedureName = "CUAL";
-            var params = "parameters";
-            var asynchronous = false;
-
-            aDirectory.execute(tal, procedureName, params, asynchronous);
-
-            expect(talService.execute).toHaveBeenCalledWith(procedureName, params, asynchronous);
-        });
-
-        it("when execute is called with a non existing service name, it will do nothing", function() {
-            var procedureName = "CUAL";
-            var params = "parameters";
-            var asynchronous = false;
-
-            aDirectory.execute("NOT EXISTS", procedureName, params, asynchronous);
-
-            expect(talService.execute).not.toHaveBeenCalled();
-        });
-
-        it("(DEPRECATED) getService('TAL') will return the 'TAL' service", function() {
-            expect(aDirectory.getService(tal)).toBe(talService);
-        });
-
-        it("(DEPRECATED) getService('NOT EXISTS') will return an instance of NullService", function() {
+        it(" getService('NOT EXISTS') will return an instance of NullService", function() {
             expect(aDirectory.getService('NOT EXISTS') instanceof CUORE.Services.Null).toBeTruthy();
         });
     });

@@ -8,22 +8,18 @@ CUORE.Directory = CUORE.Class(null, {
         this._addBuiltinServices();
     },
 
-    add: function (aService) {
+    add: function(aService) {
         var serviceName = aService.getName();
         this.listing.push(serviceName);
-        
+
         aService.setBaseURL(this.baseURL);
         this.services[serviceName] = aService;
     },
 
-    list: function() {
-        return this.listing;
+    execute: function(serviceName, procedureName, params) {
+        this.getService(serviceName).execute(procedureName, params);
     },
 
-    execute: function(serviceName, procedureName, params, asynchronous) {
-        this.getService(serviceName).execute(procedureName, params, asynchronous);
-    },
-    
     getService: function(serviceName) {
         var service = this._findService(serviceName);
         return service || new CUORE.Services.Null();
@@ -31,10 +27,10 @@ CUORE.Directory = CUORE.Class(null, {
 
     setBaseURL: function(baseURL) {
         this.baseURL = baseURL || '';
-        var serviceNames = this.list();
+        var serviceNames = this.listing;
         var numberOfServices = serviceNames.length;
-        
-        for(var i = 0; i < numberOfServices; i++) {
+
+        for (var i = 0; i < numberOfServices; i++) {
             this._findService(serviceNames[i]).setBaseURL(this.baseURL);
         }
     },
@@ -43,7 +39,7 @@ CUORE.Directory = CUORE.Class(null, {
         return this.services[serviceName];
     },
 
-    _addBuiltinServices:function (){
+    _addBuiltinServices: function() {
         this.add(new CUORE.Services.Label());
         this.add(new CUORE.Services.Button());
     }
