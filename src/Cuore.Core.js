@@ -102,6 +102,34 @@ CUORE.Core = (function(undefined) {
        return url;
     };
 
+    var _indexOfPolyfill = function()
+    {
+        // Avoid overwriting prototype if not neccessary
+        [].indexOf||(Array.prototype.indexOf=
+        function(
+           a, // search item
+           b, // startIndex and/or counter
+           c  // length placeholder
+        ) { 
+           for (
+              // initialize length
+              var c = this.length,
+                  // initialize counter (allow for negative startIndex)
+                  b = (c + ~~b) % c;
+              // loop if index is smaller than length,
+              // index is set in (possibly sparse) array
+              // and item at index is not identical to the searched one
+              b < c && ((!(b in this) || this[b] !== a));
+              // increment counter
+              b++
+           );
+           // if counter equals length (not found), return -1, otherwise counter
+           return b ^ c ? b : -1;
+        })  
+    };
+
+    _indexOfPolyfill();
+
     return {
         bind: bind,
         request: request,
