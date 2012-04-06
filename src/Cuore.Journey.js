@@ -33,7 +33,7 @@ CUORE.Journey = CUORE.Class(null, {
         var theSlots = [];
         var finalMinute = this.end - this.itsGranularity;
         var index = 0;
-        
+
         for (var initialMinute = this.start; initialMinute <= finalMinute; initialMinute += this.itsGranularity) {
             var journeyStart = this._formatHour(initialMinute);
             var journeyEnd = this._formatHour(initialMinute + this.itsGranularity);
@@ -69,7 +69,7 @@ CUORE.Journey = CUORE.Class(null, {
             this.end = this.start + this.itsGranularity;
         }
     },
-    
+
     _convertToMinutesDay: function(anHour) {
         var hoursInADay = 24;
         var hour = this._parseHour(anHour);
@@ -81,11 +81,11 @@ CUORE.Journey = CUORE.Class(null, {
 
         return (hour * this.minutesInAnHour) + minutes;
     },
-    
+
     _parseMinutes: function(anHour) {
         return (Number(this._getChunks(anHour)[1]) || 0);
     },
-    
+
     _formatHour: function(minutes) {
         var firstNumberWith2Digits = 10;
         var hour = Math.floor(minutes / this.minutesInAnHour);
@@ -95,7 +95,7 @@ CUORE.Journey = CUORE.Class(null, {
 
         return formatedHour + ':' + formatedMinutes;
     },
-    
+
     _parseHour: function(anHour) {
         return Number(this._getChunks(anHour)[0]);
     },
@@ -104,7 +104,7 @@ CUORE.Journey = CUORE.Class(null, {
         var anHourString = anHour.toString();
         return anHourString.split(':', 2);
     },
-    
+
     _normalize: function(hour) {
         if (!isNaN(hour)) {
             return this._formatHour(hour);
