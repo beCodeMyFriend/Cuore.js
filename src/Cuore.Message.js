@@ -4,7 +4,7 @@ CUORE.Message = CUORE.Class(null, {
         this.header = {};
         this.query = {};
         this.answer = {};
-        
+
         this._parse(json);
     },
 
@@ -36,7 +36,7 @@ CUORE.Message = CUORE.Class(null, {
     putMapOnQuery: function(map) {
         this._processMap(map, this.putOnQuery);
     },
-    
+
     putOnAnswer: function(key, value) {
         value && (this.answer[key] = value);
     },
@@ -60,18 +60,17 @@ CUORE.Message = CUORE.Class(null, {
     removeFromAnswer: function(key) {
         delete this.answer[key];
     },
-    
+
     _parse: function(json) {
         var isString = (typeof json === 'string');
-
-        if (json && isString) {
-            var parsed  = JSON.parse(json); // TODO
-            this.header = this._removeNulls(parsed.header);
-            this.query  = this._removeNulls(parsed.query);
-            this.answer = this._removeNulls(parsed.answer);
-        }
+        if (!(json && isString)) return;
+        
+        var parsed = JSON.parse(json);
+        this.header = this._removeNulls(parsed.header);
+        this.query = this._removeNulls(parsed.query);
+        this.answer = this._removeNulls(parsed.answer);
     },
-    
+
     _processMap: function(map, method) {
         for (var key in map) {
             if (CUORE.Core.isOwnProperty(map, key)) {
@@ -79,7 +78,7 @@ CUORE.Message = CUORE.Class(null, {
             }
         }
     },
-    
+
     _removeNulls: function(filtered) {
         for (var key in filtered) {
             if (CUORE.Core.isOwnProperty(filtered, key) && !filtered[key]) {
