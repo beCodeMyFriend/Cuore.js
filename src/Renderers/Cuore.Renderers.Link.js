@@ -40,9 +40,8 @@ CUORE.Renderers.Link = CUORE.Class(CUORE.Renderer, {
         }
     },
 
-
     putText: function(component) {
-        this.span.innerHTML = component.getText();
+        this.span.innerHTML = component.getLabelText();
     },
 
     setClassCSS: function(component) {

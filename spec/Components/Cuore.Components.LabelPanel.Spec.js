@@ -32,7 +32,7 @@ describe("Label Panel", function() {
     it("could be initialized with I18NKey", function() {
         var aI18NKey = "CanonicalKey";
         var thePanel = new CUORE.Components.LabelPanel(aI18NKey);
-        expect(thePanel.getI18NKey()).toEqual(aI18NKey);
+        expect(thePanel.getText(aI18NKey)).toEqual(aI18NKey);
     });
 
     it("adds the class labelPanel when drawn", function() {

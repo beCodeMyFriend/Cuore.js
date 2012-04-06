@@ -141,16 +141,23 @@ describe("A  Better component", function() {
                     key: labelKey
                 }, true);
             });
-
-
+            
             it("the component's text is set to the label key while the label service has not yet replied", function() {
-                var labelKey = "label.key";
+                var labelKey = 'label.key';
 
                 aComponent.setI18NKey(labelKey);
 
-                expect(aComponent.getText()).toContain(labelKey);
+                expect(aComponent.getText(labelKey)).toContain(labelKey);
             });
 
+            it("needs the key to get the label", function() {
+                var labelKey = 'label.key';
+
+                aComponent.setI18NKey(labelKey);
+
+                expect(aComponent.getText()).toBeNull();
+            });
+            
             it("a handler is registered in the handler set to receive the label value", function() {
                 var labelKey = "label.key";
 
@@ -158,7 +165,15 @@ describe("A  Better component", function() {
 
                 expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_' + labelKey);
             });
+            
+             it('can contain more than one key', function() {
+                aComponent.setI18NKey('aKey');
+                aComponent.setI18NKey('anotherKey');
 
+                expect(aComponent.getText('aKey')).toEqual('aKey');
+                expect(aComponent.getText('anotherKey')).toContain('anotherKey');
+            });
+            
         });
     });
 

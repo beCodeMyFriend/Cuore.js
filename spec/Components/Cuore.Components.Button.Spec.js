@@ -32,14 +32,14 @@ describe("Button", function () {
     it("sets I18NKey in construct", function () {
         var aI18NKey = "CanonicalKey";
         var aButton = new CUORE.Components.Button("buttonName", aI18NKey);
-        expect(aButton.getI18NKey()).toEqual(aI18NKey);
+        expect(aButton.getButtonText()).toEqual(aI18NKey);
     });
 
     it("default text is 'Click!!'", function () {
         var container = createTestContainer();
         var aButton = new CUORE.Components.Button();
         aButton.setContainer(container.id);
-        expect(aButton.getText()).toEqual("CLICK!");
+        expect(aButton.getButtonText()).toEqual("CLICK!");
 
         aButton.draw();
 
@@ -67,7 +67,7 @@ describe("Button", function () {
         aButton.draw();
 
         var buttonText = "buttonText";
-        aButton.setText(buttonText);
+        aButton.setText( "CanonicalKey", buttonText);
 
         var aDOMClass = "aCssClass";
 

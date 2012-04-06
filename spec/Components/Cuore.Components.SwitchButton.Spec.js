@@ -38,22 +38,14 @@ describe("SwitchButton", function () {
         expect(aButton.getInactiveLabel()).toEqual("CLICK!");
     });
 
-    it("should request active and inactive key when drawn", function () {
-        var container = createTestContainer();
-        var keyActive = "testKeyActive";
-        var keyInactive = "testKeyInactive";
-        var aButton = new CUORE.Components.SwitchButton("buttonName", keyActive, keyInactive);
-        var aDirectory = CUORE.Mocks.Directory();
-        aButton.setDirectory(aDirectory);
-        aButton.setContainer(container.id);
+    it("should request active and inactive key", function () {
+        var aButton = new CUORE.Components.SwitchButton();
+        spyOn(aButton, 'setI18NKey');
 
-        aButton.draw();
+        aButton.init("buttonName", "testKeyActive", "testKeyInactive");
 
-        expect(aButton.getActiveKey()).toEqual(keyActive);
-        expect(aButton.getInactiveKey()).toEqual(keyInactive);
-
-        expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {key:keyActive}, true);
-        expect(aDirectory.execute).toHaveBeenCalledWith("LABELS", 'getLabel', {key:keyInactive}, true);
+        expect(aButton.setI18NKey).toHaveBeenCalledWith("testKeyActive");
+        expect(aButton.setI18NKey).toHaveBeenCalledWith("testKeyInactive");
     });
 
     it("should switches state, label and cssclass when clicked", function () {
@@ -61,19 +53,6 @@ describe("SwitchButton", function () {
         var aButton = new CUORE.Components.SwitchButton("buttonName", "testKeyActive", "testKeyInactive");
         aButton.setDirectory(CUORE.Mocks.Directory());
         aButton.setContainer(container.id);
-
-        var activeLabel = "active";
-        var inactiveLabel = "inactive";
-        var activeMessage = new CUORE.Message();
-        activeMessage.putOnAnswer("text",activeLabel);
-
-        var inactiveMessage = new CUORE.Message();
-        inactiveMessage.putOnAnswer("text",inactiveLabel);
-
-        aButton.setActiveLabel(activeMessage);
-        aButton.setInactiveLabel(inactiveMessage);
-
-        expect(aButton.isActive()).toBeTruthy();
 
         aButton.draw();
 
@@ -83,7 +62,7 @@ describe("SwitchButton", function () {
         expect(CUORE.Dom.hasClass(DOMButton, "on")).toBeTruthy();
         expect(CUORE.Dom.hasClass(DOMButton, "off")).toBeFalsy();
 
-        expect(DOMButton.innerHTML).toMatch(activeLabel);
+        expect(DOMButton.innerHTML).toMatch("testKeyActive");
 
         aButton.click();
 
@@ -91,7 +70,7 @@ describe("SwitchButton", function () {
         expect(CUORE.Dom.hasClass(DOMButton, "off")).toBeTruthy();
         expect(CUORE.Dom.hasClass(DOMButton, "on")).toBeFalsy();
 
-        expect(DOMButton.innerHTML).toMatch(inactiveLabel);
+        expect(DOMButton.innerHTML).toMatch("testKeyInactive");
     });
 
     it("should emit event when clicked", function () {
@@ -115,17 +94,6 @@ describe("SwitchButton", function () {
         aButton.click(false);
 
         expect(aDirectory.execute).not.toHaveBeenCalled();
-    });
-
-    it("should get labelHandler when initialized", function () {
-        var activeKeyEvent = "LABELS_getLabel_EXECUTED_activeKey";
-        var inactiveKeyEvent = "LABELS_getLabel_EXECUTED_inactiveKey";
-        var aButton = new CUORE.Components.SwitchButton("ButtonName", "activeKey", "inactiveKey");
-
-        var events = aButton.getManagedEvents();
-
-        expect(events).toContain(activeKeyEvent);
-        expect(events).toContain(inactiveKeyEvent);
     });
 
     var createTestContainer = function() {

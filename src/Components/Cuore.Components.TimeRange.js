@@ -9,6 +9,7 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
         this.setRenderer(new CUORE.Renderers.TimeRange());
         this.journey = new CUORE.Journey();
         this.setI18NKey(key);
+        this.labelKey = key;
 
         if (granularity) {
             this.journey.withGranularityOf(granularity);
@@ -34,10 +35,9 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
         this.updateRender();
         this.emitValues();
     },
-
-    setText: function(aText) {
-        this.text = aText;
-        this.updateRender();
+    
+    getLabelText: function(){
+        return this.getText(this.labelKey);
     },
 
     emitValues: function() {

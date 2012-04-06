@@ -4,7 +4,7 @@ CUORE.Components.Collapsable = CUORE.Class(CUORE.Components.Nestable, {
         CUORE.Components.Collapsable.parent.init.call(this, service, procedure);
 
         this.collapsed = true;
-        this.renderer = new CUORE.Renderers.Collapsable(); // TODO setRenderer or renderer?
+        this.renderer = new CUORE.Renderers.Collapsable();
         this.addClass('collapsablePanel');
     },
 
@@ -20,5 +20,14 @@ CUORE.Components.Collapsable = CUORE.Class(CUORE.Components.Nestable, {
     collapse: function() {
         this.collapsed = true;
         this.updateRender();
-    }
+    },
+    
+    setPanelTextKey: function(key){
+        this.key = key;
+        this.setI18NKey(key);
+    },
+    
+    getPanelLabel: function(){
+        return this.getText(this.key); 
+    },
 });

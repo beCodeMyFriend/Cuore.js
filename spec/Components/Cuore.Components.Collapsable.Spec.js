@@ -81,7 +81,7 @@ describe("Collapsable Panel", function () {
 
         aPanel.setContainer(container.id);
 
-        aPanel.setText("dummyText");
+        aPanel.setPanelTextKey("dummyText");
         aPanel.draw();
 
         aPanel.collapse();

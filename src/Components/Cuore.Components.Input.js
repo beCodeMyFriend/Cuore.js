@@ -4,7 +4,9 @@ CUORE.Components.Input = CUORE.Class(CUORE.Component, {
         CUORE.Components.Input.parent.init.call(this);
 
         this.setRenderer(new CUORE.Renderers.Input());
-        this.setI18NKey(key);
+        
+        this.labelKey = key;
+        this.setI18NKey(this.labelKey);
 
         this.type = type || 'text';
         this.value = '';
@@ -20,5 +22,9 @@ CUORE.Components.Input = CUORE.Class(CUORE.Component, {
     setValue: function (value) {
         this.value = value;
         this.updateRender();
+    },
+    
+    getInputText: function(){
+        return this.getText(this.labelKey);
     }
 });

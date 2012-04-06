@@ -30,15 +30,15 @@ describe("TimeRange", function () {
 
     it("could be Instanced with I18N", function () {
         var theComponent = new CUORE.Components.TimeRange("aKey");
-        expect(theComponent.getI18NKey()).toEqual("aKey");
+        expect(theComponent.getLabelText()).toEqual("aKey");
     });
 
     it("should draw selects", function () {
         var theComponent = getTimeRange();
         var aText = "aText";
-        theComponent.setText("anotherText");
+        theComponent.setText("aKey", "anotherText");
         theComponent.draw();
-        theComponent.setText(aText);
+        theComponent.setText("aKey", aText);
         DOMObject = document.getElementById(theComponent.getUniqueID());
         expect(DOMObject.innerHTML.indexOf("anotherText")).toEqual(-1);
         expect(CUORE.Dom.hasClass(DOMObject, "timeRange")).toBeTruthy();

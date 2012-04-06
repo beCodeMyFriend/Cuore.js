@@ -35,9 +35,6 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     updateWhenDrawn: function(component) {
-        if (component.getText()) {
-            this.panel.innerHTML = component.getText();
-        }
         this.showDisabledState(component);
     },
 

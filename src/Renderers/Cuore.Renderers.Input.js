@@ -14,7 +14,7 @@ CUORE.Renderers.Input = CUORE.Class(CUORE.Renderer, {
     },
 
     updateWhenDrawn: function (component) {
-        this.label.innerHTML = component.getText();
+        this.label.innerHTML = component.getInputText();
         this.DOMInput.value = component.value;
         this.DOMInput.disabled = !component.isEnabled();
         this.showDisabledState(component);
