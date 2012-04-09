@@ -94,6 +94,29 @@ describe("Input", function() {
         expect(DOMInput.disabled).toBeFalsy();
     });
 
+    describe('has a name field', function(){
+        it("allows to set the name to be submitted in the form", function() {
+           var aComponent = getComponentInput();
+
+           aComponent.setFormName('aName');
+
+           expect(aComponent.getFormName()).toEqual('aName');
+       });
+
+         it("renders the name attribute when provided", function() {
+           var aComponent = getComponentInput();
+           aComponent.draw();
+           var DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input")[0];
+
+           expect(DOMInput.name).toEqual('');
+
+           aComponent.setFormName('aName');
+           aComponent.draw();
+
+           expect(DOMInput.name).toEqual('aName');
+       });
+    });
+
     it("allows changing the type", function() {
         var aComponent = getComponentInput();
         aComponent.draw();
@@ -142,7 +165,7 @@ describe("Input", function() {
         aComponent.behave(CUORE.Behaviours.HIJACK);
         aComponent.draw();
         DOMObject = document.getElementById('xhtmlToTest');
-        
+
         expect(DOMObject.childNodes[0].tagName).toEqual('LABEL');
     });
 
