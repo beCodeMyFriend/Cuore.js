@@ -2,7 +2,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
 
     init: function() {
         CUORE.Services.Label.parent.init.call(this);
-        
+
         this.name = 'LABELS';
         this.cache = document.labels || {};
         this.setLocale(navigator.language || navigator.browserLanguage);
@@ -16,9 +16,11 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
     },
 
     getLabel: function(params, eventName) {
+        if(!(params && params.key)) return;
+
         var eventNameWithKey = eventName + this.SEPARATOR + params.key;
         var cachedLabel = this.fromCache(params.key);
-        
+
         if (cachedLabel) {
             var cachedResponse = new CUORE.Message();
             cachedResponse.putMapOnQuery(params);
@@ -34,7 +36,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
     fromCache: function(key) {
         return this.cache[this.locale][key];
     },
-    
+
     feedCache: function(theKey, value){
         if (value) {
             this.cache[this.locale][theKey] = value;
@@ -44,15 +46,15 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
     emit: function(eventName, response) {
         var theKey = this.extractKey(eventName);
         if (!theKey) return;
-        
+
         var theMessage = new CUORE.Message(response);
-        var text = theMessage.getFromAnswer('text');  
-        
-        this.feedCache(theKey, text);   
-        
+        var text = theMessage.getFromAnswer('text');
+
+        this.feedCache(theKey, text);
+
         text = text || theKey;
         theMessage.putOnAnswer('text', text);
-        
+
         CUORE.Services.Label.parent.emit.call(this, eventName, theMessage.asJson());
     },
 

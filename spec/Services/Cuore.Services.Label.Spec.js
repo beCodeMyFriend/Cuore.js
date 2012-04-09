@@ -159,6 +159,26 @@ describe("LabelsService", function() {
         document.labels = undefined;
     });
 
+    it("prevents execution when key is not present", function() {
+        var aBus = {};
+        aBus.emit = jasmine.createSpy('emit');
+
+        var labelService = new CUORE.Services.Label();
+        labelService.request = jasmine.createSpy('request');
+
+        labelService.getBus = function() {
+            return aBus;
+        };
+
+        labelService.getLabel(null, null);
+        expect(aBus.emit).not.toHaveBeenCalled();
+        expect(labelService.request).not.toHaveBeenCalled();
+
+        labelService.getLabel({}, null);
+        expect(aBus.emit).not.toHaveBeenCalled();
+        expect(labelService.request).not.toHaveBeenCalled();
+    });
+
     it("getLabel method calls with 404 requests returns key without caching", function() {
         var aBus = {};
         aBus.answer = undefined;
