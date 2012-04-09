@@ -1,12 +1,12 @@
-describe("Journey", function () {
+describe("Journey", function() {
 
-    it("defaults to a natural day", function () {
+    it("defaults to a natural day", function() {
         var aJourney = new CUORE.Journey();
         expect(aJourney.starts()).toEqual("00:00");
         expect(aJourney.ends()).toEqual("24:00");
     });
 
-    it("is created with a start and end hour", function () {
+    it("is created with a start and end hour", function() {
         var aJourney = new CUORE.Journey("00:10", "20:30");
         expect(aJourney.starts()).toEqual("00:10");
         expect(aJourney.ends()).toEqual("20:30");
@@ -16,7 +16,7 @@ describe("Journey", function () {
         expect(aJourney.ends()).toEqual("24:00");
     });
 
-    it("allows set start and end after initialization", function () {
+    it("allows set start and end after initialization", function() {
         var aJourney = new CUORE.Journey("05:00", "10:00");
         aJourney.setStartTime("06:00");
         expect(aJourney.starts()).toEqual("06:00");
@@ -30,32 +30,32 @@ describe("Journey", function () {
         expect(aJourney.ends()).toEqual("06:00");
     });
 
-    it("is not valid when bad time format", function () {
+    it("is not valid when bad time format", function() {
         var aJourney = new CUORE.Journey("asdf", "asdf");
         expect(aJourney.starts()).toBeUndefined();
         expect(aJourney.ends()).toBeUndefined();
         expect(aJourney.isValid()).toBeFalsy();
     });
 
-    it("handles valid hours and minutes starting with 0", function () {
+    it("handles valid hours and minutes starting with 0", function() {
         var aJourney = new CUORE.Journey("09:30", "10:02");
         expect(aJourney.starts()).toEqual("09:30");
         expect(aJourney.ends()).toEqual("10:02");
     });
 
-    it("serializes to start hour and end hour", function () {
+    it("serializes to start hour and end hour", function() {
         var aJourney = new CUORE.Journey();
         expect(aJourney.toString()).toEqual("00:00-24:00");
         aJourney = new CUORE.Journey("11:35", "21:23");
         expect(aJourney.toString()).toEqual("11:35-21:23");
     });
 
-    it("has 24 slots with default values", function () {
+    it("has 24 slots with default values", function() {
         var aJourney = new CUORE.Journey();
         expect(aJourney.slots().length).toEqual(24);
     });
 
-    it("has 24 slots with 00:01 as start and 24:00 as end last with only 59 minutes", function () {
+    it("has 24 slots with 00:01 as start and 24:00 as end last with only 59 minutes", function() {
         var aJourney = new CUORE.Journey("00:01", "24:00");
         expect(aJourney.slots().length).toEqual(24);
         var finalSlot = aJourney.slots()[23];
@@ -63,7 +63,7 @@ describe("Journey", function () {
         expect(finalSlot.ends()).toEqual("24:00");
     });
 
-    it("has 24 slots with 00:59 as start and 24:00 as end", function () {
+    it("has 24 slots with 00:59 as start and 24:00 as end", function() {
         var aJourney = new CUORE.Journey("00:59", "24:00");
         expect(aJourney.slots().length).toEqual(24);
         var finalSlot = aJourney.slots()[23];
@@ -71,7 +71,7 @@ describe("Journey", function () {
         expect(finalSlot.ends()).toEqual("24:00");
     });
 
-    it("has 24 slots with 00:00 as start and 23:01 as end", function () {
+    it("has 24 slots with 00:00 as start and 23:01 as end", function() {
         var aJourney = new CUORE.Journey("00:00", "23:01");
         expect(aJourney.slots().length).toEqual(24);
         var finalSlot = aJourney.slots()[23];
@@ -79,7 +79,7 @@ describe("Journey", function () {
         expect(finalSlot.ends()).toEqual("23:01");
     });
 
-    it("has 24 slots with 00:00 as start and 23:59 as end", function () {
+    it("has 24 slots with 00:00 as start and 23:59 as end", function() {
         var aJourney = new CUORE.Journey("00:00", "23:59");
         expect(aJourney.slots().length).toEqual(24);
         var finalSlot = aJourney.slots()[23];
@@ -87,7 +87,7 @@ describe("Journey", function () {
         expect(finalSlot.ends()).toEqual("23:59");
     });
 
-    it("has a journey for each slot", function () {
+    it("has a journey for each slot", function() {
         var aJourney = new CUORE.Journey();
         var firstSlot = aJourney.slots()[0];
         var aSlot = aJourney.slots()[5];
@@ -99,7 +99,7 @@ describe("Journey", function () {
         expect(lastSlot instanceof CUORE.Journey).toBeTruthy();
     });
 
-    it("has the correct start and end hours for each slot with default journey", function () {
+    it("has the correct start and end hours for each slot with default journey", function() {
         var aJourney = new CUORE.Journey("00:00", "24:00");
         var firstSlot = aJourney.slots()[0];
         var aSlot = aJourney.slots()[5];
@@ -111,21 +111,21 @@ describe("Journey", function () {
         expect(lastSlot.toString()).toEqual("23:00-24:00");
     });
 
-    it("has a granularity of 60 minutes by default", function () {
+    it("has a granularity of 60 minutes by default", function() {
         var aJourney = new CUORE.Journey();
         var defaultGranularity = 60;
         expect(aJourney.granularity()).toEqual(defaultGranularity);
     });
 
 
-    it("changes slots with a change of granularity", function () {
+    it("changes slots with a change of granularity", function() {
         var aJourney = new CUORE.Journey();
         aJourney.withGranularityOf(480);
         expect(aJourney.slots().length).toEqual(3);
     });
 
 
-    it("has to round to a Integer the granularity", function () {
+    it("has to round to a Integer the granularity", function() {
         var aJourney = new CUORE.Journey();
         aJourney.withGranularityOf(480.35);
         expect(aJourney.granularity()).toEqual(480);

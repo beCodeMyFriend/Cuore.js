@@ -6,7 +6,15 @@ CUORE.Matchers = {
         }
         return actual instanceof expectedType;
     },
-
+    
+    toBeFunction: function() {
+        var actual = this.actual;
+        this.message = function() {
+            return actual + " isn't a function";
+        }
+        return typeof actual === 'function';
+    },
+    
     toContainAnElement: function(HTMLElementType) {
         var figures = this.actual.getElementsByTagName(HTMLElementType);
         return (figures.length > 0);

@@ -1,4 +1,4 @@
-CUORE.ServiceGet = CUORE.Class(CUORE.Service, {
+CUORE.GETService = CUORE.Class(CUORE.Service, {
 
     _doRequest: function (url, paramsData, callback)
     {
