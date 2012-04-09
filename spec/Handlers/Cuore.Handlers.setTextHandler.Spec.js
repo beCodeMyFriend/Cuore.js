@@ -1,35 +1,34 @@
 describe("setTextHandler", function () {
 
     it("inherits  Handler", function () {
-        var aSetTextHandler = new CUORE.Handlers.setText();
+        var aSetTextHandler = new CUORE.Handlers.SetText();
         expect(aSetTextHandler instanceof CUORE.Handler).toBeTruthy();
-        expect(aSetTextHandler instanceof CUORE.Handlers.setText).toBeTruthy();
+        expect(aSetTextHandler instanceof CUORE.Handlers.SetText).toBeTruthy();
     });
 
     it("sets the text of the owner reading as json object when dispatched", function () {
-        var aSetTextHandler = new CUORE.Handlers.setText();
-
-        var testText = "testText";
+        var aSetTextHandler = new CUORE.Handlers.SetText();
         var aButton = {};
-        var settedText = null;
-
-        aButton.setText = function (text) {};
-        spyOn(aButton,"setText");
-
+        aButton.setText = jasmine.createSpy('setText');
         aSetTextHandler.setOwner(aButton);
 
         var theMessage = new CUORE.Message();
-        theMessage.putOnAnswer("text",testText);
+        theMessage.putOnAnswer('text','testText');
+        theMessage.putOnQuery('key','theKey');
         
-        var correctMessage = theMessage;
-       
-        var incorrectMessage = new CUORE.Message();
+        aSetTextHandler.handle(theMessage);
+        expect(aButton.setText).toHaveBeenCalledWith('theKey', 'testText');
+    });
+    
+    it("prevents setting the text if the message is not valid", function () {
+        var aSetTextHandler = new CUORE.Handlers.SetText();
+        var aButton = {};
+        aButton.setText = jasmine.createSpy('setText');
+        aSetTextHandler.setOwner(aButton);
 
-        aSetTextHandler.handle(correctMessage);
-        expect(aButton.setText).toHaveBeenCalledWith(testText);
+        var emptyMessage = new CUORE.Message();
 
-        aButton.setText.reset();
-        aSetTextHandler.handle(incorrectMessage);
+        aSetTextHandler.handle(emptyMessage);
 
         expect(aButton.setText).not.toHaveBeenCalled();
     }); 

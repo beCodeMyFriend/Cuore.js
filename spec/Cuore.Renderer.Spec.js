@@ -95,12 +95,6 @@ describe("A Renderer", function() {
             expect(container).not.toContainClass('disabled');
         });
 
-        it("renders the text of the component", function() {
-            aRenderer.render(aComponent);
-            var panel = container.firstChild;
-            expect(panel.data).toEqual('anyText');
-        });
-
         it("replaces container innerHTML when component has replace behaviour", function() {
             aRenderer.render(aComponent);
             expect(container).not.toContainAnElement('figure');

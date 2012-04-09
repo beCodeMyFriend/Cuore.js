@@ -112,7 +112,7 @@ describe("Input", function() {
 
     it("allows set the text without drawing previously", function() {
         var aComponent = getComponentInput();
-        aComponent.setText("testText");
+        aComponent.setText('CanonicalKey', 'testText');
         aComponent.draw();
         DOMObject = document.getElementById(aComponent.getUniqueID());
         var value = DOMObject.getElementsByTagName("label")[0].innerHTML;
@@ -121,7 +121,7 @@ describe("Input", function() {
 
     it("must clean its text when drawn by parent", function() {
         var aComponent = getComponentInput();
-        aComponent.setText("testText");
+        aComponent.setText('CanonicalKey', 'testText');
         aComponent.draw();
         DOMObject = document.getElementById(aComponent.getUniqueID());
         var value = DOMObject.innerHTML;
@@ -131,7 +131,7 @@ describe("Input", function() {
     it("must update its text when drawn", function() {
         var aComponent = getComponentInput();
         aComponent.draw();
-        aComponent.setText("testText");
+        aComponent.setText('CanonicalKey', "testText");
         DOMObject = document.getElementById(aComponent.getUniqueID());
         var value = DOMObject.innerHTML;
         expect(value).toMatch("testText");

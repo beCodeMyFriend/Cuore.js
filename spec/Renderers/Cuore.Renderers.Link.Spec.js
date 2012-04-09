@@ -16,14 +16,14 @@ describe("Link Renderer", function () {
         var container = createTestContainer();
 
         var aDOMClass = "aCssClass";
-	var aComponent = getDummyComponent();
-	var aLink = new CUORE.Renderers.Link();
-	aLink.setContainer(container.id);
-	aLink.addClass(aDOMClass);
-	aLink.render(aComponent);
+		var aComponent = getDummyComponent();
+		var aLink = new CUORE.Renderers.Link();
+		aLink.setContainer(container.id);
+		aLink.addClass(aDOMClass);
+		aLink.render(aComponent);
 	
         var DOMElement = document.getElementById(container.id);
-	var anchor = DOMElement.getElementsByTagName('a')[0];
+		var anchor = DOMElement.getElementsByTagName('a')[0];
         expect(anchor.tagName).not.toBeUndefined();
 
         var innerSpan = anchor.getElementsByTagName('span')[0];
@@ -37,14 +37,14 @@ describe("Link Renderer", function () {
         var container = createTestContainer();
 
         var aDOMClass  = "aCssClass";
-	var aComponent = getDummyComponent();
-	var aLink = new CUORE.Renderers.Link();
-	aLink.setContainer(container.id);
-	aLink.addClass(aDOMClass);
-	aLink.render(aComponent);
+		var aComponent = getDummyComponent();
+		var aLink = new CUORE.Renderers.Link();
+		aLink.setContainer(container.id);
+		aLink.addClass(aDOMClass);
+		aLink.render(aComponent);
 	
         var DOMElement = document.getElementById(container.id);
-	var anchor = DOMElement.getElementsByTagName('a')[0];
+		var anchor = DOMElement.getElementsByTagName('a')[0];
         
         expect(anchor.getAttribute("href")).toEqual("anyURL");
     });
@@ -53,36 +53,36 @@ describe("Link Renderer", function () {
         var container = createTestContainer();
 
         var aDOMClass  = "aCssClass";
-	var aComponent = getDummyComponent();
-	var aLink = new CUORE.Renderers.Link();
-	aLink.setContainer(container.id);
-	aLink.addClass(aDOMClass);
-	aLink.render(aComponent);
-	
-	aComponent.isEnabled = jasmine.createSpy().andReturn(false);
-	aLink.update(aComponent);
+		var aComponent = getDummyComponent();
+		var aLink = new CUORE.Renderers.Link();
+		aLink.setContainer(container.id);
+		aLink.addClass(aDOMClass);
+		aLink.render(aComponent);
+		
+		aComponent.isEnabled = jasmine.createSpy().andReturn(false);
+		aLink.update(aComponent);
 	
         var DOMElement = document.getElementById(container.id);
-	var anchor = DOMElement.getElementsByTagName('a')[0];
+		var anchor = DOMElement.getElementsByTagName('a')[0];
         
         expect(anchor.getAttribute("href")).toEqual("");
-	expect(CUORE.Dom.hasClass(DOMElement, "disabled")).toBeTruthy();
+		expect(CUORE.Dom.hasClass(DOMElement, "disabled")).toBeTruthy();
     });
 
 
     it("has CSS class 'link'", function () {
-	var container = createTestContainer();
-
-	var aComponent = getDummyComponent();
-	var aLink = new CUORE.Renderers.Link();
-	aLink.setContainer(container.id);
-	aLink.render(aComponent);
+		var container = createTestContainer();
+	
+		var aComponent = getDummyComponent();
+		var aLink = new CUORE.Renderers.Link();
+		aLink.setContainer(container.id);
+		aLink.render(aComponent);
 	
         var DOMElement = document.getElementById(container.id);
         expect(CUORE.Dom.hasClass(DOMElement, "link")).toBeTruthy();
     });
 
-    var createTestContainer = function() {
+	var createTestContainer = function() {
         var container = document.createElement('div');
         container.id = "testingContainer";
         var panel = document.getElementById("xhtmlToTest");
@@ -92,15 +92,15 @@ describe("Link Renderer", function () {
     };
     
     var getDummyComponent = function(){
-	var aComponent = {};
-
-	aComponent.isEnabled = jasmine.createSpy().andReturn(true);
-	aComponent.getText = jasmine.createSpy().andReturn('anyText');
-	aComponent.doYouReplace = jasmine.createSpy().andReturn(true);
-	aComponent.doYouHijack = jasmine.createSpy().andReturn(true);
-	aComponent.getContainer = jasmine.createSpy().andReturn("testingContainer");
-	aComponent.getURL = jasmine.createSpy().andReturn('anyURL');
+		var aComponent = {};
 	
-	return aComponent;
+		aComponent.isEnabled = jasmine.createSpy().andReturn(true);
+		aComponent.getLabelText = jasmine.createSpy().andReturn('anyText');
+		aComponent.doYouReplace = jasmine.createSpy().andReturn(true);
+		aComponent.doYouHijack = jasmine.createSpy().andReturn(true);
+		aComponent.getContainer = jasmine.createSpy().andReturn("testingContainer");
+		aComponent.getURL = jasmine.createSpy().andReturn('anyURL');
+		
+		return aComponent;
     };
 });

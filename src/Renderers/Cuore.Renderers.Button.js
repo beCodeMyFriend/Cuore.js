@@ -32,7 +32,7 @@ CUORE.Renderers.Button = CUORE.Class(CUORE.Renderer, {
     },
 
     putText: function(component) {
-        var text = (component.getText() || component.getButtonName());
+        var text = (component.getButtonText() || component.getButtonName());
         this.span.innerHTML = text;
     },
 

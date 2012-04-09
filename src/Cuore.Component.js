@@ -5,9 +5,8 @@ CUORE.Component = CUORE.Class(null, {
         this.name = this._generateUUID();
         this.service = 'NULL';
         this.procedure = 'nullProcedure';
-        this.I18NKey = null;
         this.SEPARATOR = '_';
-        this.text = '';
+        this.labels = {};
         this.renderer = new CUORE.Renderer();
         this.enabled = true;
         this.behaviour = CUORE.Behaviours.APPEND;
@@ -81,8 +80,10 @@ CUORE.Component = CUORE.Class(null, {
         this.renderer.removeClass(aClass);
     },
 
-    getText: function() {
-        return this.text;
+    getText: function(key) {
+        if(!key) return null;
+        
+        return this.labels[key];
     },
 
     getName: function() {
@@ -108,33 +109,37 @@ CUORE.Component = CUORE.Class(null, {
         return this.handlerSet.getManagedEvents();
     },
 
-    setText: function(aText) {
-        this.text = aText;
+    setText: function(aKey, aText) {
+        this.labels[aKey] = aText;
         this.updateRender();
     },
 
     setI18NKey: function(key) {
         if (!key) return;
 
-        this.I18NKey = key;
-        this.setText(this.I18NKey);
+        this.setText(key, key);
 
-        this.addHandler('LABELS_getLabel_EXECUTED_' + this.I18NKey, new CUORE.Handlers.setText());
-        this.requestLabelText(this.I18NKey);
+        this.addHandler('LABELS_getLabel_EXECUTED_' + key, new CUORE.Handlers.SetText());
+        this.requestLabelText(key);
     },
 
     requestLabelText: function(aKey) {
-        aKey = aKey || this.I18NKey;
-
-        if (this.services) {
-            this.services.execute("LABELS", 'getLabel', {
-                key: aKey
-            }, true);
+        
+        if(!aKey){
+            for(var key in this.labels){
+                this._executeLabelsService(key);
+            }
+        }
+        else{
+           this._executeLabelsService(aKey);
         }
     },
-
-    getI18NKey: function() {
-        return this.I18NKey;
+    
+    _executeLabelsService:function(aKey){
+        if (!this.services) return;
+         this.services.execute("LABELS", 'getLabel', {
+                key: aKey
+            }, true);
     },
 
     setRenderer: function(renderer) {
