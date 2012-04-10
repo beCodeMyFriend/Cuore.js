@@ -2,13 +2,13 @@ CUORE.Renderers.Input = CUORE.Class(CUORE.Renderer, {
 
     paint: function (component) {
         CUORE.Renderers.Input.parent.paint.call(this,component);
-        
+
         this.label = CUORE.Dom.createElement('label', null, this.panel);
-        
+
         this.addClass('inputJS');
-        
+
         this.DOMInput = CUORE.Dom.createElement('input', {
-            type: component.type 
+            'type': component.type ,
         }, this.panel);
 
     },
@@ -16,6 +16,7 @@ CUORE.Renderers.Input = CUORE.Class(CUORE.Renderer, {
     updateWhenDrawn: function (component) {
         this.label.innerHTML = component.getInputText();
         this.DOMInput.value = component.value;
+        this.DOMInput.name = component.getFormName();
         this.DOMInput.disabled = !component.isEnabled();
         this.showDisabledState(component);
         this.setCurrentClasses();

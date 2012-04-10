@@ -16,6 +16,8 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
     },
 
     getLabel: function(params, eventName) {
+        if(!(params && params.key)) return;
+
         var eventNameWithKey = eventName + this.SEPARATOR + params.key;
         var cachedLabel = this.fromCache(params.key);
         
@@ -46,10 +48,10 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
         if (!theKey) return;
         var theMessage = new CUORE.Message(JSON.stringify(response));
         var text = theMessage.getFromAnswer('text');  
-        
-        var text= response.answer.text;
-        this.feedCache(theKey, text);   
-        
+        var theMessage = new CUORE.Message(response);
+        var text = theMessage.getFromAnswer('text');
+
+        this.feedCache(theKey, text);
         text = text || theKey;
         theMessage.putOnAnswer('text', text);
 
