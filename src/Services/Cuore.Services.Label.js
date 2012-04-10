@@ -47,10 +47,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
         var theKey = this.extractKey(eventName);
         if (!theKey) return;
         var theMessage = new CUORE.Message(JSON.stringify(response));
-        var text = theMessage.getFromAnswer('text');  
-        var theMessage = new CUORE.Message(response);
-        var text = theMessage.getFromAnswer('text');
-
+        var text = theMessage.getFromAnswer('text');        
         this.feedCache(theKey, text);
         text = text || theKey;
         theMessage.putOnAnswer('text', text);

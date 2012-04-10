@@ -66,7 +66,7 @@ describe("LabelsService", function() {
 
         spyOn(aLabelService, "request");
 
-        aLabelService.getLabel({}, "testEvent");
+        aLabelService.getLabel({"key":"tal"}, "testEvent");
         URLCalled = aLabelService.request.mostRecentCall.args[0];
 
         expect(URLCalled).toEqual(expectedURL);
