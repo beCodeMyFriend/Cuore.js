@@ -67,8 +67,9 @@ CUORE.Service = CUORE.Class(null, {
     _responseCallback: function(eventName) {
         var emit = this.emit;
         
-        return function(response) {
-            emit(eventName, response);
+        var callback= function(response) {
+            this.emit(eventName, response);
         }
+        return CUORE.Core.bind(this,callback);;
     }
 });

@@ -16,7 +16,11 @@ CUORE.Core = (function(undefined) {
                 var isStatusOK = (request.status === 200 || request.status === 304);
 
                 if (isReadyStateOK && isStatusOK) {
-                    var parsedResponse = JSON.parse(request.responseText);
+                    try {
+                        parsedResponse = JSON.parse(request.responseText);
+                    } catch (e) {
+                        parsedResponse = new CUORE.Message();
+                    }
                     callback(parsedResponse);
                 }
 
@@ -107,8 +111,7 @@ CUORE.Core = (function(undefined) {
             [].indexOf || (Array.prototype.indexOf = function(
             item, index, theLength) {
                 for (
-                var theLength = this.length,
-                index = (theLength + ~~index) % theLength;
+                var theLength = this.length, index = (theLength + ~~index) % theLength;
                 index < theLength && ((!(index in this) || this[index] !== item));
                 index++);
                 return index ^ theLength ? index : -1;

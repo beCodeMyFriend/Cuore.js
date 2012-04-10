@@ -44,15 +44,15 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
     emit: function(eventName, response) {
         var theKey = this.extractKey(eventName);
         if (!theKey) return;
-        
-        var theMessage = new CUORE.Message(response);
+        var theMessage = new CUORE.Message(JSON.stringify(response));
         var text = theMessage.getFromAnswer('text');  
         
+        var text= response.answer.text;
         this.feedCache(theKey, text);   
         
         text = text || theKey;
         theMessage.putOnAnswer('text', text);
-        
+
         CUORE.Services.Label.parent.emit.call(this, eventName, theMessage.asJson());
     },
 

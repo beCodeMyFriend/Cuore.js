@@ -13,19 +13,19 @@ describe("JSONPService", function() {
     });
 
     it("doesn't use the CUORE.Core.request", function() {
-        CUORE.Core.request = jasmine.createSpy("CUORE.Core.request");
+        spyOn(CUORE.Core,"request");
         aService.request("", {}, "");
         expect(CUORE.Core.request).not.toHaveBeenCalled();
     });
 
     it("calls CUORE.Core.requestJSONP instead", function() {
-        CUORE.Core.requestJSONP = jasmine.createSpy("CUORE.Core.requestJSONP");
+        spyOn(CUORE.Core,"requestJSONP");
         aService.request("", {}, "");
         expect(CUORE.Core.requestJSONP).toHaveBeenCalled();
     });
 
     it("calls CUORE.Core.requestJSONP with the query of the message as param", function() {
-        CUORE.Core.requestJSONP = jasmine.createSpy("CUORE.Core.requestJSONP");
+        spyOn(CUORE.Core,"requestJSONP");
         var theParams = {
             'aKey': 'aValue'
         };

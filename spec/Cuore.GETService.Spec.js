@@ -14,19 +14,19 @@ describe("ServiceGet", function() {
     
 
     it("doesn't use the CUORE.Core.request", function() {
-        CUORE.Core.request = jasmine.createSpy("CUORE.Core.request");
+        spyOn(CUORE.Core,"request");
         aService.request("", {}, ""); 
         expect(CUORE.Core.request).not.toHaveBeenCalled();
     });
     
     it("calls CUORE.Core.requestGet instead", function() {
-        CUORE.Core.requestGet = jasmine.createSpy("CUORE.Core.requestGet");
+        spyOn(CUORE.Core,"requestGet");
         aService.request("", {}, ""); 
         expect(CUORE.Core.requestGet).toHaveBeenCalled();
     });
     
     it("doest not wrap params in a message", function() {
-        CUORE.Core.requestGet = jasmine.createSpy("CUORE.Core.requestGet");
+        spyOn(CUORE.Core,"requestGet");
         var theParams = {'aKey': 'aValue'};
         
         aService.request("", theParams, "");
