@@ -187,7 +187,16 @@ describe("A Renderer", function() {
                 expect(document.getElementById('any[Name')).toBeNull();
                 expect(document.getElementById('anyName')).not.toBeNull();
             });
-        });
 
+            it("ID must be the container one when hijacked", function() {
+                aComponent.doYouHijack = jasmine.createSpy().andReturn(true);
+                aComponent.getName = jasmine.createSpy().andReturn('anyName');
+
+                aRenderer.render(aComponent);
+
+                expect(document.getElementById('anyName')).toBeNull();
+                expect(aRenderer.innerDivName('anyName')).toEqual('testingContainer');
+            });
+        });
     });
 });

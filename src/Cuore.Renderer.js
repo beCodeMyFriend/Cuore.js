@@ -82,8 +82,6 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     paint: function(component) {
-
-
         if (!component.doYouHijack()) {
             var divID = this.innerDivName(component.getName());
 
@@ -91,6 +89,7 @@ CUORE.Renderer = CUORE.Class(null, {
                 id: divID
             }, this.container);
         } else {
+            this.htmlID = this.container.id;
             this.panel = this.container;
         }
 
@@ -138,5 +137,4 @@ CUORE.Renderer = CUORE.Class(null, {
 
          return fixedToken;
     }
-
 });
