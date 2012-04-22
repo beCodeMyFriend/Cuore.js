@@ -125,7 +125,7 @@ describe("Button", function() {
             expect(CUORE.Dom.Event.hasEvents(DOMButton, 'click')).toBeFalsy();
         });
 
-        createDummyComponent = function() {
+        var createDummyComponent = function() {
             var aComponent = {};
             aComponent.doYouReplace = jasmine.createSpy('doYouReplace').andReturn(false);
             aComponent.doYouHijack = jasmine.createSpy('doYouHijack').andReturn(false);

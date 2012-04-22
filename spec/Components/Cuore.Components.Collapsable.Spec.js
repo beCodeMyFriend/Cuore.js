@@ -1,106 +1,92 @@
-describe("Collapsable Panel", function () {
+describe("Collapsable Panel", function() {
 
-    afterEach(function(){
+    afterEach(function() {
         var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
     });
 
-    it("inherits Component", function () {
+    it("inherits Component", function() {
         var aPanel = new CUORE.Components.Collapsable();
 
         expect(aPanel instanceof CUORE.Components.Collapsable).toBeTruthy();
         expect(aPanel instanceof CUORE.Component).toBeTruthy();
     });
 
-    it("can be draw in a container", function () {
-        var container = createTestContainer();
 
+    it("has its own class", function() {
         var aPanel = new CUORE.Components.Collapsable();
-        aPanel.setContainer(container.id);
+        spyOn(aPanel, 'addClass');
 
-        aPanel.draw();
+        aPanel.init();
 
-        var DOMPanel = document.getElementById(aPanel.getUniqueID());
-
-        expect(DOMPanel).toBeTruthy();
-        expect(DOMPanel.tagName).toEqual("DIV");
-
-        expect(CUORE.Dom.hasClass(DOMPanel, "collapsablePanel")).toBeTruthy();
-        expect(CUORE.Dom.hasClass(DOMPanel, "collapsed")).toBeTruthy();
+        expect(aPanel.addClass).toHaveBeenCalledWith('collapsablePanel');
     });
 
-    it("change css class when collapse", function () {
-        var container = createTestContainer();
+    describe('renderer', function() {
 
-        var aPanel = new CUORE.Components.Collapsable();
-        aPanel.setContainer(container.id);
+        it("change css class when collapse", function() {
+            var container = createTestContainer();
+            var aComponent = createDummyComponent();
+            var aRenderer = new CUORE.Renderers.Collapsable();
+            aRenderer.setContainer(container.id);
+            aRenderer.draw(aComponent);
 
-        expect(aPanel.isCollapsed()).toBeTruthy();
-        aPanel.uncollapse();
-        expect(aPanel.isCollapsed()).toBeFalsy();
 
-        aPanel.draw();
-        var DOMPanel = document.getElementById(aPanel.getUniqueID());
+            aComponent.isCollapsed = jasmine.createSpy('isCollapsed').andReturn(false);
 
-        expect(CUORE.Dom.hasClass(DOMPanel, "uncollapsed")).toBeTruthy();
-        expect(CUORE.Dom.hasClass(DOMPanel, "collapsed")).toBeFalsy();
+            aRenderer.update(aComponent);
 
-        aPanel.collapse();
-        expect(aPanel.isCollapsed()).toBeTruthy();
-        expect(CUORE.Dom.hasClass(DOMPanel, "collapsed")).toBeTruthy();
-        expect(CUORE.Dom.hasClass(DOMPanel, "uncollapsed")).toBeFalsy();
+            var DOMPanel = document.getElementById(aRenderer.htmlID);
+            expect(CUORE.Dom.hasClass(DOMPanel, "uncollapsed")).toBeTruthy();
+            expect(CUORE.Dom.hasClass(DOMPanel, "collapsed")).toBeFalsy();
+
+            aComponent.isCollapsed = jasmine.createSpy('isCollapsed').andReturn(true);
+
+            aRenderer.update(aComponent);
+
+            expect(CUORE.Dom.hasClass(DOMPanel, "uncollapsed")).toBeFalsy();
+            expect(CUORE.Dom.hasClass(DOMPanel, "collapsed")).toBeTruthy();
+        });
+
+        it("has height 0 when collapsed but has some height when not", function() {
+            var container = createTestContainer();
+            var aComponent = createDummyComponent();
+            var aRenderer = new CUORE.Renderers.Collapsable();
+            aRenderer.setContainer(container.id);
+            aRenderer.draw(aComponent);
+
+            aComponent.isCollapsed = jasmine.createSpy('isCollapsed').andReturn(true);
+            aRenderer.update(aComponent);
+
+            var DOMPanel = document.getElementById(aRenderer.htmlID);
+            expect(DOMPanel.style.height).toEqual("0px");
+
+            aComponent.isCollapsed = jasmine.createSpy('isCollapsed').andReturn(false);
+            aRenderer.update(aComponent);
+
+            expect(DOMPanel.style.height).toNotEqual("0px");
+        });
+
+        var createDummyComponent = function() {
+                var aComponent = {};
+                aComponent.doYouReplace = jasmine.createSpy('doYouReplace').andReturn(false);
+                aComponent.doYouHijack = jasmine.createSpy('doYouHijack').andReturn(false);
+                aComponent.getName = jasmine.createSpy('getName').andReturn('componentName');
+                aComponent.isEnabled = jasmine.createSpy('isEnabled').andReturn(true);
+
+                aComponent.getPanelLabel = jasmine.createSpy('getPanelLabel').andReturn('dummyText');
+                return aComponent;
+            };
+
+        var createTestContainer = function() {
+                var container = document.createElement('div');
+                container.id = "testingContainer";
+                var panel = document.getElementById("xhtmlToTest");
+                panel.appendChild(container);
+
+                return container;
+            };
 
     });
 
-    it("when disabling has disable class", function () {
-        var container = createTestContainer();
-        var aPanel = new CUORE.Components.Collapsable();
-        aPanel.setContainer(container.id);
-        var componentId = aPanel.getUniqueID();
-
-        aPanel.disable();
-        aPanel.draw();
-        
-        var element = document.getElementById(componentId);
-        
-        expect(CUORE.Dom.hasClass(element, "disabled")).toBeTruthy();
-        
-        aPanel.enable();
-        
-        expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
-    });
-    
-    it("has height 0 when collapsed but has some height when not", function () {
-        var numberOfAssertionsInText = 2;
-        expect(numberOfAssertionsInText);
-
-        var container = createTestContainer();
-
-        var aPanel = new CUORE.Components.Collapsable();
-        aPanel.uncollapse();
-
-        aPanel.setContainer(container.id);
-
-        aPanel.setPanelTextKey("dummyText");
-        aPanel.draw();
-
-        aPanel.collapse();
-
-        var DOMPanel = document.getElementById(aPanel.getUniqueID());
-
-        expect(DOMPanel.style.height).toEqual("0px");
-
-        aPanel.uncollapse();
-
-        expect(DOMPanel.style.height).toNotEqual("0px");
-    });
-
-    var createTestContainer = function() {
-        var container = document.createElement('div');
-        container.id = "testingContainer";
-        var panel = document.getElementById("xhtmlToTest");
-        panel.appendChild(container);
-       
-        return container;
-    };
 });
