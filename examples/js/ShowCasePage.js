@@ -35,7 +35,7 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         var password = new CUORE.Components.Input('input.label', 'password');
         password.setValue('example value');
 
-        this.addComponent(input, 'inputExample', true);
+        this.addComponent(input, 'inputExample', CUORE.Behaviours.REPLACE);
         this.addComponent(defaultValue, 'inputExample2', CUORE.Behaviours.REPLACE);
         this.addComponent(disabled, 'inputExample3', CUORE.Behaviours.REPLACE);
         this.addComponent(password, 'inputExample4', CUORE.Behaviours.REPLACE);
@@ -80,12 +80,14 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
 
     collapsableShowcase: function() {
         var panel = new CUORE.Components.Collapsable();
+        panel.setPanelTextKey('collapsable.sample.key');
+
         var button = new CUORE.Components.SwitchButton('collapseButton', 'collapse', 'uncollapse');
         var handler = new CUORE.Handlers.SwitchCollapseAndUncollapse();
         panel.addHandler('BUTTON_collapseButton_CLICKED', handler);
 
         panel.uncollapse();
-        panel.setText('Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
+        panel.setText('collapsable.sample.key', 'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
 
         this.addComponent(panel, 'collapsableExample', CUORE.Behaviours.REPLACE);
         this.addComponent(button, 'collapsableExample2', CUORE.Behaviours.REPLACE);
@@ -140,8 +142,10 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         var handler = new CUORE.Handlers.SwitchCollapseAndUncollapse();
         panel.addHandler('BUTTON_collapseButtonNested_CLICKED', handler);
 
+        panel.setPanelTextKey('collapsable.sample.key');
+        panel.setText('collapsable.sample.key', 'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
         panel.uncollapse();
-        panel.setText('Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
+
 
         aNestableComponent.host(panel);
         aNestableComponent.host(button);
