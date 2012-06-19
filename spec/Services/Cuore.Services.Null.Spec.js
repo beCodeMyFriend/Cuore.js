@@ -1,9 +1,17 @@
 describe("NullService", function() {
 
+    beforeEach(function() {
+
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
+
+    });
+
     it("inherits Service", function() {
         var aService = new CUORE.Services.Null();
-        expect(aService instanceof CUORE.Service).toBeTruthy();
-        expect(aService instanceof CUORE.Services.Null).toBeTruthy();
+        expect(aService).toBeInstanceOf(CUORE.Service);
+        expect(aService).toBeInstanceOf(CUORE.Services.Null);
     });
 
     it("does nothing when executes a procedure", function() {
