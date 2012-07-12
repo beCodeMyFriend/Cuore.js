@@ -30,10 +30,7 @@ CUORE.HandlerSet = CUORE.Class(null, {
     },
     
     _safeNotification: function(handler, eventData) {
-        var err;
-        try {
-            handler.handle(eventData);
-        } catch (err) {}
+        handler.handle(eventData);
     },
 
     _contains: function(eventName) {

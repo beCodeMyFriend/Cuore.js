@@ -46,18 +46,6 @@ describe("A HandlerSet", function() {
 
             expect(aHandler.handle).not.toHaveBeenCalledWith();
         });
-
-        it("when a handler is notified and it throws an error, the other ones will be called", function() {
-            var anEventData = "some data for the event";
-            var otherHandler = CUORE.Mocks.Handler('other handler');
-            aHandler.handle.andThrow('FAIL!');
-            aHandlerSet.register(eventName, otherHandler);
-
-            aHandlerSet.notifyHandlers(eventName, anEventData);
-
-            expect(aHandler.handle).toHaveBeenCalledWith(anEventData);
-            expect(otherHandler.handle).toHaveBeenCalledWith(anEventData);
-        });
     });
 
 });
