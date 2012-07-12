@@ -18,7 +18,8 @@ CUORE.Message = CUORE.Class(null, {
     },
 
     putOnHeader: function(key, value) {
-        value && (this.header[key] = value);
+        if(value===null) return;
+        (this.header[key] = value);
     },
 
     getFromHeader: function(key) {
@@ -30,7 +31,8 @@ CUORE.Message = CUORE.Class(null, {
     },
 
     putOnQuery: function(key, value) {
-        value && (this.query[key] = value);
+        if(value===null) return;
+        (this.query[key] = value);
     },
 
     putMapOnQuery: function(map) {
@@ -38,7 +40,9 @@ CUORE.Message = CUORE.Class(null, {
     },
 
     putOnAnswer: function(key, value) {
-        value && (this.answer[key] = value);
+        if(value===null) return;
+        
+        (this.answer[key] = value);
     },
 
     putMapOnAnswer: function(map) {

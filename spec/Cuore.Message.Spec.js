@@ -5,7 +5,7 @@ describe("Message", function() {
     beforeEach(function() {
         aMessage = new CUORE.Message();
         this.addMatchers({
-            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf,
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
         });
     });
 
@@ -50,7 +50,7 @@ describe("Message", function() {
         expect(aMessage.getFromQuery("betaKey")).toEqual('betaValue');
 
         expect(aMessage.asJson()).toEqual('{"header":{},"query":{"alfaKey":"alfaValue","betaKey":"betaValue"},"answer":{}}');
-    })
+    });
 
     it("manages maps in answer", function() {
         aMessage.putMapOnAnswer({
@@ -73,6 +73,16 @@ describe("Message", function() {
 
         expect(retrieved).toEqual('aValue');
         expect(aMessage.asJson()).toEqual('{"header":{},"query":{},"answer":{"aKey":"aValue"}}');
+    });
+
+    it("allows values with empty string", function() {
+        aMessage.putOnAnswer("aKey", "");
+
+        expect(aMessage.asJson()).toEqual('{"header":{},"query":{},"answer":{"aKey":""}}');
+
+        aMessage.putOnAnswer("aKey", undefined);
+
+        expect(aMessage.asJson()).toEqual('{"header":{},"query":{},"answer":{}}');
     });
 
     it("builds a message from a JSON", function() {
