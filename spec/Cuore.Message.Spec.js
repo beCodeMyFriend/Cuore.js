@@ -95,6 +95,16 @@ describe("Message", function() {
         expect(aMessage.getFromAnswer("anAnswerKey")).toEqual("anAnswerValue");
     });
 
+    it("builds a message from an object", function() {
+        var objectMessage = {header:{aHeaderKey:"aHeaderValue"},query:{aQueryKey:"aQueryValue"},answer:{anAnswerKey:"anAnswerValue"}};
+
+        aMessage = new CUORE.Message(objectMessage);
+
+        expect(aMessage.getFromHeader("aHeaderKey")).toEqual("aHeaderValue");
+        expect(aMessage.getFromQuery("aQueryKey")).toEqual("aQueryValue");
+        expect(aMessage.getFromAnswer("anAnswerKey")).toEqual("anAnswerValue");
+    });
+
     it("builds a message from a empty JSON", function() {
         aMessage = new CUORE.Message(null);
         expect(aMessage).toBeInstanceOf(CUORE.Message);
