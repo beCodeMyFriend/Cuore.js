@@ -20,17 +20,19 @@ CUORE.Core = (function(undefined) {
 
                 if (isReadyStateOK && isStatusOK) {
                     try {
-                        parsedResponse = JSON.parse(request.responseText);
+                        parsedResponse = request.responseText;
+                        var isString = (typeof request.responseText === 'string');
+                        if(isString) parsedResponse = JSON.parse(request.responseText);
                     } catch (e) {
                         parsedResponse = new CUORE.Message();
                     }
                     callback(parsedResponse);
                 }
-
             };
 
             request.open('POST', url, true);
-            request.send(JSON.stringify(data));
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send(data);
         };
 
     var requestGet = function(url, data, callback) {

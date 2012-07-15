@@ -4,8 +4,8 @@ describe("Core.response", function() {
 
     it("callback called with json formatted response", function() {
         var responseObject = {
-            "id": 123,
-            "title": "Hollywood - Part 2"
+            id: 123,
+            title: "Hollywood - Part 2"
         };
         var responseText = JSON.stringify(responseObject);
         var server = sinon.fakeServer.create();
@@ -26,7 +26,7 @@ describe("Core.response", function() {
     });
 
 
-    it('should receive a json and send a string', function() {
+    it('should receive a json and send the same json', function() {
         var xhr = sinon.useFakeXMLHttpRequest();
         var requests = [];
 
@@ -48,8 +48,7 @@ describe("Core.response", function() {
         var usedXhr = requests[1];
         var dataSended = usedXhr.requestBody;
 
-        var expectedSendedValue = JSON.stringify(aJsonInputData); 
-        expect(dataSended).toBe(expectedSendedValue);
+        expect(dataSended).toBe(aJsonInputData);
 
         xhr.restore();
     });
