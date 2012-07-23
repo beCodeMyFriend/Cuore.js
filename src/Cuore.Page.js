@@ -56,7 +56,5 @@ CUORE.Page = CUORE.Class(null, {
     setDirectory: function(directory) {
         this.services = directory;
         this.services.setBaseURL(this.baseURL);
-    },
-
-
+    }
 });
