@@ -52,7 +52,7 @@ CUORE.Dom.Event = (function(undefined) {
             add(el, type, function(event) {
                 if (!event) return;
 
-                if (_hasIE8EventSystem()) {
+                if (_hasIE8EventSystem(event)) {
                     event.returnValue = false;
                     event.cancelBubble = true;
                 } else {
@@ -70,7 +70,7 @@ CUORE.Dom.Event = (function(undefined) {
             _eventManager.fire(el, type);
         };
 
-    var _hasIE8EventSystem = function() {
+    var _hasIE8EventSystem = function(event) {
             return (!event.preventDefault && !event.stopPropagation);
         };
 
