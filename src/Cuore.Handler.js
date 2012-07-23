@@ -16,6 +16,5 @@ CUORE.Handler = CUORE.Class(null, {
 
     getOwner: function() {
         return this.owner;
-    },
-
+    }
 });

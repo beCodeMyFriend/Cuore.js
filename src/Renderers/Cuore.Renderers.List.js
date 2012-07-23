@@ -20,7 +20,7 @@ CUORE.Renderers.List = CUORE.Class(CUORE.Renderer, {
     _addItem: function(item) {
         var DOMitem = CUORE.Dom.createElement('li', null, this.panel);
         DOMitem.innerHTML=item;
-    },
+    }
 
 
 });
