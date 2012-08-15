@@ -12,8 +12,6 @@ describe("Service", function() {
         };
         
         xhr.onCreate = function(xhr) {
-			console.log(xhr);
-			console.log("blahblahblahblahblahblahblahblahblahblahblahblah");
             requests.push(xhr);
         };
 
@@ -39,6 +37,9 @@ describe("Service", function() {
     
     it("call is  asyncronous ,only emmitting when request is done ", function() {
         spyOn(aService,"emit");
+	aService.testProcedure = function(params, eventname){
+	    this.request(undefined, undefined, undefined);
+	}
        
         aService.execute('testProcedure', {'ajusreehfkf':'sdddd'});
 
@@ -81,7 +82,6 @@ describe("Service", function() {
     });
 
     var lastRequest = function () {
-		console.log(requests);
         var last= requests[requests.length-1];
         return last;
     };

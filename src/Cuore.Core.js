@@ -9,7 +9,7 @@ CUORE.Core = (function(undefined) {
         };
 
     var request = function(url, data, callback) {
-            if (!_createXHR()) return;
+        if (!_createXHR()) return;
             var request = _createXHR();
             request.onreadystatechange = function() {
                 var isReadyStateOK = (request.readyState === 4);
