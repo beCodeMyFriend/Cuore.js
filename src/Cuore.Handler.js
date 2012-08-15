@@ -6,10 +6,6 @@ CUORE.Handler = CUORE.Class(null, {
 
     handle: function(params) {},
 
-    dispatch: function(params) {
-        this.handle(params);
-    },
-
     setOwner: function(anObject) {
         this.owner = anObject;
     },
