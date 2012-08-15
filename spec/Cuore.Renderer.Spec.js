@@ -149,6 +149,54 @@ describe("A Renderer", function() {
             expect(anotherDecorator.postPaint).toHaveBeenCalledWith(aRenderer.panel);
         });
 
+        describe('html ID must be correct', function(){
 
+            it("default html element id is the component name", function() {
+                aComponent.doYouHijack = jasmine.createSpy().andReturn(false);
+
+                aRenderer.render(aComponent);
+
+                expect(document.getElementById('anyName')).not.toBeNull();
+            });
+
+            it("ID must start with [a-zA-Z]", function() {
+                aComponent.doYouHijack = jasmine.createSpy().andReturn(false);
+                aComponent.getName = jasmine.createSpy().andReturn('1anyName');
+
+                aRenderer.render(aComponent);
+
+                expect(document.getElementById('1anyName')).toBeNull();
+                expect(document.getElementById('a1anyName')).not.toBeNull();
+            });
+
+            it("ID  admits number of letters, digits ([0-9]), hyphens ('-'), underscores ('_'), colons (':'), and periods ('.') ", function() {
+                aComponent.doYouHijack = jasmine.createSpy().andReturn(false);
+                aComponent.getName = jasmine.createSpy().andReturn('any-N_a.m:e4');
+
+                aRenderer.render(aComponent);
+
+                expect(document.getElementById('any-N_a.m:e4')).not.toBeNull();
+
+                aRenderer = new CUORE.Renderer();
+                aRenderer.setContainer(container.id);
+                aComponent.doYouHijack = jasmine.createSpy().andReturn(false);
+                aComponent.getName = jasmine.createSpy().andReturn('any[Name');
+
+                aRenderer.render(aComponent);
+
+                expect(document.getElementById('any[Name')).toBeNull();
+                expect(document.getElementById('anyName')).not.toBeNull();
+            });
+
+            it("ID must be the container one when hijacked", function() {
+                aComponent.doYouHijack = jasmine.createSpy().andReturn(true);
+                aComponent.getName = jasmine.createSpy().andReturn('anyName');
+
+                aRenderer.render(aComponent);
+
+                expect(document.getElementById('anyName')).toBeNull();
+                expect(aRenderer.innerDivName('anyName')).toEqual('testingContainer');
+            });
+        });
     });
 });

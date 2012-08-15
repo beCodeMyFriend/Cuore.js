@@ -5,6 +5,7 @@ CUORE.Renderer = CUORE.Class(null, {
         this.panelClasses = [];
         this.container = document.body;
         this.tagName = undefined;
+        this.htmlID = null;
         this.setTagName('div');
         this.decorators = [];
     },
@@ -22,7 +23,11 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     innerDivName: function(componentName) {
-        return componentName;
+        if(this.htmlID) return this.htmlID;
+
+        this.htmlID = this._fixIDToken(componentName);
+
+        return this.htmlID;
     },
 
     render: function(component) {
@@ -77,8 +82,6 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     paint: function(component) {
-
-
         if (!component.doYouHijack()) {
             var divID = this.innerDivName(component.getName());
 
@@ -86,6 +89,7 @@ CUORE.Renderer = CUORE.Class(null, {
                 id: divID
             }, this.container);
         } else {
+            this.htmlID = this.container.id;
             this.panel = this.container;
         }
 
@@ -121,5 +125,16 @@ CUORE.Renderer = CUORE.Class(null, {
 
     addDecoration: function(decorator) {
         this.decorators.push(decorator);
+    },
+
+    _fixIDToken: function(aToken){
+        var fixedToken = aToken;
+        fixedToken = fixedToken.replace(/[^(a-zA-Z0-9_.:\-\.)]/,'');
+
+        var startsWithLetter = fixedToken.match(/^[a-zA-Z]/);
+        if(!startsWithLetter)
+                fixedToken = 'a' + fixedToken;
+
+         return fixedToken;
     }
 });

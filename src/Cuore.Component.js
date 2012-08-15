@@ -3,7 +3,6 @@ CUORE.Component = CUORE.Class(null, {
     init: function() {
         this.setHandlerSet(new CUORE.HandlerSet());
         this.name = this._generateUUID();
-        this.service = 'NULL';
         this.procedure = 'nullProcedure';
         this.SEPARATOR = '_';
         this.labels = {};
@@ -20,14 +19,7 @@ CUORE.Component = CUORE.Class(null, {
         this.services = directory;
         this.requestLabelText();
     },
-
-    initializeExecutionContext: function(service, procedure) {
-        if (service && procedure) {
-            this.service = service;
-            this.procedure = procedure;
-        }
-    },
-
+    
     behave: function(behaviour) {
         this.behaviour = behaviour;
     },
@@ -82,7 +74,7 @@ CUORE.Component = CUORE.Class(null, {
 
     getText: function(key) {
         if(!key) return null;
-        
+
         return this.labels[key];
     },
 
@@ -124,7 +116,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     requestLabelText: function(aKey) {
-        
+
         if(!aKey){
             for(var key in this.labels){
                 this._executeLabelsService(key);
@@ -134,7 +126,7 @@ CUORE.Component = CUORE.Class(null, {
            this._executeLabelsService(aKey);
         }
     },
-    
+
     _executeLabelsService:function(aKey){
         if (!this.services) return;
          this.services.execute("LABELS", 'getLabel', {

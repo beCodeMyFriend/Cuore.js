@@ -1,5 +1,5 @@
 var ShowCasePage = CUORE.Class(CUORE.Page, {
-    
+
     initializeServices: function() {
     },
 
@@ -18,8 +18,8 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
     labelShowcase: function() {
         var label = new CUORE.Components.LabelPanel('label.example');
         var noKey = new CUORE.Components.LabelPanel('key.not.solved');
-        this.addComponent(label, 'labelExample', true);
-        this.addComponent(noKey, 'labelExample2', true);
+        this.addComponent(label, 'labelExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(noKey, 'labelExample2', CUORE.Behaviours.REPLACE);
     },
 
     inputShowcase: function() {
@@ -35,10 +35,10 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         var password = new CUORE.Components.Input('input.label', 'password');
         password.setValue('example value');
 
-        this.addComponent(input, 'inputExample', true);
-        this.addComponent(defaultValue, 'inputExample2', true);
-        this.addComponent(disabled, 'inputExample3', true);
-        this.addComponent(password, 'inputExample4', true);
+        this.addComponent(input, 'inputExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(defaultValue, 'inputExample2', CUORE.Behaviours.REPLACE);
+        this.addComponent(disabled, 'inputExample3', CUORE.Behaviours.REPLACE);
+        this.addComponent(password, 'inputExample4', CUORE.Behaviours.REPLACE);
     },
 
     buttonShowcase: function() {
@@ -48,10 +48,10 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         disabled.disable();
         var image = new CUORE.Components.Button('imageButton', 'button.label');
 
-        this.addComponent(button, 'buttonExample', true);
-        this.addComponent(i18N, 'buttonExample2', true);
-        this.addComponent(disabled, 'buttonExample3', true);
-        this.addComponent(image, 'buttonExample4', true);
+        this.addComponent(button, 'buttonExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(i18N, 'buttonExample2', CUORE.Behaviours.REPLACE);
+        this.addComponent(disabled, 'buttonExample3', CUORE.Behaviours.REPLACE);
+        this.addComponent(image, 'buttonExample4', CUORE.Behaviours.REPLACE);
     },
 
     switchButtonShowcase: function() {
@@ -59,9 +59,9 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         var i18N = new CUORE.Components.SwitchButton('anyName', 'switch.on', 'switch.off');
         var image = new CUORE.Components.SwitchButton('imageSwitch', 'switch.on', 'switch.off');
 
-        this.addComponent(button, 'switchButtonExample', true);
-        this.addComponent(i18N, 'switchButtonExample2', true);
-        this.addComponent(image, 'switchButtonExample3', true);
+        this.addComponent(button, 'switchButtonExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(i18N, 'switchButtonExample2', CUORE.Behaviours.REPLACE);
+        this.addComponent(image, 'switchButtonExample3', CUORE.Behaviours.REPLACE);
     },
 
     numericSelectorShowcase: function() {
@@ -73,22 +73,24 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         negatives.setIncrementer(3);
         var stylable = new CUORE.Components.NumericSelector('numeric.label');
         stylable.disable();
-        this.addComponent(selector, 'numericSelectorExample', true);
-        this.addComponent(negatives, 'numericSelectorExample2', true);
-        this.addComponent(stylable, 'numericSelectorExample3', true);
+        this.addComponent(selector, 'numericSelectorExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(negatives, 'numericSelectorExample2', CUORE.Behaviours.REPLACE);
+        this.addComponent(stylable, 'numericSelectorExample3', CUORE.Behaviours.REPLACE);
     },
 
     collapsableShowcase: function() {
         var panel = new CUORE.Components.Collapsable();
+        panel.setPanelTextKey('collapsable.sample.key');
+
         var button = new CUORE.Components.SwitchButton('collapseButton', 'collapse', 'uncollapse');
         var handler = new CUORE.Handlers.SwitchCollapseAndUncollapse();
         panel.addHandler('BUTTON_collapseButton_CLICKED', handler);
 
         panel.uncollapse();
-        panel.setText('Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
+        panel.setText('collapsable.sample.key', 'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
 
-        this.addComponent(panel, 'collapsableExample', true);
-        this.addComponent(button, 'collapsableExample2', true);
+        this.addComponent(panel, 'collapsableExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(button, 'collapsableExample2', CUORE.Behaviours.REPLACE);
     },
 
 
@@ -97,8 +99,8 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         var grain = new CUORE.Components.TimeRange('timerange.label', 30);
         grain.setStartHour('4:00');
         grain.setEndHour('8:30');
-        this.addComponent(control, 'timeRangeExample', true);
-        this.addComponent(grain, 'timeRangeExample2', true);
+        this.addComponent(control, 'timeRangeExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(grain, 'timeRangeExample2', CUORE.Behaviours.REPLACE);
     },
 
     comboShowcase: function() {
@@ -122,8 +124,8 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         panel.host(range);
         panel.host(printButton);
 
-        this.addComponent(button, 'comboExample', true);
-        this.addComponent(panel, 'comboExample', false);
+        this.addComponent(button, 'comboExample', CUORE.Behaviours.REPLACE);
+        this.addComponent(panel, 'comboExample');
     },
 
     nesteableShowcase: function() {
@@ -140,8 +142,10 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
         var handler = new CUORE.Handlers.SwitchCollapseAndUncollapse();
         panel.addHandler('BUTTON_collapseButtonNested_CLICKED', handler);
 
+        panel.setPanelTextKey('collapsable.sample.key');
+        panel.setText('collapsable.sample.key', 'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
         panel.uncollapse();
-        panel.setText('Lorem ipsum dolor sit amet,consectetur adipiscing elit. Pellentesque vulputate congue elementum. Sed iaculis dapibus justo, at hendrerit neque pharetra et. Pellentesque vehicula, urna at vehicula tempus, leo odio posuere ligula, ac posuere odio nisi quis nulla. Fusce non odio sit amet ante iaculis lobortis eget at odio. Pellentesque venenatis metus a neque tincidunt  ');
+
 
         aNestableComponent.host(panel);
         aNestableComponent.host(button);
@@ -152,6 +156,6 @@ var ShowCasePage = CUORE.Class(CUORE.Page, {
 
         aNestableComponent.host(anotherNestableComponent);
 
-        this.addComponent(aNestableComponent, 'ExampleNested', true);
+        this.addComponent(aNestableComponent, 'ExampleNested', CUORE.Behaviours.REPLACE);
     }
 });
