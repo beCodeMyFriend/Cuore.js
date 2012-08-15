@@ -93,18 +93,18 @@ void HeadlessSpecRunner::timerEvent(QTimerEvent *event)
     if (event->timerId() != m_ticker.timerId())
         return;
 
-    if (!hasElement(".jasmine_reporter") && !hasElement(".runner.running"))
+    if (!hasElement(".jasmine_reporter") && !hasElement(".runningAlert"))
         return;
 
-    if (hasElement(".runner.passed")) {
-        QWebElement desc = m_page.mainFrame()->findFirstElement(".description");
+    if (hasElement(".passingAlert")) {
+        QWebElement desc = m_page.mainFrame()->findFirstElement(".passingAlert");
         std::cout << qPrintable(desc.toPlainText()) << std::endl;
         QApplication::instance()->exit(0);
         return;
     }
 
-    if (hasElement(".runner.failed")) {
-        QWebElement desc = m_page.mainFrame()->findFirstElement(".description");
+    if (hasElement(".specDetail.failed")) { 
+        QWebElement desc = m_page.mainFrame()->findFirstElement("#details>.specDetail>.description");
         std::cout << "FAIL: " << qPrintable(desc.toPlainText()) << std::endl;
         m_page.mainFrame()->addToJavaScriptWindowObject("debug", this);
         m_page.mainFrame()->evaluateJavaScript(DUMP_MSG);

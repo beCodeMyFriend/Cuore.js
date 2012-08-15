@@ -5,12 +5,15 @@ describe("Service", function() {
         xhr = sinon.useFakeXMLHttpRequest();
         requests = [];
         
+	
         aService = new CUORE.Service();
         aService.testProcedure = function(params, eventName) {
             this.request("aUrl", params, eventName);
         };
         
         xhr.onCreate = function(xhr) {
+			console.log(xhr);
+			console.log("blahblahblahblahblahblahblahblahblahblahblahblah");
             requests.push(xhr);
         };
 
@@ -78,8 +81,11 @@ describe("Service", function() {
     });
 
     var lastRequest = function () {
+		console.log(requests);
         var last= requests[requests.length-1];
         return last;
     };
     
 });
+
+

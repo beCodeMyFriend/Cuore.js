@@ -8,7 +8,7 @@
         <!-- include Cuore lib files here. -->
         <script src="../vendor/jasmine-1.1.0/jasmine.js" type="text/javascript"></script>
         <script src="../vendor/jasmine-1.1.0/jasmine-html.js" type="text/javascript"></script>
-        <script src="../vendor/sinon-1.2.0/sinon-1.2.0.js" type="text/javascript"></script>
+        <script src="../vendor/sinon-1.3.4.js" type="text/javascript"></script>
         <!-- end Cuore lib files -->
 
         <!-- include Cuore source files here... -->
@@ -112,31 +112,35 @@
         <!-- end Cuore spec files -->
 
         <script type="text/javascript">
-            (function() {
-                var jasmineEnv = jasmine.getEnv();
-                jasmineEnv.updateInterval = 1000;
+             CUORE.Core.request = function(){};
+      
+    (function() {
+      
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
 
-                var trivialReporter = new jasmine.TrivialReporter();
+      var htmlReporter = new jasmine.HtmlReporter();
 
-                jasmineEnv.addReporter(trivialReporter);
+      jasmineEnv.addReporter(htmlReporter);
 
-                jasmineEnv.specFilter = function(spec) {
-                    return trivialReporter.specFilter(spec);
-                };
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
 
-                var currentWindowOnload = window.onload;
+      var currentWindowOnload = window.onload;
 
-                window.onload = function() {
-                    if (currentWindowOnload) {
-                        currentWindowOnload();
-                    }
-                    execJasmine();
-                };
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
 
-                function execJasmine() {
-                    jasmineEnv.execute();
-                }
-          })();
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
         </script>
     </head>
     <body>
