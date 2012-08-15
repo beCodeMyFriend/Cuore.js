@@ -47,13 +47,13 @@ describe("Page", function() {
             expect(aService).toEqual(expectedService);
         });
 
-        it("when baseURL is configured, it informs the directory", function() {
+        /*it("when baseURL is configured, it informs the directory", function() {
             var baseURL = "A Base URL";
             aPage = new CUORE.Page(baseURL);
             aPage.setDirectory(directory);
 
             expect(directory.setBaseURL).toHaveBeenCalledWith(baseURL);
-        });
+        });*/
 
         it("when a service is added then adds the service to the directory", function() {
             var aService = CUORE.Mocks.Service();

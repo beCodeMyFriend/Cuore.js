@@ -1,6 +1,6 @@
 CUORE.Registry = CUORE.Class(null, {
 
-    init: function(baseURL) {
+    init: function() {
         this.components = [];
     },
 

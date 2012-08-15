@@ -1,10 +1,8 @@
 CUORE.Page = CUORE.Class(null, {
 
-    init: function(baseURL) {
-        this.baseURL = baseURL;
+    init: function() {
         this.components = new CUORE.Registry();
         this.services = new CUORE.Directory();
-        this.services.setBaseURL(baseURL);
         this.state = new CUORE.State();
         this.setUp();
     },
@@ -55,7 +53,6 @@ CUORE.Page = CUORE.Class(null, {
 
     setDirectory: function(directory) {
         this.services = directory;
-        this.services.setBaseURL(this.baseURL);
     },
 
 
