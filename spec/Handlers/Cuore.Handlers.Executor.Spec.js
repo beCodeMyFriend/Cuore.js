@@ -1,33 +1,35 @@
 describe("ExecutorHandler", function () {
 
-    it("inherits Handler", function () {
-        var aHandler = new CUORE.Handlers.Executor();
+    beforeEach(function() {
+            this.addMatchers({
+                toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+            });
+    });
 
-        expect(aHandler instanceof CUORE.Handlers.Executor).toBeTruthy();
-        expect(aHandler instanceof CUORE.Handler).toBeTruthy();
+    it("inherits Handler", function () {
+
+        var aHandler = new CUORE.Handlers.Executor();
+        expect(aHandler).toBeInstanceOf(CUORE.Handlers.Executor);
+        expect(aHandler).toBeInstanceOf(CUORE.Handler);
     });
 
     it("sets an owner function when it is initialized", function () {
 
         var aFunction = "testFunction";
         var aHandler = new CUORE.Handlers.Executor(aFunction);
-
         expect(aHandler.ownerFunction).toEqual(aFunction);
     });
 
     it("handle method calls a owner's method", function () {
+
         var aFunction = "testFunction";
         var aParams = "testParams";
-        var aComponent = {
-            testFunction: function(params) {
-                this.paramsCalled = params;
-            }
-        };
-
+        var aComponent = {};
+        aComponent.testFunction = jasmine.createSpy("testFuncion");
+        
         var aHandler = new CUORE.Handlers.Executor(aFunction);
         aHandler.setOwner(aComponent);
         aHandler.handle(aParams);
-
-        expect(aComponent.paramsCalled).toEqual(aParams);
+        expect(aComponent.testFunction).toHaveBeenCalledWith(aParams);
     });
 });
