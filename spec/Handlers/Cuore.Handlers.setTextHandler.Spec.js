@@ -1,9 +1,15 @@
 describe("setTextHandler", function () {
+    
+    beforeEach(function() {
+            this.addMatchers({
+                toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+            });
+    }); 
 
     it("inherits  Handler", function () {
         var aSetTextHandler = new CUORE.Handlers.SetText();
-        expect(aSetTextHandler instanceof CUORE.Handler).toBeTruthy();
-        expect(aSetTextHandler instanceof CUORE.Handlers.SetText).toBeTruthy();
+        expect(aSetTextHandler).toBeInstanceOf(CUORE.Handler);
+        expect(aSetTextHandler).toBeInstanceOf(CUORE.Handlers.SetText);
     });
 
     it("sets the text of the owner reading as json object when dispatched", function () {
