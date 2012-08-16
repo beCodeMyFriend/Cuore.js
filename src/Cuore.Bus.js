@@ -51,10 +51,7 @@ CUORE.Bus = (function(undefined) {
             }
         };
 
-    var reset = function() {
-            //subscriptions = [];
-        };
-
+    
     var _subscriptionExists = function(subscriber, eventName) {
             var result = false;
             var theSubscription = [subscriber, eventName];
@@ -107,7 +104,6 @@ CUORE.Bus = (function(undefined) {
         hasSubscriptions: hasSubscriptions,
         subscribers: subscribers,
         emit: emit,
-        reset: reset,
         enableDebug: enableDebug,
         disableDebug: disableDebug
     };

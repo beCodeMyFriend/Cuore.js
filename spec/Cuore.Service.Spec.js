@@ -5,6 +5,7 @@ describe("Service", function() {
         xhr = sinon.useFakeXMLHttpRequest();
         requests = [];
         
+	
         aService = new CUORE.Service();
         aService.testProcedure = function(params, eventName) {
             this.request("aUrl", params, eventName);
@@ -36,6 +37,9 @@ describe("Service", function() {
     
     it("call is  asyncronous ,only emmitting when request is done ", function() {
         spyOn(aService,"emit");
+	aService.testProcedure = function(params, eventname){
+	    this.request(undefined, undefined, undefined);
+	}
        
         aService.execute('testProcedure', {'ajusreehfkf':'sdddd'});
 
@@ -83,3 +87,5 @@ describe("Service", function() {
     };
     
 });
+
+

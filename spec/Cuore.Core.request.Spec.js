@@ -8,6 +8,7 @@ describe("Core.response", function() {
             title: "Hollywood - Part 2"
         };
         var responseText = JSON.stringify(responseObject);
+        
         var server = sinon.fakeServer.create();
         server.respondWith("POST", URL, [200,
         {
@@ -15,12 +16,13 @@ describe("Core.response", function() {
         },
         responseText]);
 
-        var callback = sinon.spy();
+        var callback = jasmine.createSpy();
         CUORE.Core.request(URL, 'someInputData', callback);
 
         server.respond();
-
-        expect(callback.calledWith(responseObject)).toBeTruthy();
+        
+        
+        expect(callback).toHaveBeenCalledWith(responseObject);
 
         server.restore();
     });
