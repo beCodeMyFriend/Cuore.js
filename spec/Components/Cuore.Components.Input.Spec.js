@@ -1,194 +1,120 @@
 describe("Input", function() {
 
-    var xhr;
+    var aComponent;
 
     beforeEach(function() {
-        xhr = sinon.useFakeXMLHttpRequest();
-        var requests = [];
-
-        xhr.onCreate = function(xhr) {
-            requests.push(xhr);
-        };
-
-        CUORE.Core.createXHR = function() {
-            return xhr;
-        };
-    });
-
-    afterEach(function() {
-        var container = document.getElementById('xhtmlToTest');
-        container.innerHTML = '';
-
-        xhr.restore();
+        aComponent = new CUORE.Components.Input("CanonicalKey");
     });
 
     it("inherits Component", function() {
-        var theComponent = getComponentInput();
-        expect(theComponent instanceof CUORE.Components.Input).toBeTruthy();
-        expect(theComponent instanceof CUORE.Component).toBeTruthy();
+        expect(aComponent instanceof CUORE.Components.Input).toBeTruthy();
+        expect(aComponent instanceof CUORE.Component).toBeTruthy();
     });
 
-    it("is drawn in a container", function() {
-        var aService = {};
-        aService.execute = function(procedure, params, asynchronous) {};
-
-        var theComponent = getComponentInput();
-        theComponent.getLabelService = function() {
-            return aService;
-        };
-
-        theComponent.draw();
-
-        var DOMObject = document.getElementById(theComponent.getUniqueID());
-
-        expect(CUORE.Dom.hasClass(DOMObject, "inputJS")).toBeTruthy();
-
-        var children = DOMObject.getElementsByTagName("input");
-        expect(children.length).toEqual(1);
-        children = DOMObject.getElementsByTagName("label");
-        expect(children.length).toEqual(1);
-    });
 
     it("allows to get its value", function() {
-        var aComponent = getComponentInput();
-        aComponent.draw();
+        aComponent.renderer.getValue = jasmine.createSpy('getValue').andReturn('testText');
 
-        var DOMObject = document.getElementById(aComponent.getUniqueID());
-        DOMObject.getElementsByTagName("input")[0].value = "testText";
+        expect(aComponent.getValue()).toEqual('testText');
 
-        expect(aComponent.getValue()).toEqual("testText");
+        aComponent.setValue('testText');
+        aComponent.renderer.getValue = jasmine.createSpy('getValue').andReturn('');
+
+        expect(aComponent.getValue()).toEqual('');
     });
 
     it("allows to set a value", function() {
-        var aComponent = getComponentInput();
-        aComponent.draw();
+        aComponent.updateRender = jasmine.createSpy('updateRender');
 
         aComponent.setValue("testText");
 
-        DOMObject = document.getElementById(aComponent.getUniqueID());
-        var value = DOMObject.getElementsByTagName("input")[0].value;
-        expect(value).toEqual("testText");
+        expect(aComponent.updateRender).toHaveBeenCalled();
     });
 
-    it("allows to set an empty value", function() {
-        var aComponent = getComponentInput();
-        aComponent.draw();
+    it("allows to get its value", function() {
+        aComponent.renderer.getValue = jasmine.createSpy('getValue').andReturn('');
 
-        aComponent.setValue("testText");
-        aComponent.renderer.DOMInput.value = "";
-
-        expect(aComponent.getValue()).toEqual("");
+        expect(aComponent.getValue()).toEqual('');
     });
 
-    it("allows no be enabled or disable", function() {
-        var aComponent = getComponentInput();
-        aComponent.draw();
-        DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input");
+    it("allows to set the name to be submitted in the form", function() {
+        aComponent.setFormName('aName');
 
-        expect(DOMInput.disabled).toBeFalsy();
-
-        aComponent.disable();
-        expect(DOMInput.disabled).toBeUndefined();
-
-        aComponent.enable();
-        expect(DOMInput.disabled).toBeFalsy();
-    });
-
-    describe('has a name field', function(){
-        it("allows to set the name to be submitted in the form", function() {
-           var aComponent = getComponentInput();
-
-           aComponent.setFormName('aName');
-
-           expect(aComponent.getFormName()).toEqual('aName');
-       });
-
-         it("renders the name attribute when provided", function() {
-           var aComponent = getComponentInput();
-           aComponent.draw();
-           var DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input")[0];
-
-           expect(DOMInput.name).toEqual('');
-
-           aComponent.setFormName('aName');
-           aComponent.draw();
-
-           expect(DOMInput.name).toEqual('aName');
-       });
+        expect(aComponent.getFormName()).toEqual('aName');
     });
 
     it("allows changing the type", function() {
-        var aComponent = getComponentInput();
-        aComponent.draw();
+        expect(aComponent.type).toEqual("text");
 
-        DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input")[0];
-        expect(DOMInput.type).toEqual("text");
-
-        var container = document.getElementById('xhtmlToTest');
-        container.innerHTML = '';
         aComponent = new CUORE.Components.Input(undefined, "password");
-        aComponent.setContainer("xhtmlToTest");
-        aComponent.draw();
-        DOMInput = document.getElementById(aComponent.getUniqueID()).getElementsByTagName("input")[0];
-        expect(DOMInput.type).toEqual("password");
+        expect(aComponent.type).toEqual("password");
     });
 
-    it("allows set the text without drawing previously", function() {
-        var aComponent = getComponentInput();
-        aComponent.setText('CanonicalKey', 'testText');
-        aComponent.draw();
-        DOMObject = document.getElementById(aComponent.getUniqueID());
-        var value = DOMObject.getElementsByTagName("label")[0].innerHTML;
-        expect(value).toEqual("testText");
+    describe('renderer', function() {
+
+        afterEach(function() {
+            var container = document.getElementById('xhtmlToTest');
+            container.innerHTML = '';
+        });
+
+        it("is drawn in a container", function() {
+            var theComponent = createDummyComponent();
+            var aRenderer = new CUORE.Renderers.Input();
+            var container = createTestContainer();
+            aRenderer.setContainer(container.id);
+
+            aRenderer.render(theComponent);
+
+            var DOMObject = document.getElementById(aRenderer.htmlID);
+
+            expect(CUORE.Dom.hasClass(DOMObject, "inputJS")).toBeTruthy();
+
+            var children = DOMObject.getElementsByTagName("input");
+            expect(children.length).toEqual(1);
+            expect(children[0].type).toEqual('text');
+            children = DOMObject.getElementsByTagName("label");
+            expect(children.length).toEqual(1);
+            expect(children[0].innerHTML).toEqual('the input text');
+        });
+
+        it("renders the name attribute when provided", function() {
+            var aComponent = createDummyComponent();
+            var aRenderer = new CUORE.Renderers.Input();
+            var container = createTestContainer();
+            aRenderer.setContainer(container.id);
+
+            aRenderer.render(aComponent);
+
+            var DOMInput = document.getElementById(aRenderer.htmlID).getElementsByTagName("input")[0];
+
+            expect(DOMInput.name).toEqual('the form name');
+
+            aComponent.getFormName = jasmine.createSpy('getFormName').andReturn('');
+            aRenderer.render(aComponent);
+
+            expect(DOMInput.name).toEqual('');
+        });
+
+
+        var createTestContainer = function() {
+                var container = document.createElement('div');
+                container.id = "testingContainer";
+                var panel = document.getElementById("xhtmlToTest");
+                panel.appendChild(container);
+
+                return container;
+            };
+        var createDummyComponent = function() {
+                var aComponent = {};
+                aComponent.doYouReplace = jasmine.createSpy('doYouReplace').andReturn(false);
+                aComponent.doYouHijack = jasmine.createSpy('doYouHijack').andReturn(false);
+                aComponent.getName = jasmine.createSpy('getName').andReturn('componentName');
+                aComponent.isEnabled = jasmine.createSpy('isEnabled').andReturn(true);
+
+                aComponent.type = "text";
+                aComponent.getInputText = jasmine.createSpy('getInputText').andReturn('the input text');
+                aComponent.getFormName = jasmine.createSpy('getFormName').andReturn('the form name');
+                return aComponent;
+            };
     });
-
-    it("must clean its text when drawn by parent", function() {
-        var aComponent = getComponentInput();
-        aComponent.setText('CanonicalKey', 'testText');
-        aComponent.draw();
-        DOMObject = document.getElementById(aComponent.getUniqueID());
-        var value = DOMObject.innerHTML;
-        expect(value).toMatch("testText");
-    });
-
-    it("must update its text when drawn", function() {
-        var aComponent = getComponentInput();
-        aComponent.draw();
-        aComponent.setText('CanonicalKey', "testText");
-        DOMObject = document.getElementById(aComponent.getUniqueID());
-        var value = DOMObject.innerHTML;
-        expect(value).toMatch("testText");
-    });
-
-    it("uses the container as panel when component has hijack behaviour", function() {
-        var aComponent = getComponentInput();
-        aComponent.behave(CUORE.Behaviours.HIJACK);
-        aComponent.draw();
-        DOMObject = document.getElementById('xhtmlToTest');
-
-        expect(DOMObject.childNodes[0].tagName).toEqual('LABEL');
-    });
-
-    it("when disabling has disable class", function() {
-        var aComponent = getComponentInput();
-
-        var componentId = aComponent.getUniqueID();
-
-        aComponent.disable();
-        aComponent.draw();
-
-        var element = document.getElementById(componentId);
-
-        expect(CUORE.Dom.hasClass(element, "disabled")).toBeTruthy();
-
-        aComponent.enable();
-
-        expect(CUORE.Dom.hasClass(element, "disabled")).toBeFalsy();
-    });
-
-    var getComponentInput = function() {
-        var aComponent = new CUORE.Components.Input("CanonicalKey");
-        aComponent.setContainer("xhtmlToTest");
-        return aComponent;
-    };
 });
