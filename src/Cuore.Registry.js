@@ -1,6 +1,6 @@
 CUORE.Registry = CUORE.Class(null, {
 
-    init: function(baseURL) {
+    init: function() {
         this.components = [];
     },
 
@@ -22,14 +22,7 @@ CUORE.Registry = CUORE.Class(null, {
         var componentsLength = this.size();
 
         for (var position = 0; position < componentsLength; position++) {
-            this._safeInvoke(callback, this.components[position])
+            callback(this.components[position]);
         }
-    },
-
-    _safeInvoke: function(callback, component) {
-        var err;
-        try {
-            callback(component);
-        } catch (err) {}
     }
 });

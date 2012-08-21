@@ -8,7 +8,7 @@ CUORE.Renderers.Input = CUORE.Class(CUORE.Renderer, {
         this.addClass('inputJS');
 
         this.DOMInput = CUORE.Dom.createElement('input', {
-            'type': component.type ,
+            'type': component.type
         }, this.panel);
 
     },

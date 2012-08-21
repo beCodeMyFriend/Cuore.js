@@ -37,5 +37,5 @@ CUORE.Components.SwitchButton = CUORE.Class(CUORE.Components.Button, {
 
     getInactiveLabel: function () {
         return this.getText(this.inactiveKey);
-    },
+    }
 });

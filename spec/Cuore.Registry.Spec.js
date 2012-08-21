@@ -44,17 +44,6 @@ describe("A Registry", function() {
 
                 expect(callback).toHaveBeenCalledOnceWithTheComponent(aComponent);
             });
-
-            it("even if an exception is thrown from the callback, it will be called once for each registered component", function() {
-                var otherComponent = CUORE.Mocks.Component('otherComponent');
-                aRegistry.register(otherComponent)
-
-                var callback = jasmine.createSpy('crappy callback').andThrow("Error!");
-
-                aRegistry.each(callback);
-
-                expect(callback.callCount).toEqual(2);
-            });
         });
     });
 });
