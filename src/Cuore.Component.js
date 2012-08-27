@@ -19,7 +19,7 @@ CUORE.Component = CUORE.Class(null, {
         this.services = directory;
         this.requestLabelText();
     },
-    
+
     behave: function(behaviour) {
         this.behaviour = behaviour;
     },
@@ -89,12 +89,6 @@ CUORE.Component = CUORE.Class(null, {
     setContainer: function(container) {
         if (this.doYouHijack()) this.setName(container);
         this.renderer.setContainer(container);
-    },
-
-    getUniqueID: function() {
-        var id = this.renderer.innerDivName(this.name);
-        if (this.doYouHijack()) id = this.name;
-        return id;
     },
 
     getManagedEvents: function() {
