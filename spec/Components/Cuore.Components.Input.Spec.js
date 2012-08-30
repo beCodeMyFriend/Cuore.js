@@ -24,7 +24,7 @@ describe("Input", function() {
 
     it("inherits Component", function() {
         var theComponent = getComponentInput();
-        expect(theComponent) instanceof CUORE.Components.Input).toBeTruthy();
+        expect(theComponent instanceof CUORE.Components.Input).toBeTruthy();
         expect(theComponent instanceof CUORE.Component).toBeTruthy();
     });
 
