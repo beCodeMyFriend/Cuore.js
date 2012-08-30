@@ -2,12 +2,13 @@ describe("Core", function() {
 
     var head, scriptCore;
 
-    beforeEach(function() {
+    beforeEach (function() {
         Array.prototype.indexOf = undefined;
         scriptCore = document.createElement('script');
         scriptCore.src = '../src/Cuore.Core.js';
         head = document.getElementsByTagName('head')[0];
         head.appendChild(scriptCore);
+        waits(3);
     });
 
     afterEach(function() {
@@ -31,7 +32,7 @@ describe("Core", function() {
     });
 
     it("provides a polyfilled array.indexOf that works on arrays with gaps", function() {
-        waits(1);
+        waits(2);
         runs(function() {
             var array = [];
             array[0] = 'element';
