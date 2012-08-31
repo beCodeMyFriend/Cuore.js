@@ -13,6 +13,10 @@ describe("Label Panel", function() {
         CUORE.Core.createXHR = function() {
             return xhr;
         };
+
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
     });
 
     afterEach(function() {
@@ -25,8 +29,8 @@ describe("Label Panel", function() {
     it("inherits Component", function() {
         var thePanel = new CUORE.Components.LabelPanel();
 
-        expect(thePanel instanceof CUORE.Component).toBeTruthy();
-        expect(thePanel instanceof CUORE.Components.LabelPanel).toBeTruthy();
+        expect(thePanel).toBeInstanceOf(CUORE.Component);
+        expect(thePanel).toBeInstanceOf(CUORE.Components.LabelPanel);
     });
 
     it("could be initialized with I18NKey", function() {

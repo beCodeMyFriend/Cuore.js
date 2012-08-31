@@ -13,6 +13,10 @@ describe("Input", function() {
         CUORE.Core.createXHR = function() {
             return xhr;
         };
+
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
     });
 
     afterEach(function() {
@@ -24,8 +28,8 @@ describe("Input", function() {
 
     it("inherits Component", function() {
         var theComponent = getComponentInput();
-        expect(theComponent instanceof CUORE.Components.Input).toBeTruthy();
-        expect(theComponent instanceof CUORE.Component).toBeTruthy();
+        expect(theComponent).toBeInstanceOf(CUORE.Components.Input);
+        expect(theComponent).toBeInstanceOf(CUORE.Component);
     });
 
    

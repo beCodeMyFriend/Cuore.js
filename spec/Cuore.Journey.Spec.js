@@ -1,5 +1,11 @@
 describe("Journey", function() {
 
+    beforeEach(function(){
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
+    });
+
     it("defaults to a natural day", function() {
         var aJourney = new CUORE.Journey();
         expect(aJourney.starts()).toEqual("00:00");
@@ -93,10 +99,10 @@ describe("Journey", function() {
         var aSlot = aJourney.slots()[5];
         var anotherSlot = aJourney.slots()[18];
         var lastSlot = aJourney.slots()[23];
-        expect(firstSlot instanceof CUORE.Journey).toBeTruthy();
-        expect(aSlot instanceof CUORE.Journey).toBeTruthy();
-        expect(anotherSlot instanceof CUORE.Journey).toBeTruthy();
-        expect(lastSlot instanceof CUORE.Journey).toBeTruthy();
+        expect(firstSlot).toBeInstanceOf(CUORE.Journey);
+        expect(aSlot).toBeInstanceOf(CUORE.Journey);
+        expect(anotherSlot).toBeInstanceOf(CUORE.Journey);
+        expect(lastSlot).toBeInstanceOf(CUORE.Journey);
     });
 
     it("has the correct start and end hours for each slot with default journey", function() {

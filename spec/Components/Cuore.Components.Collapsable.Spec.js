@@ -1,5 +1,11 @@
 describe("Collapsable Panel", function() {
 
+    beforeEach(function(){
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
+    });
+
     afterEach(function() {
         var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
@@ -8,8 +14,8 @@ describe("Collapsable Panel", function() {
     it("inherits Component", function() {
         var aPanel = new CUORE.Components.Collapsable();
 
-        expect(aPanel instanceof CUORE.Components.Collapsable).toBeTruthy();
-        expect(aPanel instanceof CUORE.Component).toBeTruthy();
+        expect(aPanel).toBeInstanceOf(CUORE.Components.Collapsable);
+        expect(aPanel).toBeInstanceOf(CUORE.Component);
     });
 
 

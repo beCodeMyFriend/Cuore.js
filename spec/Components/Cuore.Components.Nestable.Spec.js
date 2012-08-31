@@ -1,5 +1,11 @@
 describe("NestableComponent", function () {
 
+    beforeEach(function(){
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
+    });
+
     afterEach(function(){
         var container = document.getElementById('xhtmlToTest');
         container.innerHTML = '';
@@ -7,7 +13,7 @@ describe("NestableComponent", function () {
 
     it("is a Component", function () {
         var aComponent = new CUORE.Components.Nestable();
-        expect(aComponent instanceof CUORE.Component).toBeTruthy();
+        expect(aComponent).toBeInstanceOf(CUORE.Component);
     });
 
     it("can host any Component", function () {

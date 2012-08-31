@@ -1,4 +1,10 @@
 describe("Link Renderer", function () {
+	
+    beforeEach(function(){
+        this.addMatchers({
+        	toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
+    });
     
     afterEach(function(){
         var container = document.getElementById('xhtmlToTest');
@@ -8,8 +14,8 @@ describe("Link Renderer", function () {
     it("inherits Renderer", function () {
         var aLink = new CUORE.Renderers.Link();
 
-        expect(aLink instanceof CUORE.Renderers.Link).toBeTruthy();
-        expect(aLink instanceof CUORE.Renderer).toBeTruthy();
+        expect(aLink).toBeInstanceOf(CUORE.Renderers.Link);
+        expect(aLink).toBeInstanceOf(CUORE.Renderer);
     });
 
     it("generates an anchor in DOM with a span for css replacement when it is drawn", function () {

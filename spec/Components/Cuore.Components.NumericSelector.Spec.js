@@ -1,5 +1,11 @@
 describe("Numeric Selector", function () {
 
+    beforeEach(function(){
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
+    });
+
     afterEach(function(){
         var panel = document.getElementById('xhtmlToTest');
         panel.innerHTML = '';
@@ -8,9 +14,9 @@ describe("Numeric Selector", function () {
     it("inherits Component and Input", function () {
         var aNumericSelector = getNumericSelector();
 
-        expect(aNumericSelector instanceof CUORE.Components.NumericSelector).toBeTruthy();
-        expect(aNumericSelector instanceof CUORE.Component).toBeTruthy();
-        expect(aNumericSelector instanceof CUORE.Components.Input).toBeTruthy();
+        expect(aNumericSelector).toBeInstanceOf(CUORE.Components.NumericSelector);
+        expect(aNumericSelector).toBeInstanceOf(CUORE.Component);
+        expect(aNumericSelector).toBeInstanceOf(CUORE.Components.Input);
     });
 
     it("could be drawn", function () {

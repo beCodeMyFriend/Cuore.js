@@ -13,6 +13,10 @@ describe("Button", function () {
         CUORE.Core.createXHR = function(){
             return xhr;
         };
+
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
     });
 
     afterEach(function(){
@@ -25,8 +29,8 @@ describe("Button", function () {
     it("inherits Component", function () {
         var aButton = new CUORE.Components.Button();
 
-        expect(aButton instanceof CUORE.Components.Button).toBeTruthy();
-        expect(aButton instanceof CUORE.Component).toBeTruthy();
+        expect(aButton).toBeInstanceOf(CUORE.Components.Button);
+        expect(aButton).toBeInstanceOf(CUORE.Component);
     });
 
     it("sets I18NKey in construct", function () {

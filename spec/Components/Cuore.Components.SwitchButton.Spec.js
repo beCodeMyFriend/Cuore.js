@@ -13,6 +13,10 @@ describe("SwitchButton", function () {
         CUORE.Core.createXHR = function(){
             return xhr;
         };
+
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
     });
 
     afterEach(function(){
@@ -27,9 +31,9 @@ describe("SwitchButton", function () {
         var keyInactive = "testKeyInactive";
         var aButton = new CUORE.Components.SwitchButton("buttonName", keyActive, keyInactive);
 
-        expect(aButton instanceof CUORE.Components.SwitchButton).toBeTruthy();
-        expect(aButton instanceof CUORE.Components.Button).toBeTruthy();
-        expect(aButton instanceof CUORE.Component).toBeTruthy();
+        expect(aButton).toBeInstanceOf(CUORE.Components.SwitchButton);
+        expect(aButton).toBeInstanceOf(CUORE.Components.Button);
+        expect(aButton).toBeInstanceOf(CUORE.Component);
     });
 
     it("should have default labels", function () {

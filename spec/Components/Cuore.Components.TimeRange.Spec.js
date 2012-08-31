@@ -13,6 +13,10 @@ describe("TimeRange", function () {
         CUORE.Core.createXHR = function(){
             return xhr;
         };
+
+        this.addMatchers({
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+        });
     });
 
     afterEach(function(){
@@ -24,8 +28,8 @@ describe("TimeRange", function () {
 
     it("inherits Component", function () {
         var theComponent = getTimeRange();
-        expect(theComponent instanceof CUORE.Component).toBeTruthy();
-        expect(theComponent instanceof CUORE.Components.TimeRange).toBeTruthy();
+        expect(theComponent).toBeInstanceOf(CUORE.Component);
+        expect(theComponent).toBeInstanceOf(CUORE.Components.TimeRange);
     });
 
     it("could be Instanced with I18N", function () {

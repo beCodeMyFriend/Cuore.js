@@ -6,30 +6,23 @@ describe('List Renderer', function() {
     });
    
     beforeEach(function() {
-
-	this.addMatchers({
-	    toContainAnElement: function(HTMLElementType) {
-		var figures = this.actual.getElementsByTagName(HTMLElementType);
-		return (figures.length > 0);
-	    },
-	    
-	    toContainClass: function(classname) {
-		return CUORE.Dom.hasClass(this.actual,classname);
-	    },
-	    
-	    toContainAsFirstElement: function(HTMLElementType) {
-		var tagName=this.actual.childNodes[0].tagName;
-		var hasElement =(tagName.toLowerCase() === HTMLElementType.toLowerCase())
-		return hasElement;
-	    }
+    	this.addMatchers({
+    	    toContainAnElement: CUORE.Matchers.toContainAnElement,
+          toBeInstanceOf: CUORE.Matchers.toBeInstanceOf,
+          toContainClass: CUORE.Matchers.toContainClass,
+          toContainAsFirstElement: function(HTMLElementType) {
+            var tagName=this.actual.childNodes[0].tagName;
+            var hasElement =(tagName.toLowerCase() === HTMLElementType.toLowerCase())
+            return hasElement;
+          }
 	})
 
     });
 
     it("inherits Renderer", function() {
         var aRenderer = new CUORE.Renderers.List();
-        expect(aRenderer instanceof CUORE.Renderers.List).toBeTruthy();
-        expect(aRenderer instanceof CUORE.Renderer).toBeTruthy();
+        expect(aRenderer).toBeInstanceOf(CUORE.Renderers.List);
+        expect(aRenderer).toBeInstanceOf(CUORE.Renderer);
     });
 
     it("renderizes an unordered list ", function() {

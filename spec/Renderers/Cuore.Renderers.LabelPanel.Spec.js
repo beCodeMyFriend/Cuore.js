@@ -25,5 +25,5 @@ describe('Label Panel Renderer', function() {
                 panel.appendChild(container);
 
                 return container.id;
-            };
+        };
 });
