@@ -58,31 +58,13 @@ describe("Numeric Selector", function() {
     });
 
     it("emits event when the value is changed", function() {
-        var bus = {};
-
-        var numericSelectorEvent = "";
-        var numericSelectorParams = undefined;
-
-        bus.emit = function(event, params) {
-            numericSelectorEvent = event;
-            numericSelectorParams = params;
-        };
-
         var aNumericSelector = getNumericSelector();
-        aNumericSelector.getBus = function() {
-            return bus;
-        };
+        spyOn(CUORE.Bus, 'emit');
 
-        var expectedValue = 3;
-        aNumericSelector.setValue(expectedValue);
+        aNumericSelector.setValue(3);
 
-        var expectedParams = {
-            "value": expectedValue
-        };
         var expectedEvent = "COMPONENT_" + aNumericSelector.name + "_CHANGED";
-
-        expect(expectedParams).toEqual(numericSelectorParams);
-        expect(expectedEvent).toEqual(numericSelectorEvent);
+        expect(CUORE.Bus.emit).toHaveBeenCalledWith(expectedEvent,  { value : 3 });
     });
 
     it("disallows increments and decrements when disabled ", function() {

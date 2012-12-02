@@ -13,19 +13,7 @@ describe("TimeRange", function() {
 
     it("should call service on change", function() {
         var theComponent = getTimeRange();
-
-        var emitedEvent = null;
-        var emitedParams = null;
-
-        var bus = {};
-        bus.emit = function(event, params) {
-            emitedEvent = event;
-            emitedParams = params;
-        };
-
-        theComponent.getBus = function() {
-            return bus;
-        };
+        spyOn(CUORE.Bus, 'emit');
 
         var expectedValue = "03:00";
         theComponent.setStartHour(expectedValue);
@@ -36,20 +24,19 @@ describe("TimeRange", function() {
         };
         var expectedEvent = "COMPONENT_" + theComponent.name + "_CHANGED";
 
-        expect(expectedParams).toEqual(emitedParams);
-        expect(expectedEvent).toEqual(emitedEvent);
+        expect(CUORE.Bus.emit).toHaveBeenCalledWith(expectedEvent, expectedParams);
 
-        var expectedValue = "08:00";
+
+        expectedValue = "08:00";
         theComponent.setEndHour(expectedValue);
 
-        var expectedParams = {
+        expectedParams = {
             "startHour": "03:00",
             "endHour": "08:00"
         };
         var expectedEvent = "COMPONENT_" + theComponent.name + "_CHANGED";
 
-        expect(expectedParams).toEqual(emitedParams);
-        expect(expectedEvent).toEqual(emitedEvent);
+        expect(CUORE.Bus.emit).toHaveBeenCalledWith(expectedEvent, expectedParams);
     });
 
     it("should allow to set and get the values", function() {
@@ -258,7 +245,7 @@ describe("TimeRange", function() {
     var getTimeRange = function(granularity) {
             var key = "aKey";
             var aComponent = new CUORE.Components.TimeRange(key);
-            if (granularity) {
+            if(granularity) {
                 var aComponent = new CUORE.Components.TimeRange(key, granularity);
             }
             aComponent.setContainer("xhtmlToTest");
