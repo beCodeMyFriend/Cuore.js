@@ -13,7 +13,7 @@ CUORE.Mocks = {
     },
 
     Registry: function() {
-        return CUORE.Mocks.mock('registry', ['register', 'size', 'each']);
+        return CUORE.Mocks.mock('registry', ['register', 'size', 'each', 'filterByName']);
     },
 
     Directory: function() {

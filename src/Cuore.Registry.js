@@ -24,5 +24,13 @@ CUORE.Registry = CUORE.Class(null, {
         for (var position = 0; position < componentsLength; position++) {
             callback(this.components[position]);
         }
+    },
+
+    filterByName: function(name) {
+        var selectedComponent = null;
+        this.each(function(component) {
+            if(component.getName() === name) selectedComponent = component;
+        });
+        return selectedComponent;
     }
 });

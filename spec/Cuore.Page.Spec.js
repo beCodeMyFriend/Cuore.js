@@ -17,7 +17,6 @@ describe("Page", function() {
         expect(aPage.initializeComponents).toHaveBeenCalled();
     });
 
-
     it("should set and retrieve states by key", function() {
         var key = 'arbitraryKey';
         var savedState = 'savedState';
@@ -91,6 +90,15 @@ describe("Page", function() {
         it("configures the component with a container", function() {
             aPage.addComponent(aComponent, testingContainer, true);
             expect(aComponent.setContainer).toHaveBeenCalledWith(testingContainer);
+        });
+
+
+        it("has a method that returns the component that matchs with the id", function() {
+            aPage.addComponent(aComponent, testingContainer, true);
+
+            aPage.getComponentWithDOMId('id');
+
+            expect(registry.filterByName).toHaveBeenCalledWith('id');
         });
 
         it("configures component with the Injecting behaviour provided", function() {

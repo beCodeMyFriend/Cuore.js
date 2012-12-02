@@ -18,7 +18,7 @@ CUORE.Page = CUORE.Class(null, {
     addComponent: function(component, container, behaviour) {
         component.setDirectory(this.services);
 
-        if (behaviour) component.behave(behaviour);
+        if(behaviour) component.behave(behaviour);
         this.components.register(component);
 
         component.setContainer(container);
@@ -31,6 +31,10 @@ CUORE.Page = CUORE.Class(null, {
         });
     },
 
+    getComponentWithDOMId: function(id) {
+        return this.components.filterByName(id);
+    },
+
     addService: function(service) {
         this.services.add(service);
     },
@@ -38,7 +42,7 @@ CUORE.Page = CUORE.Class(null, {
     getService: function(name) {
         return this.services.getService(name);
     },
-    
+
     save: function(key, value) {
         this.state.save(key, value);
     },
@@ -53,7 +57,5 @@ CUORE.Page = CUORE.Class(null, {
 
     setDirectory: function(directory) {
         this.services = directory;
-    },
-
-
+    }
 });
