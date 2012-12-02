@@ -1,5 +1,5 @@
 CUORE.Dom = (function(doc, undefined) {
-    
+
     var ready = function(callback) {
         var checkLoaded = setInterval(function() {
             if (doc.body && doc.getElementById) {
@@ -8,28 +8,34 @@ CUORE.Dom = (function(doc, undefined) {
             }
         }, 10);
     };
-    
+
     var addClass = function(element, cssClass) {
         if (!hasClass(element, cssClass)) {
             element.className += ' ' + cssClass;
         }
     };
-    
+
     var removeClass = function(element, cssClass) {
         if (hasClass(element, cssClass)) {
-            var currentClasses = _allClasses(cssClass); 
+            var currentClasses = _allClasses(cssClass);
             element.className = element.className.replace(currentClasses, '');
         }
     };
-    
+
     var hasClass = function(element, cssClass) {
         var currentClasses = _allClasses(cssClass);
-        return element.className.match(currentClasses);
+        var matchedClasses = element.className.match(currentClasses);
+        var result = false;
+
+        if(matchedClasses != null)
+            result = true;
+
+        return result;
     };
-    
+
     var createElement = function(name, members, parent) {
         var elem = doc.createElement(name);
-        
+
         if (CUORE.Core.toType(members) === 'object') {
             for (var m in members) {
                 if (CUORE.Core.isOwnProperty(members, m)) {
@@ -37,12 +43,12 @@ CUORE.Dom = (function(doc, undefined) {
                 }
             }
         }
-        
+
         parent && parent.appendChild(elem);
-        
+
         return elem;
     };
-    
+
     var _allClasses = function(cssClass) {
         return new RegExp('(\\s|^)' + cssClass + '(\\s|$)');
     };
