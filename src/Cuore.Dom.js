@@ -18,7 +18,7 @@ CUORE.Dom = (function(doc, undefined) {
     var removeClass = function(element, cssClass) {
         if (hasClass(element, cssClass)) {
             var currentClasses = _allClasses(cssClass);
-            element.className = element.className.replace(currentClasses, '');
+            this.panel.className = this.panel.className.replace(currentClasses,' ').replace(/\s+/g,' ').replace(/^\s|\s$/,'');
         }
     };
 
