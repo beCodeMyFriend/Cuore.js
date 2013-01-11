@@ -1,9 +1,12 @@
 CUORE.Decoration = CUORE.Class(null, {
 
-    init: function() {
+    init: function() {},
+
+    postPaint: function(panel) {
+        console.log('not implemented');
     },
 
-    postPaint:function (panel){
+    postUpdate: function(panel) {
         console.log('not implemented');
     }
 });

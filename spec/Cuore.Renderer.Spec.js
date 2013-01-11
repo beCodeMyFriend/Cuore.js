@@ -149,6 +149,20 @@ describe("A Renderer", function() {
             expect(anotherDecorator.postPaint).toHaveBeenCalledWith(aRenderer.panel);
         });
 
+        it("calls its decorators after update", function() {
+            var decorator = new CUORE.Decoration();
+            spyOn(decorator, 'postUpdate');
+            var anotherDecorator = new CUORE.Decoration();
+            spyOn(anotherDecorator, 'postUpdate');
+
+            aRenderer.addDecoration(decorator);
+            aRenderer.addDecoration(anotherDecorator);
+            aRenderer.render(aComponent);
+
+            expect(decorator.postUpdate).toHaveBeenCalledWith(aRenderer.panel);
+            expect(anotherDecorator.postUpdate).toHaveBeenCalledWith(aRenderer.panel);
+        });
+
         describe('html ID must be correct', function(){
 
             it("default html element id is the component name", function() {
