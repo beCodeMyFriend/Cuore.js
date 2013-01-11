@@ -1,7 +1,8 @@
 before_script:
   - "export DISPLAY=:99.0"
-  - "cd /vendor/specrunner"
+  - "cd vendor/specrunner"
   - "qmake && make"
   - "sh -e /etc/init.d/xvfb start"
+
 
 script: ./specrunner ../../spec/SpecRunner.html
