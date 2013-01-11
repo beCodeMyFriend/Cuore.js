@@ -4,5 +4,9 @@ before_script:
   - "qmake && make"
   - "sh -e /etc/init.d/xvfb start"
 
-
 script: ./specrunner ../../spec/SpecRunner.html
+
+notifications:
+  email:
+    - xavi@becodemyfriend.com
+    - mike@becodemyfriend.com
