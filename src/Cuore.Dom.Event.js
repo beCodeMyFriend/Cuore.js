@@ -18,7 +18,7 @@ CUORE.Dom.Event = (function(undefined) {
 
             var callbacks = element.events[eventName];
             for (var i = 0, len = callbacks.length; i < len; i++) {
-                callbacks[i]();
+                callbacks[i].call(element);
             }
         },
 
@@ -110,7 +110,7 @@ CUORE.Dom.Event = (function(undefined) {
 
     var _isIEListener = function() {
             if(_isW3cListener()) return false;
-            
+
             return (typeof document.attachEvent === 'function' || typeof document.attachEvent === 'object');
         };
 
