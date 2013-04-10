@@ -30,7 +30,7 @@ describe("A HandlerSet", function() {
             expect(aHandlerSet.getManagedEvents()).toEqual([eventName]);
         });
 
-        it("when an event is notified, all the registered handlers for this event are called", function() {
+        it("calls all the registered handlers for an event", function() {
             var anEventData = "some data for the event";
             var otherHandler = CUORE.Mocks.Handler('other handler');
             aHandlerSet.register(eventName, otherHandler);
@@ -41,9 +41,9 @@ describe("A HandlerSet", function() {
             expect(otherHandler.handle).toHaveBeenCalledWith(anEventData);
         });
 
-        it("when an event is notified, handlers not registered for this event won't be called", function() {
+        it("handlers not registered for an event won't be called", function() {
             aHandlerSet.notifyHandlers('other event', 'some data');
-
+            
             expect(aHandler.handle).not.toHaveBeenCalledWith();
         });
     });
