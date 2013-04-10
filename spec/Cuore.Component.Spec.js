@@ -27,12 +27,11 @@ describe("A  Better component", function() {
             expect(aComponent.doYouHijack()).toBeTruthy();
         });
 
-        it("uses container id as UniqueID when hijacking", function() {
+        it("uses container id as name when hijacking", function() {
             aComponent.behave(CUORE.Behaviours.HIJACK);
             var container = "anID";
             aComponent.setContainer(container);
             expect(aComponent.getName()).toEqual(container);
-            expect(aComponent.getUniqueID()).toEqual(container);
         });
     });
 
@@ -142,7 +141,7 @@ describe("A  Better component", function() {
                     key: labelKey
                 }, true);
             });
-            
+
             it("the component's text is set to the label key while the label service has not yet replied", function() {
                 var labelKey = 'label.key';
 
@@ -158,7 +157,7 @@ describe("A  Better component", function() {
 
                 expect(aComponent.getText()).toBeNull();
             });
-            
+
             it("a handler is registered in the handler set to receive the label value", function() {
                 var labelKey = "label.key";
 
@@ -166,7 +165,7 @@ describe("A  Better component", function() {
 
                 expect(aHandlerSet.register).toHaveBeenCalledWithAHandlerForEvent('LABELS_getLabel_EXECUTED_' + labelKey);
             });
-            
+
              it('can contain more than one key', function() {
                 aComponent.setI18NKey('aKey');
                 aComponent.setI18NKey('anotherKey');
@@ -174,7 +173,7 @@ describe("A  Better component", function() {
                 expect(aComponent.getText('aKey')).toEqual('aKey');
                 expect(aComponent.getText('anotherKey')).toContain('anotherKey');
             });
-            
+
         });
     });
 

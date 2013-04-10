@@ -12,6 +12,6 @@ CUORE.JSONPService = CUORE.Class(CUORE.Service, {
         var theMessage = new CUORE.Message();
         theMessage.putMapOnAnswer(response);
         return theMessage;
-    },
+    }
 
 });

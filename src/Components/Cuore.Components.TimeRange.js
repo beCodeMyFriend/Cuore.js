@@ -35,7 +35,7 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
         this.updateRender();
         this.emitValues();
     },
-    
+
     getLabelText: function(){
         return this.getText(this.labelKey);
     },
@@ -45,7 +45,7 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
             'startHour': this.getStartHour(),
             'endHour': this.getEndHour()
         };
-        this.getBus().emit('COMPONENT_' + this.name + '_CHANGED', params);
+        CUORE.Bus.emit('COMPONENT_' + this.name + '_CHANGED', params);
     },
 
     getStartHour: function() {
@@ -54,9 +54,5 @@ CUORE.Components.TimeRange = CUORE.Class(CUORE.Component, {
 
     getEndHour: function() {
         return this.journey.ends();
-    },
-
-    getBus: function() {
-        return CUORE.Bus;
     }
 });

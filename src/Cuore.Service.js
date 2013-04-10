@@ -1,4 +1,4 @@
-CUORE.Service = CUORE.Class(null, {  
+CUORE.Service = CUORE.Class(null, {
 
     init: function () {
         this.name = 'ABSTRACT';
@@ -9,20 +9,20 @@ CUORE.Service = CUORE.Class(null, {
 
     execute: function (procedure, params) {
         var eventName = this.getEventNameForExecution(procedure);
-        this[procedure](params, eventName);       
+        this[procedure](params, eventName);
     },
 
     request: function (url, params, eventName) {
         var paramsData = this.wrapRequestParams(params)
-        
+
         var callback = this._responseCallback(eventName);
         this._doRequest(url, paramsData, callback);
     },
-    
+
     wrapRequestParams: function(params){
         var theMessage = new CUORE.Message();
         theMessage.putMapOnQuery(params);
-    
+
         return theMessage.asJson();
     },
 
@@ -30,16 +30,12 @@ CUORE.Service = CUORE.Class(null, {
     {
         CUORE.Core.request(url, paramsData, callback);
     },
-    
+
     emit: function (eventName, response) {
         var theMessage = this.wrapResponse(response);
-        
-        var theBus = this.getBus && this.getBus();
-        theBus = theBus || CUORE.Bus ;
-        
-        theBus.emit(eventName, theMessage);
+        CUORE.Bus.emit(eventName, theMessage);
     },
-    
+
     wrapResponse: function(response){
         return new CUORE.Message(response);
     },
@@ -60,13 +56,9 @@ CUORE.Service = CUORE.Class(null, {
         this.baseURL = baseURL;
     },
 
-    getBus: function () {
-        return CUORE.Bus;
-    },
-    
     _responseCallback: function(eventName) {
         var emit = this.emit;
-        
+
         var callback= function(response) {
             this.emit(eventName, response);
         }

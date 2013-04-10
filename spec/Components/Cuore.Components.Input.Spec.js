@@ -87,7 +87,6 @@ describe("Input", function() {
 
            expect(aComponent.getFormName()).toEqual('aName');
        });
-    });
 
          
 

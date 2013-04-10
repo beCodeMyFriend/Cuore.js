@@ -22,14 +22,15 @@ CUORE.Registry = CUORE.Class(null, {
         var componentsLength = this.size();
 
         for (var position = 0; position < componentsLength; position++) {
-            this._safeInvoke(callback, this.components[position])
+            callback(this.components[position]);
         }
     },
 
-    _safeInvoke: function(callback, component) {
-        var err;
-        try {
-            callback(component);
-        } catch (err) {}
+    filterByName: function(name) {
+        var selectedComponent = null;
+        this.each(function(component) {
+            if(component.getName() === name) selectedComponent = component;
+        });
+        return selectedComponent;
     }
 });

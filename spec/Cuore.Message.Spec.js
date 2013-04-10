@@ -5,7 +5,7 @@ describe("Message", function() {
     beforeEach(function() {
         aMessage = new CUORE.Message();
         this.addMatchers({
-            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf,
+            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
         });
     });
 
@@ -50,7 +50,7 @@ describe("Message", function() {
         expect(aMessage.getFromQuery("betaKey")).toEqual('betaValue');
 
         expect(aMessage.asJson()).toEqual('{"header":{},"query":{"alfaKey":"alfaValue","betaKey":"betaValue"},"answer":{}}');
-    })
+    });
 
     it("manages maps in answer", function() {
         aMessage.putMapOnAnswer({
@@ -75,10 +75,30 @@ describe("Message", function() {
         expect(aMessage.asJson()).toEqual('{"header":{},"query":{},"answer":{"aKey":"aValue"}}');
     });
 
+    it("allows values with empty string", function() {
+        aMessage.putOnAnswer("aKey", "");
+
+        expect(aMessage.asJson()).toEqual('{"header":{},"query":{},"answer":{"aKey":""}}');
+
+        aMessage.putOnAnswer("aKey", undefined);
+
+        expect(aMessage.asJson()).toEqual('{"header":{},"query":{},"answer":{}}');
+    });
+
     it("builds a message from a JSON", function() {
         var jsonMessage = '{"header":{"aHeaderKey":"aHeaderValue"},"query":{"aQueryKey":"aQueryValue"},"answer":{"anAnswerKey":"anAnswerValue"}}';
 
         aMessage = new CUORE.Message(jsonMessage);
+
+        expect(aMessage.getFromHeader("aHeaderKey")).toEqual("aHeaderValue");
+        expect(aMessage.getFromQuery("aQueryKey")).toEqual("aQueryValue");
+        expect(aMessage.getFromAnswer("anAnswerKey")).toEqual("anAnswerValue");
+    });
+
+    it("builds a message from an object", function() {
+        var objectMessage = {header:{aHeaderKey:"aHeaderValue"},query:{aQueryKey:"aQueryValue"},answer:{anAnswerKey:"anAnswerValue"}};
+
+        aMessage = new CUORE.Message(objectMessage);
 
         expect(aMessage.getFromHeader("aHeaderKey")).toEqual("aHeaderValue");
         expect(aMessage.getFromQuery("aQueryKey")).toEqual("aQueryValue");

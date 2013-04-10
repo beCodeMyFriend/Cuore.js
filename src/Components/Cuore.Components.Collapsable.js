@@ -29,5 +29,5 @@ CUORE.Components.Collapsable = CUORE.Class(CUORE.Components.Nestable, {
     
     getPanelLabel: function(){
         return this.getText(this.key); 
-    },
+    }
 });

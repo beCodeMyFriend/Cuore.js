@@ -4,7 +4,7 @@ CUORE.Renderers.List = CUORE.Class(CUORE.Renderer, {
         CUORE.Renderers.List.parent.init.call(this);
         this.setTagName('ul');
     },
-    
+
     paint: function(component) {
         CUORE.Renderers.List.parent.paint.call(this, component);
         this.updateWhenDrawn(component);
@@ -12,15 +12,13 @@ CUORE.Renderers.List = CUORE.Class(CUORE.Renderer, {
 
     updateWhenDrawn: function(component) {
         this.panel.innerHTML = "";
-        for (var i = 0, len = component.size(); i < len; i++) {
-            this._addItem(component.item(i), i);
+        for(var i = 0, len = component.size(); i < len; i++) {
+            this._addItem(component.item(i), i, component);
         }
     },
-    
-    _addItem: function(item) {
+
+    _addItem: function(item, index, component) {
         var DOMitem = CUORE.Dom.createElement('li', null, this.panel);
-        DOMitem.innerHTML=item;
-    },
-
-
+        DOMitem.innerHTML = item;
+    }
 });

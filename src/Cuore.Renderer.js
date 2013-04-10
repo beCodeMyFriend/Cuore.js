@@ -37,6 +37,7 @@ CUORE.Renderer = CUORE.Class(null, {
 
     update: function(component) {
         this.panel && this.updateWhenDrawn(component);
+        this._postUpdate();
     },
 
     updateWhenDrawn: function(component) {
@@ -99,8 +100,16 @@ CUORE.Renderer = CUORE.Class(null, {
     },
 
     _postPaint: function() {
-        for (var i = 0, len = this.decorators.length; i < len; i++) {
-            this.decorators[i].postPaint(this.panel);
+        this._executeForAllDecorators('postPaint');
+    },
+
+    _postUpdate: function() {
+        this._executeForAllDecorators('postUpdate');
+    },
+
+    _executeForAllDecorators: function(callbackName){
+      for (var i = 0, len = this.decorators.length; i < len; i++) {
+            this.decorators[i][callbackName](this.panel);
         }
     },
 

@@ -5,7 +5,7 @@ CUORE.Core = (function(undefined) {
     var bind = function(obj, method) {
             return function() {
                 return method.apply(obj, [].slice.call(arguments));
-            }
+            };
         };
 
     var request = function(url, data, callback) {
@@ -13,21 +13,26 @@ CUORE.Core = (function(undefined) {
             var request = _createXHR();
             request.onreadystatechange = function() {
                 var isReadyStateOK = (request.readyState === 4);
-                var isStatusOK = (request.status === 200 || request.status === 304);
+                var isStatusOK = false;
+                if (isReadyStateOK) {
+                    isStatusOK = (request.status === 200 || request.status === 304);
+                }
 
                 if (isReadyStateOK && isStatusOK) {
                     try {
-                        parsedResponse = JSON.parse(request.responseText);
+                        parsedResponse = request.responseText;
+                        var isString = (typeof request.responseText === 'string');
+                        if(isString) parsedResponse = JSON.parse(request.responseText);
                     } catch (e) {
                         parsedResponse = new CUORE.Message();
                     }
                     callback(parsedResponse);
                 }
-
-            }
+            };
 
             request.open('POST', url, true);
-            request.send(JSON.stringify(data));
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send(data);
         };
 
     var requestGet = function(url, data, callback) {
@@ -42,7 +47,7 @@ CUORE.Core = (function(undefined) {
                     callback(parsedResponse);
                 }
 
-            }
+            };
 
             request.open('GET', url + _map2query(data), true);
             request.send();
@@ -77,7 +82,7 @@ CUORE.Core = (function(undefined) {
                 serialized = serialized + key + "=" + data[key] + amp;
             }
             return serialized;
-        }
+        };
 
     var isOwnProperty = function(object, property) {
             return OBJ_PROTO.hasOwnProperty.call(object, property);

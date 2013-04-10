@@ -13,7 +13,7 @@ describe("NestableComponent", function () {
 
     it("is a Component", function () {
         var aComponent = new CUORE.Components.Nestable();
-        expect(aComponent).toBeInstanceOf(CUORE.Component);
+        expect(aComponent instanceof CUORE.Component).toBeTruthy();
     });
 
     it("can host any Component", function () {

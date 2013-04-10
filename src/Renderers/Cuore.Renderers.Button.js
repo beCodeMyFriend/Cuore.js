@@ -41,8 +41,8 @@ CUORE.Renderers.Button = CUORE.Class(CUORE.Renderer, {
     },
 
     addEvents: function(component) {
-        CUORE.Dom.Event.remove(this.panel, 'click');
         CUORE.Dom.Event.stopDefault(this.panel, 'click');
+        CUORE.Dom.Event.remove(this.panel, 'click');
 
         if (component.isEnabled()) {
             var componentClick = CUORE.Core.bind(component, component.click);

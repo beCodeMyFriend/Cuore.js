@@ -22,6 +22,16 @@ describe("A Registry", function() {
         expect(aRegistry.size()).toEqual(1);
     });
 
+    it("retrieve a component by its name", function() {
+        var aComponent = CUORE.Mocks.Component('aComponent');
+        aComponent.setName('aComponent');
+
+        aRegistry.register(aComponent);
+
+        expect(aRegistry.filterByName('aComponent')).toEqual(aComponent);
+    });
+
+
     describe("can iterate over its contents", function() {
         it("given it's empty, the callback won't be called", function() {
             var callback = jasmine.createSpy('callback');
@@ -43,17 +53,6 @@ describe("A Registry", function() {
                 aRegistry.each(callback);
 
                 expect(callback).toHaveBeenCalledOnceWithTheComponent(aComponent);
-            });
-
-            it("even if an exception is thrown from the callback, it will be called once for each registered component", function() {
-                var otherComponent = CUORE.Mocks.Component('otherComponent');
-                aRegistry.register(otherComponent)
-
-                var callback = jasmine.createSpy('crappy callback').andThrow("Error!");
-
-                aRegistry.each(callback);
-
-                expect(callback.callCount).toEqual(2);
             });
         });
     });
