@@ -4,14 +4,10 @@ describe("List", function() {
 
     beforeEach(function() {
         aList = new CUORE.Components.List();
-
-        this.addMatchers({
-            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
-        });
     });
 
     it("extends Component", function() {
-        expect(aList).toBeInstanceOf(CUORE.Components.List);
+        expect(aList instanceof CUORE.Components.List).toBeTruthy();
     });
     
     it("updates the renderer when filling the list", function() {
@@ -40,7 +36,7 @@ describe("List", function() {
     });
     
     it('has its own renderer', function() {
-        expect(aList.renderer).toBeInstanceOf(CUORE.Renderers.List);
+        expect(aList.renderer instanceof CUORE.Renderers.List).toBeTruthy();
     });
 
 });

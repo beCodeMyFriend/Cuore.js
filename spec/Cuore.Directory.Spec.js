@@ -103,7 +103,7 @@ describe("A Directory", function() {
 
 
         it(" getService('NOT EXISTS') will return an instance of NullService", function() {
-            expect(aDirectory.getService('NOT EXISTS')).toBeInstanceOf(CUORE.Services.Null);
+            expect(aDirectory.getService('NOT EXISTS') instanceof CUORE.Services.Null).toBeTruthy();
         });
     });
 });

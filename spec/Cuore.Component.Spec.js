@@ -2,8 +2,7 @@ describe("A  Better component", function() {
     var aComponent;
     beforeEach(function() {
         this.addMatchers({
-            toHaveBeenCalledWithAHandlerForEvent: CUORE.Matchers.toHaveBeenCalledWithAHandlerForEvent,
-            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
+            toHaveBeenCalledWithAHandlerForEvent: CUORE.Matchers.toHaveBeenCalledWithAHandlerForEvent
         });
 
         aComponent = new CUORE.Component();
@@ -94,7 +93,7 @@ describe("A  Better component", function() {
             daHandler.handle();
 
             expect(aComponent.addHandler).toHaveBeenCalled();
-            expect(daHandler).toBeInstanceOf(CUORE.Handlers.Executor);
+            expect(daHandler instanceof CUORE.Handlers.Executor).toBeTruthy();
             expect(aComponent.methodForExecutorHandler).toHaveBeenCalled();
 
         });

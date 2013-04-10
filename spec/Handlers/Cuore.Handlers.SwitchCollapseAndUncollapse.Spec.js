@@ -1,32 +1,38 @@
 describe("SwitchCollapseAndUncollapseHandler", function () {
-
-    beforeEach(function() {
-            this.addMatchers({
-                toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
-            });
-    });    
-
+    
     it("inherits Handler", function () {
         var aSwitchCollapseHandler = new CUORE.Handlers.SwitchCollapseAndUncollapse();
 
-        expect(aSwitchCollapseHandler).toBeInstanceOf(CUORE.Handler);
-        expect(aSwitchCollapseHandler).toBeInstanceOf(CUORE.Handlers.SwitchCollapseAndUncollapse);
+        expect(aSwitchCollapseHandler instanceof CUORE.Handler).toBeTruthy();
+        expect(aSwitchCollapseHandler instanceof CUORE.Handlers.SwitchCollapseAndUncollapse).toBeTruthy();
     });
 
     it("should collapse and uncollapse", function () {
         var aComponent = new CUORE.Component();
+        aComponent.status = true;
 
-        aComponent.collapse = jasmine.createSpy("collapse");
-        aComponent.uncollapse = jasmine.createSpy("uncollapse");
+        aComponent.isCollapsed = function () {
+            return aComponent.status;
+        };
+
+        aComponent.collapse = function () {
+            aComponent.status = true;
+        };
+
+        aComponent.uncollapse = function () {
+            aComponent.status = false;
+        };
 
         var aSwitchCollapseHandler = new CUORE.Handlers.SwitchCollapseAndUncollapse();
         aComponent.addHandler("testEvent", aSwitchCollapseHandler);
 
-        aComponent.isCollapsed = sinon.stub().returns(false);
         aSwitchCollapseHandler.handle();
-        expect(aComponent.collapse).toHaveBeenCalled();
-        aComponent.isCollapsed = sinon.stub().returns(true);
+        expect(aComponent.isCollapsed()).toBeFalsy();
+
         aSwitchCollapseHandler.handle();
-        expect(aComponent.uncollapse).toHaveBeenCalled();
+        expect(aComponent.isCollapsed()).toBeTruthy();
+
+        aSwitchCollapseHandler.handle();
+        expect(aComponent.isCollapsed()).toBeFalsy();;
     });
 });

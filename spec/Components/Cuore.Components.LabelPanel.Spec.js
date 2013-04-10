@@ -13,10 +13,6 @@ describe("Label Panel", function() {
         CUORE.Core.createXHR = function() {
             return xhr;
         };
-
-        this.addMatchers({
-            toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
-        });
     });
 
     afterEach(function() {
@@ -29,8 +25,8 @@ describe("Label Panel", function() {
     it("inherits Component", function() {
         var thePanel = new CUORE.Components.LabelPanel();
 
-        expect(thePanel).toBeInstanceOf(CUORE.Component);
-        expect(thePanel).toBeInstanceOf(CUORE.Components.LabelPanel);
+        expect(thePanel instanceof CUORE.Component).toBeTruthy();
+        expect(thePanel instanceof CUORE.Components.LabelPanel).toBeTruthy();
     });
 
     it("could be initialized with I18NKey", function() {
@@ -39,7 +35,35 @@ describe("Label Panel", function() {
         expect(thePanel.getLabelText()).toEqual(aI18NKey);
     });
 
-    
+    describe('Renderer', function() {
+        it('displays a text', function() {
+
+            var aComponent = {};
+            aComponent.getLabelText = jasmine.createSpy('getLabelText').andReturn('testLabel')
+            aComponent.doYouReplace = jasmine.createSpy('doYouReplace').andReturn(false);
+            aComponent.doYouHijack = jasmine.createSpy('doYouHijack').andReturn(false);
+            aComponent.getName = jasmine.createSpy('getName').andReturn('aName');
+            aComponent.isEnabled = jasmine.createSpy('isEnabled').andReturn(true);
+
+            var aRenderer = new CUORE.Renderers.LabelPanel();
+            aRenderer.setContainer(createTestContainer());
+
+            aRenderer.render(aComponent);
+
+            var DOMLabel = document.getElementById(aRenderer.htmlID);
+
+            expect(DOMLabel.innerHTML).toEqual('testLabel');
+        });
+
+        var createTestContainer = function() {
+                var container = document.createElement('div');
+                container.id = "testingContainer";
+                var panel = document.getElementById("xhtmlToTest");
+                panel.appendChild(container);
+
+                return container.id;
+            };
+    });
 
     it("adds the class labelPanel when drawn", function() {
         var thePanel = new CUORE.Components.LabelPanel("CanonicalKey");
