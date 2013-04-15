@@ -15,8 +15,16 @@ describe("Cuore.Dom library", function() {
         }).toThrow('Must be an HTMLElement');
     });
 
-    it("remove a class to an element as well", function() {
+     it("doesnt adds duplicated class", function() {
         anElement.className = 'aClass';
+
+        CUORE.Dom.addClass(anElement, 'aClass');
+
+        expect(anElement.className).toEqual('aClass');
+    });
+
+    it("remove a class to an element as well", function() {
+        anElement.className = 'aClass another    anotherMore atrames';
         
         CUORE.Dom.removeClass(anElement, 'aClass');
         
