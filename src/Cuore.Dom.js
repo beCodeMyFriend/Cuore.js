@@ -10,25 +10,27 @@ CUORE.Dom = (function(doc, undefined) {
     };
 
     var addClass = function(element, cssClass) {
+        _checkElement(element);
         if (!hasClass(element, cssClass)) {
             element.className += ' ' + cssClass;
         }
     };
 
     var removeClass = function(element, cssClass) {
+        _checkElement(element);
         if (hasClass(element, cssClass)) {
             var currentClasses = _allClasses(cssClass);
-            element.className = element.className.replace(currentClasses,' ').replace(/\s+/g,' ').replace(/^\s|\s$/,'');
+            element.className = element.className.replace(currentClasses, ' ').replace(/\s+/g, ' ').replace(/^\s|\s$/, '');
         }
     };
 
     var hasClass = function(element, cssClass) {
+        _checkElement(element);
         var currentClasses = _allClasses(cssClass);
         var matchedClasses = element.className.match(currentClasses);
         var result = false;
 
-        if(matchedClasses != null)
-            result = true;
+        if (matchedClasses != null) result = true;
 
         return result;
     };
@@ -44,13 +46,17 @@ CUORE.Dom = (function(doc, undefined) {
             }
         }
 
-        parent && parent.appendChild(elem);
+        parent && parent.appendChild && parent.appendChild(elem);
 
         return elem;
     };
 
     var _allClasses = function(cssClass) {
         return new RegExp('(\\s|^)' + cssClass + '(\\s|$)');
+    };
+
+    var _checkElement = function(element) {
+        if (!(element instanceof HTMLElement)) throw ('Must be an HTMLElement');
     };
 
     return {
