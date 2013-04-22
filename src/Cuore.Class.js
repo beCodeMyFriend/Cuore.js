@@ -17,6 +17,6 @@ CUORE.Class = function(Parent, props) {
             Child.prototype[i] = props[i];
         };
     }
-
+    Child.prototype.init || (Child.prototype.init = function(){});
     return Child;
 };

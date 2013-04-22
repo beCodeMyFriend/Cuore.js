@@ -44,4 +44,9 @@ describe("Core.Class", function() {
         expect(instance.init).toHaveBeenCalled();
     });
 
+    it(" can be instanciated without defined constructor", function() {
+        var aClass =  CUORE.Class(null, {});
+        expect(function(){new aClass();}).not.toThrow();
+    });
+
 });
