@@ -11,7 +11,6 @@ CUORE.Class = function(Parent, props) {
 
     Child.prototype = new F();
     Child.parent = Parent.prototype;
-    Child.prototype.constructor = Child;
 
     for (var i in props) {
         if (hasOwn.call(props, i)) {

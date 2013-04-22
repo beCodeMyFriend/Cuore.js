@@ -34,6 +34,11 @@ describe("Core.Class", function() {
         expect(instance.anotherMethod).not.toBe(parent.anotherMethod);
     });
 
+    it(" parent class implementation is at property parent", function() {
+        parent= new parentClass();
+        expect(childClass.parent.anotherMethod).toBe(parent.anotherMethod);
+    });
+
     it(" uses init at instanciation", function() {
         var instance = new childClass();
         expect(instance.init).toHaveBeenCalled();
