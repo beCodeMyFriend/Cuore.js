@@ -13,6 +13,7 @@ describe("A HandlerSet", function() {
 
     describe("with a handler registered", function() {
         var aHandler, eventName = "an event name";
+       
         beforeEach(function() {
             aHandler = CUORE.Mocks.Handler();
             aHandlerSet.register(eventName, aHandler);

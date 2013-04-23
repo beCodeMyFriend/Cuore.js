@@ -6,42 +6,38 @@ CUORE.HandlerSet = CUORE.Class(null, {
     },
 
     register: function(eventName, aHandler) {
-        if (!this._contains(eventName)) {
-            this.eventNames.push(eventName);
-        }
-
-        var handlersForEvent = this.handlersForEvent[eventName] || (this.handlersForEvent[eventName] = []);
-        handlersForEvent.push(aHandler);
+        this._registerEvent(eventName);
+        this.handlersForEvent[eventName].push(aHandler);
     },
 
     getManagedEvents: function() {
         return this.eventNames;
     },
-    
+
     notifyHandlers: function(eventName, eventData) {
         var handlersToNotify = this.handlersForEvent[eventName];
-        if (handlersToNotify) this._notify(handlersToNotify,eventData);
+        this._notify(handlersToNotify, eventData);
     },
-    
+
+    _registerEvent: function(eventName) {
+        if (this._contains(eventName)) return;
+        this.eventNames.push(eventName);
+        this.handlersForEvent[eventName] = [];
+    },
+
     _notify: function(handlersToNotify, eventData) {
+        if (!handlersToNotify) return;
         for (var i = 0, len = handlersToNotify.length; i < len; i++) {
-            this._safeNotification(handlersToNotify[i], eventData);
+            handlersToNotify[i].handle( eventData);
         }
-    },
-    
-    _safeNotification: function(handler, eventData) {
-        handler.handle(eventData);
     },
 
     _contains: function(eventName) {
-        var result = false;
-
         for (var i = 0, len = this.eventNames.length; i < len; i++) {
             if (this.eventNames[i] === eventName) {
-                result = true;
-                break;
+                return true;
             }
         }
-        return result;
+        return false;
     }
 });
