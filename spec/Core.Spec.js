@@ -5,7 +5,7 @@ describe("Core", function() {
     beforeEach(function() {
         Array.prototype.indexOf = undefined;
         scriptCore = document.createElement('script');
-        scriptCore.src = '../src/Cuore.Core.js';
+        scriptCore.src = '../src/Core.js';
         head = document.getElementsByTagName('head')[0];
         head.appendChild(scriptCore);
     });
