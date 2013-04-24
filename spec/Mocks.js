@@ -1,11 +1,16 @@
 CUORE.Mocks = {
 
-	Handler: function(mockName) {
+	handler: function(mockName) {
 		var methods = ['setOwner', 'handle'];
 		return jasmine.createSpyObj(mockName, methods);
 	},
 
-	Component: function(mockName) {
+	bus: function(mockName) {
+		var methods = ['emit'];
+		return jasmine.createSpyObj(mockName, methods);
+	},
+
+	component: function(mockName) {
 		var methods = [
 			'setContainer',
 			'dontReplace',
