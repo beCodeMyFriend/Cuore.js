@@ -1,22 +1,14 @@
 describe("Service", function() {
-    var aService,requests, xhr;
+    var aService, requests, xhr;
 
     beforeEach(function() {
+        aService = new CUORE.Service();
+
         xhr = sinon.useFakeXMLHttpRequest();
         requests = [];
-        
-	
-        aService = new CUORE.Service();
-        aService.testProcedure = function(params, eventName) {
-            this.request("aUrl", params, eventName);
-        };
-        
+
         xhr.onCreate = function(xhr) {
             requests.push(xhr);
-        };
-
-        CUORE.Core.createXHR = function() {
-            return xhr;
         };
     });
 
@@ -24,24 +16,26 @@ describe("Service", function() {
         xhr.restore();
     });
 
-    it("execute calls procedure on service", function() {
-        var procedureName = "testProcedure";
-        aService.testProcedure=jasmine.createSpy(procedureName);
+    it(" calls the service method on 'execute'", function() {
+        var procedureName = "aProcedure";
         var params = {
             "testParam1": true,
             "testParam2": true
         };
+        aService.aProcedure = jasmine.createSpy(procedureName);
+        
         aService.execute(procedureName, params);
-        expect(aService.testProcedure).toHaveBeenCalledWith(params,'ABSTRACT_testProcedure_EXECUTED');
+        
+        expect(aService.aProcedure).toHaveBeenCalledWith(params, 'ABSTRACT_aProcedure_EXECUTED');
     });
-    
-    it("call is  asyncronous ,only emmitting when request is done ", function() {
-        spyOn(aService,"emit");
-	aService.testProcedure = function(params, eventname){
-	    this.request(undefined, undefined, undefined);
-	}
-       
-        aService.execute('testProcedure', {'ajusreehfkf':'sdddd'});
+
+    it("call is  asynchronous ,only emmits when request has response ", function() {
+        aService.emit= jasmine.createSpy('emit');
+        aService.requestProcedure = function(params, eventname) {
+            this.request(undefined, undefined, undefined);
+        }
+
+        aService.execute('requestProcedure');
 
         expect(aService.emit).not.toHaveBeenCalled();
         lastRequest().respond(200, {}, '{}');
@@ -57,11 +51,11 @@ describe("Service", function() {
     });
 
 
-    it("emits a message with response encoded as a message", function() {
+    it("parses the response as a Message and emits through the Bus", function() {
         var expectedMessage = new CUORE.Message('{"header":{},"query":{},"answer":{"anAnswerKey":"anAnswerValue"}}');
         var response = expectedMessage.asJson();
 
-        CUORE.Bus=CUORE.Mocks.bus('theBus');
+        CUORE.Bus = CUORE.Mocks.bus('theBus');
         aService.emit("eventname", response);
 
         var theMessage = CUORE.Bus.emit.mostRecentCall.args[1];
@@ -69,21 +63,18 @@ describe("Service", function() {
         expect(theMessage.asJson()).toEqual(expectedMessage.asJson());
     });
 
-    it("builds a unique name for every event sent", function() {
+    it("builds a unique eventname for every method", function() {
         var aService = new CUORE.Service();
 
         var procedureName = "procedureTest";
-        var SEPARATOR = "_";
-        var expectedName = aService.getName() + SEPARATOR + procedureName + SEPARATOR + aService.executionPrefix;
+        var expectedName = 'ABSTRACT_procedureTest_EXECUTED';
 
         expect(aService.getEventNameForExecution(procedureName)).toEqual(expectedName);
     });
 
-    var lastRequest = function () {
-        var last= requests[requests.length-1];
+    var lastRequest = function() {
+        var last = requests[requests.length - 1];
         return last;
     };
-    
+
 });
-
-
