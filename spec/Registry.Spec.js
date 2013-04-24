@@ -11,13 +11,13 @@ describe("A Registry", function() {
     });
 
     it("can register components ", function() {
-        aRegistry.register(CUORE.Mocks.Component('aComponent'));
-        aRegistry.register(CUORE.Mocks.Component('anotherComponent'));
+        aRegistry.register(CUORE.Mocks.component('aComponent'));
+        aRegistry.register(CUORE.Mocks.component('anotherComponent'));
         expect(aRegistry.size()).toEqual(2);
     });
 
     it("only registers a component once ", function() {
-        var aComponent=CUORE.Mocks.Component('aComponent');
+        var aComponent=CUORE.Mocks.component('aComponent');
         aRegistry.register(aComponent);
         aRegistry.register(aComponent);
         expect(aRegistry.size()).toEqual(1);
@@ -35,13 +35,13 @@ describe("A Registry", function() {
             var aComponent;
         
             beforeEach(function() {
-                aComponent = CUORE.Mocks.Component('aComponent');
+                aComponent = CUORE.Mocks.component('aComponent');
                 aRegistry.register(aComponent);
             });
 
             it("the callback will be called once for each registered component", function() {
                 var callback = jasmine.createSpy('callback');
-                var anotherComponent=CUORE.Mocks.Component('anotherComponent');
+                var anotherComponent=CUORE.Mocks.component('anotherComponent');
                 aRegistry.register(anotherComponent);
                 aRegistry.each(callback);
                 expect(callback).toHaveBeenCalledWith(aComponent);

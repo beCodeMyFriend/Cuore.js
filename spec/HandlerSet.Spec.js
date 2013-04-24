@@ -15,7 +15,7 @@ describe("A HandlerSet", function() {
         var aHandler, eventName = "an event name";
        
         beforeEach(function() {
-            aHandler = CUORE.Mocks.Handler();
+            aHandler = CUORE.Mocks.handler();
             aHandlerSet.register(eventName, aHandler);
         });
 
@@ -24,16 +24,16 @@ describe("A HandlerSet", function() {
         });
 
         it("its managed events won't contain duplicates", function() {
-            aHandlerSet.register(eventName, CUORE.Mocks.Handler());
-            aHandlerSet.register(eventName, CUORE.Mocks.Handler());
-            aHandlerSet.register(eventName, CUORE.Mocks.Handler());
+            aHandlerSet.register(eventName, CUORE.Mocks.handler());
+            aHandlerSet.register(eventName, CUORE.Mocks.handler());
+            aHandlerSet.register(eventName, CUORE.Mocks.handler());
 
             expect(aHandlerSet.getManagedEvents()).toEqual([eventName]);
         });
 
         it("calls all the registered handlers for an event", function() {
             var anEventData = "some data for the event";
-            var otherHandler = CUORE.Mocks.Handler('other handler');
+            var otherHandler = CUORE.Mocks.handler('other handler');
             aHandlerSet.register(eventName, otherHandler);
 
             aHandlerSet.notifyHandlers(eventName, anEventData);
