@@ -1,5 +1,4 @@
 CUORE.Message = CUORE.Class(null, {
-    NOT_SET: '',
 
     init: function(content) {
         this._initialize();
@@ -46,7 +45,7 @@ CUORE.Message = CUORE.Class(null, {
     },
 
     _get: function(property, key) {
-        return property[key] || this.NOT_SET;
+        return property[key] ;
     },
 
     _wrapProperties: function() {

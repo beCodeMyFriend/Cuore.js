@@ -112,7 +112,7 @@ describe("Message", function() {
         expect(aMessage).toBeInstanceOf(CUORE.Message);
     });
 
-    it("does not allows null as value but 'null' is allowed", function() {
+    it("when parsing does not allow null as value but 'null' is allowed", function() {
         var jsonMessage = '{"header":{"aHeaderKey":"null","anotherHeaderKey":null},"query":{"aQueryKey":null},"answer":{"anAnswerKey":"undefined","anotherAnswerKey":null}}';
         var goodMessage = '{"header":{"aHeaderKey":"null"},"query":{},"answer":{"anAnswerKey":"undefined"}}';
 
@@ -121,18 +121,22 @@ describe("Message", function() {
         expect(aMessage.asJson()).toEqual(goodMessage);
     });
 
-    it("does not allows bad values", function() {
+    it("does not allow null values", function() {
         var goodMessage = '{"header":{},"query":{},"answer":{}}';
-
         aMessage.putOnAnswer("anotherKey", null);
         aMessage.putOnQuery("anyKey", null);
         aMessage.putOnHeader("aKey", null);
-
-        expect(aMessage.getFromHeader("aKey")).toEqual("");
-        expect(aMessage.getFromQuery("anyKey")).toEqual("");
-        expect(aMessage.getFromAnswer("anotherKey")).toEqual("");
-
-        expect(aMessage.getFromAnswer("randomKey")).toEqual("");
         expect(aMessage.asJson()).toEqual(goodMessage);
+    });
+
+    it("does allow empty string as value", function() {
+        var goodMessage = '{"header":{},"query":{},"answer":{"anotherKey":""}}';
+        aMessage.putOnAnswer("anotherKey", "");
+        expect(aMessage.asJson()).toEqual(goodMessage);
+        expect(aMessage.getFromAnswer("anotherKey")).toEqual('');
+    });
+
+    it("returns undefined if key is not found", function() {
+        expect(aMessage.getFromAnswer("anotherKey")).toEqual(undefined);
     });
 });
