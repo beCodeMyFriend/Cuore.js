@@ -26,14 +26,15 @@ CUORE.Message = CUORE.Class(null, {
     },
 
     getFromHeader: function(key) {
-        return this._get(this.header, key);
+        return this.header[key];
     },
+
     getFromQuery: function(key) {
-        return this._get(this.query, key);
+        return this.query[key];
     },
 
     getFromAnswer: function(key) {
-        return this._get(this.answer, key);
+        return this.answer[key];
     },
 
     putMapOnQuery: function(map) {
@@ -42,10 +43,6 @@ CUORE.Message = CUORE.Class(null, {
 
     putMapOnAnswer: function(map) {
         this._processMap(map, this.putOnAnswer);
-    },
-
-    _get: function(property, key) {
-        return property[key] ;
     },
 
     _wrapProperties: function() {
