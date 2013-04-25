@@ -7,41 +7,9 @@ CUORE.Service = CUORE.Class(null, {
         this.baseURL = '';
     },
 
-    execute: function (procedure, params) {
-        var eventName = this.getEventNameForExecution(procedure);
-        this[procedure](params, eventName);
-    },
-
-    request: function (url, params, eventName) {
-        var paramsData = this.wrapRequestParams(params)
-
-        var callback = this._responseCallback(eventName);
-        this._doRequest(url, paramsData, callback);
-    },
-
-    wrapRequestParams: function(params){
-        var theMessage = new CUORE.Message();
-        theMessage.putMapOnQuery(params);
-
-        return theMessage.asJson();
-    },
-
-    _doRequest: function (url, paramsData, callback)
-    {
-        CUORE.Core.request(url, paramsData, callback);
-    },
-
-    emit: function (eventName, response) {
-        var theMessage = this.wrapResponse(response);
-        CUORE.Bus.emit(eventName, theMessage);
-    },
-
-    wrapResponse: function(response){
-        return new CUORE.Message(response);
-    },
-
-    getEventNameForExecution: function (procedure) {
-        return this.getName() + this.SEPARATOR + procedure + this.SEPARATOR + this.executionPrefix;
+    execute: function (procedure, data) {
+        var eventName = this._getEventName(procedure);
+        this[procedure](data, eventName);
     },
 
     getName: function () {
@@ -56,11 +24,42 @@ CUORE.Service = CUORE.Class(null, {
         this.baseURL = baseURL;
     },
 
-    _responseCallback: function(eventName) {
-        var emit = this.emit;
+    _wrapResponse: function(response){
+        return new CUORE.Message(response);
+    },
 
+    _wrapRequestdata: function(data){
+        var theMessage = new CUORE.Message();
+        theMessage.putMapOnQuery(data);
+
+        return theMessage.asJson();
+    },
+
+
+    _emit: function (eventName, response) {
+        var theMessage = this._wrapResponse(response);
+        CUORE.Bus.emit(eventName, theMessage);
+    },
+
+    _doRequest: function (url, dataData, callback)
+    {
+        CUORE.Core.request(url, dataData, callback);
+    },
+
+    _request: function (url, data, eventName) {
+        var dataData = this._wrapRequestdata(data)
+
+        var callback = this._responseCallback(eventName);
+        this._doRequest(url, dataData, callback);
+    },
+
+    _getEventName: function (procedure) {
+        return this.getName() + this.SEPARATOR + procedure + this.SEPARATOR + this.executionPrefix;
+    },
+
+    _responseCallback: function(eventName) {
         var callback= function(response) {
-            this.emit(eventName, response);
+            this._emit(eventName, response);
         }
         return CUORE.Core.bind(this,callback);;
     }
