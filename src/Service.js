@@ -32,7 +32,7 @@ CUORE.Service = CUORE.Class(null, {
 
     _doRequest: function (url, dataData, callback)
     {
-        CUORE.Core.request(url, dataData, callback);
+        CUORE.Requests.post(url, dataData, callback);
     },
 
     _request: function (url, data, eventName) {
