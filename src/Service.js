@@ -5,6 +5,7 @@ CUORE.Service = CUORE.Class(null, {
         this.executionPrefix = 'EXECUTED';
         this.SEPARATOR = '_';
         this.baseURL = '';
+        this.wrapper = new CUORE.Wrapper();
     },
 
     execute: function (procedure, data) {
@@ -24,20 +25,8 @@ CUORE.Service = CUORE.Class(null, {
         this.baseURL = baseURL;
     },
 
-    _wrapResponse: function(response){
-        return new CUORE.Message(response);
-    },
-
-    _wrapRequestdata: function(data){
-        var theMessage = new CUORE.Message();
-        theMessage.putMapOnQuery(data);
-
-        return theMessage.asJson();
-    },
-
-
     _emit: function (eventName, response) {
-        var theMessage = this._wrapResponse(response);
+        var theMessage = this.wrapper.wrapResponse(response);
         CUORE.Bus.emit(eventName, theMessage);
     },
 
@@ -47,7 +36,7 @@ CUORE.Service = CUORE.Class(null, {
     },
 
     _request: function (url, data, eventName) {
-        var dataData = this._wrapRequestdata(data)
+        var dataData = this.wrapper.wrapRequest(data);
 
         var callback = this._responseCallback(eventName);
         this._doRequest(url, dataData, callback);
