@@ -15,7 +15,7 @@ describe("Service", function() {
         xhr.restore();
     });
 
-    it(" calls the service method on 'execute'", function() {
+    it("calls the service method on 'execute'", function() {
         var procedureName = "aSpyProcedure";
         var params = {
             "testParam1": true,
@@ -41,10 +41,25 @@ describe("Service", function() {
         expect(aService.aSpyProcedure.mostRecentCall.args[1]).toEqual(expectedName);
     });
 
+    it("calls the request with the default endpoint url", function(){
+        var expectedUrl = "http://localhost/abstract/callee";
+        aService.setBaseURL("http://localhost");
+
+        aService.callee = function() {
+            this._request('callee', null, null);
+        };
+
+        aService.execute('callee');
+
+        expect(xhr.lastRequest().url).toEqual(expectedUrl);
+    });
+
     describe("on emmiting", function() {
+        
         beforeEach(function() {
             CUORE.Bus = CUORE.Mocks.bus('theBus');
         });
+
         it("call is  asynchronous ,only emmits when request has response ", function() {        
             aService.execute('requestProcedure');
             expect(CUORE.Bus.emit).not.toHaveBeenCalled();
