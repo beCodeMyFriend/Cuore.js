@@ -1,4 +1,4 @@
-CUORE.Services.Label = CUORE.Class(CUORE.Service, {
+CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
 
     init: function() {
         CUORE.Services.Label.parent.init.call(this);
@@ -28,8 +28,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
             CUORE.Services.Label.parent._emit.call(this, eventName, cachedResponse.asJson());
         } else {
             if (!params.locale) params.locale = this.locale;
-            var url = this.getBaseURL() + '/labels/get';
-            this._request(url, params, eventName);
+            this._request('get', params, eventName);
         }
     },
 

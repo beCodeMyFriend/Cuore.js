@@ -22,8 +22,9 @@ describe("LabelsService", function() {
     });
 
 
-    it("inherits Service", function() {
+    it("inherits RemoteService", function() {
         expect(aLabelService).toBeInstanceOf(CUORE.Service);
+        expect(aLabelService).toBeInstanceOf(CUORE.RemoteService);
         expect(aLabelService).toBeInstanceOf(CUORE.Services.Label);
     });
 
@@ -40,14 +41,11 @@ describe("LabelsService", function() {
     it("calls request with correct URL endpoint", function() {
         var expectedURL = baseURL + "/labels/get";
 
-        aLabelService._request=jasmine.createSpy("_request");
-
         aLabelService.getLabel({
             "key": "tal"
         }, "testEvent");
-        URLCalled = aLabelService._request.mostRecentCall.args[0];
-
-        expect(URLCalled).toEqual(expectedURL);
+        
+        expect(xhr.lastRequest().url).toEqual(expectedURL);
     });
 
     it("prevents execution when key is not present", function() {
