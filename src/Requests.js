@@ -2,8 +2,10 @@ CUORE.Requests = (function(undefined) {
 
 
     var post = function(url, data, callback) {
-        if (!_createXHR()) return;
         var request = _createXHR();
+
+        if (!request) return;
+
         request.onreadystatechange = function() {
             var isReadyStateOK = (request.readyState === 4);
             var isStatusOK = false;
