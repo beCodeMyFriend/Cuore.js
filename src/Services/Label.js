@@ -8,6 +8,10 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
         this.setLocale(navigator.language || navigator.browserLanguage);
     },
 
+    getLocale: function() {
+        return this.locale;
+    },
+
     setLocale: function(aLocale) {
         if (!aLocale) return;
 

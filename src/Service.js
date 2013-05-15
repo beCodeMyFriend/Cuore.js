@@ -24,6 +24,6 @@ CUORE.Service = CUORE.Class(null, {
 
     _getEventName: function (procedure) {
         return this.getName() + this.SEPARATOR + procedure + this.SEPARATOR + this.executionPrefix;
-    },
+    }
 
 });
