@@ -22,8 +22,8 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
     getLabel: function(params, eventName) {
         if (!(params && params.key)) return;
 
-        
         var cachedLabel = this.fromCache(params.key);
+
 
         if (cachedLabel) {
             var cachedResponse = new CUORE.Message();

@@ -92,77 +92,70 @@ describe("LabelsService", function() {
         expect(aLabelService._request).not.toHaveBeenCalled();
     });
 
-    it("makes a remote request if label key is not found in cache", function() {
-        aLabelService._request = jasmine.createSpy("_request");
-
-        aLabelService.execute('getLabel', { key: "nonexistent.key" });
-
-        expect(aLabelService._request).toHaveBeenCalled();
-    });
-
-    it("stores label in cache", function() {
-
-    });
-
-    xit("reads document.labels as internal cache when initialized", function() {
-        document.labels = {};
-        document.labels[browserLocale] = {
-            "testKey": "testLabel"
-        };
-        
-        var anotherService = new CUORE.Services.Label();
-        expect(anotherService.cache).toEqual(document.labels);
-    });
-
 
     describe("when caching", function() {
 
-        var testKey,data;
+        var testKey, testLabel, nonExistentKey, data, jsonTestKeyResponse;
 
         beforeEach(function() {
-            testKey = "testKey";
+            testKey     = "testKey";
+            testLabel   = "testLabel";
+            jsonTestKeyResponse = '{"header":{},"query":{ "key":"testKey", "locale": "' + browserLocale+'"},"answer":{"text":"testLabel"}}';
+
+            nonExistentKey = "nonexistent.key";
             data = {
                 "key": testKey,
                 "locale": browserLocale
             };
-            document.labels = {};
-            document.labels[browserLocale] = {
-                "testKey": "testLabel"
-            };
+
+            CUORE.Bus = {};
+            CUORE.Bus.emit = jasmine.createSpy("emit");
         });
-        
-        xit("uses an internal cache to save request calls", function() {
-            var cacheExpected = {};
-            cacheExpected[browserLocale] = {
-                "testKey": "testLabel"
-            };
-            aLabelService.getLabel(data, "testEvent");
-            var jsonMessage = '{"header":{},"query":{"key":"testKey"},"answer":{"text":"testLabel"}}';
+
+        xit("initializes with an empty cache if none is provided", function() {
+
+        });
+
+        xit("can be initialized with a provided cache", function() {
+
+        });
+
+        it("fires a remote request if label key is not found in cache", function() {
+            aLabelService._request = jasmine.createSpy("_request");
+
+            aLabelService.execute('getLabel', { key: "nonexistent.key" });
+
+            expect(aLabelService._request).toHaveBeenCalled();
+        });
+
+        it("stores label in cache after requesting it", function() {
+            aLabelService.execute('getLabel', { key: 'testKey'});
             xhr.lastRequest().respond(200, {
                 "Content-Type": "text/text"
-            }, jsonMessage);
+            }, jsonTestKeyResponse);
 
-            expect(aLabelService.cache).toEqual(cacheExpected);
-        });
-        
-        xit("uses document.labels if cache is ok", function() {
-            var labelService = new CUORE.Services.Label();
-            labelService._request=jasmine.createSpy("_request");
-            labelService.getLabel(data, "testEvent");
+            aLabelService.execute('getLabel', data);
 
-            expect(labelService._request).not.toHaveBeenCalled();
+            expect(xhr.getRequestsCount()).toEqual(1);
+            var message = CUORE.Bus.emit.mostRecentCall.args[1];
+            expect(message.getFromQuery("key")).toEqual("testKey");
+            expect(message.getFromQuery("locale")).toEqual(browserLocale);
+            expect(message.getFromAnswer("text")).toEqual("testLabel");
         });
 
-        xit("emits a correct message when retrieving from cache", function() {
-            var labelService = new CUORE.Services.Label();
-            CUORE.Bus = {};
-            CUORE.Bus.emit = jasmine.createSpy('emit');
-            labelService.getLabel(data, "testEvent");
-            var theMessage = CUORE.Bus.emit.mostRecentCall.args[1];
+        it("emits the event if the key is found in cache", function() {
+            aLabelService.execute('getLabel', data);
+            xhr.lastRequest().respond(200, {
+                "Content-Type": "text/text"
+            }, jsonTestKeyResponse);
 
-            expect(theMessage.getFromQuery("key")).toEqual(testKey);
-            expect(theMessage.getFromQuery("locale")).toEqual(browserLocale);
+            aLabelService.execute('getLabel', data);
 
+            expect(CUORE.Bus.emit.callCount).toEqual(2);
+            var message = CUORE.Bus.emit.mostRecentCall.args[1];
+            expect(message.getFromQuery("key")).toEqual("testKey");
+            expect(message.getFromQuery("locale")).toEqual(browserLocale);
+            expect(message.getFromAnswer("text")).toEqual("testLabel");
         });
     });
 });

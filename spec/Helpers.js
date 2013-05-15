@@ -10,6 +10,11 @@ CUORE.Helpers = {
         xhr.lastRequest = function() {
             return requests[requests.length - 1];
         };
+
+        xhr.getRequestsCount = function() {
+            return requests.length;
+        };
+
         return xhr;
     }
 }
