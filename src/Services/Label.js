@@ -1,10 +1,10 @@
 CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
 
-    init: function() {
+    init: function(cache) {
         CUORE.Services.Label.parent.init.call(this);
 
         this.name = 'LABELS';
-        this.cache = document.labels || {};
+        this.cache = cache || {};
         this.setLocale(navigator.language || navigator.browserLanguage);
     },
 

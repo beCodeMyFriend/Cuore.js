@@ -114,12 +114,12 @@ describe("LabelsService", function() {
 
 
         it("can be initialized with a set of labels", function() {
-            document.labels = {};
-            document.labels[browserLocale] = {
+            cache = {};
+            cache[browserLocale] = {
                 "testKey": "testLabel"
             };
 
-            aLabelService = new CUORE.Services.Label();
+            aLabelService = new CUORE.Services.Label(cache);
             aLabelService._request = jasmine.createSpy("_request");
 
             aLabelService.execute('getLabel', data);
