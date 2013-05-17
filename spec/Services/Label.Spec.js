@@ -112,12 +112,19 @@ describe("LabelsService", function() {
             CUORE.Bus.emit = jasmine.createSpy("emit");
         });
 
-        xit("initializes with an empty cache if none is provided", function() {
 
-        });
+        it("can be initialized with a set of labels", function() {
+            document.labels = {};
+            document.labels[browserLocale] = {
+                "testKey": "testLabel"
+            };
 
-        xit("can be initialized with a provided cache", function() {
+            aLabelService = new CUORE.Services.Label();
+            aLabelService._request = jasmine.createSpy("_request");
 
+            aLabelService.execute('getLabel', data);
+
+            expect(aLabelService._request).not.toHaveBeenCalled();
         });
 
         it("fires a remote request if label key is not found in cache", function() {
