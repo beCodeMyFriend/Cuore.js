@@ -66,16 +66,6 @@ describe("LabelsService", function() {
         expect(CUORE.Bus.emit).not.toHaveBeenCalled();
     });
 
-
-    xit("prevents emission of the event if key is not found", function() {
-        CUORE.Bus = {};
-        CUORE.Bus.emit = jasmine.createSpy("emit");
-
-        aLabelService.execute('getLabel', { key: "nonexistent.key"});
-
-        expect(CUORE.Bus.emit).not.toHaveBeenCalled();
-    });
-
     it("prevents remote request if event data is null", function() {
         aLabelService._request = jasmine.createSpy("_request");
 
@@ -114,12 +104,12 @@ describe("LabelsService", function() {
 
 
         it("can be initialized with a set of labels", function() {
-            cache = {};
-            cache[browserLocale] = {
+            labels = {};
+            labels[browserLocale] = {
                 "testKey": "testLabel"
             };
 
-            aLabelService = new CUORE.Services.Label(cache);
+            aLabelService.feed(labels);
             aLabelService._request = jasmine.createSpy("_request");
 
             aLabelService.execute('getLabel', data);
