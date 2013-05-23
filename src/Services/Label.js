@@ -2,9 +2,8 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
 
     init: function() {
         CUORE.Services.Label.parent.init.call(this);
-
         this.name = 'LABELS';
-        this.cache = {};
+        this.cache = new CUORE.Cache();
         this.setLocale(navigator.language || navigator.browserLanguage);
     },
 
@@ -14,9 +13,8 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
 
     setLocale: function(aLocale) {
         if (!aLocale) return;
-
         this.locale = aLocale;
-        this.cache[this.locale] = this.cache[this.locale] || {};
+        this.cache.initLocale(this.locale);
     },
 
     getLabel: function(params, eventName) {
@@ -37,13 +35,11 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
     },
 
     fromCache: function(key) {
-        return this.cache[this.locale][key];
+        return this.cache.fromCache(this.locale,key);
     },
 
     feedCache: function(theKey, value) {
-        if (value) {
-            this.cache[this.locale][theKey] = value;
-        }
+        this.cache.feedCache(this.locale,theKey, value);
     },
 
     _emit: function(eventName, response) {
@@ -59,7 +55,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
     },
 
     feed: function(cache) {
-        this.cache = cache || {};
+        this.cache.feed(cache);
     },
 
     extractKey: function(eventName) {
