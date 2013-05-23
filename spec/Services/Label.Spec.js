@@ -126,11 +126,12 @@ describe("LabelsService", function() {
         });
 
         it("stores label in cache after requesting it", function() {
-            aLabelService.execute('getLabel', { key: 'testKey'});
+            aLabelService.execute('getLabel', data);
             xhr.lastRequest().respond(200, {
                 "Content-Type": "text/text"
             }, jsonTestKeyResponse);
 
+            expect(xhr.getRequestsCount()).toEqual(1);
             aLabelService.execute('getLabel', data);
 
             expect(xhr.getRequestsCount()).toEqual(1);
