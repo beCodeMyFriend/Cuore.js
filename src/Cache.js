@@ -4,7 +4,7 @@ CUORE.Cache = CUORE.Class(null, {
         this.cache = {};
     },
 
-    get: function(key) {
+    retrieve: function(key) {
         return this.cache[key];
     },
 

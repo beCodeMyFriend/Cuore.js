@@ -8,7 +8,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
 
     execute: function(procedure, data) {
         var eventName = this._getEventName(procedure);
-        var cachedMessage = this.cache.get(data);
+        var cachedMessage = this.cache.retrieve(data);
         if (cachedMessage) {
             CUORE.Services.Label.parent._emit.call(this, eventName, cachedMessage.asJson());
         } else {
