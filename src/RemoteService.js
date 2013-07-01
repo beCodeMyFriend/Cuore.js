@@ -2,7 +2,6 @@ CUORE.RemoteService = CUORE.Class(CUORE.Service, {
 
     init: function () {
         CUORE.RemoteService.parent.init.call(this);
-
         this.baseURL = '';
     },
 

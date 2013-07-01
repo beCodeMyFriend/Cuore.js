@@ -10,6 +10,22 @@ CUORE.Mocks = {
 		return jasmine.createSpyObj(mockName, methods);
 	},
 
+	service: function(mockName) {
+		var methods=['getName', 'execute'];
+    return jasmine.createSpyObj(mockName, methods);
+  },
+
+	remoteService: function(mockName) {
+		var methods=['getName', 'setBaseURL', 'execute'];
+    return jasmine.createSpyObj(mockName, methods);
+  },
+
+  namedService:function(serviceName){
+  	var aService = this.remoteService('aService');
+    aService.getName.andReturn(serviceName);
+    return aService;
+  },
+
 	component: function(mockName) {
 		var methods = [
 			'setContainer',
