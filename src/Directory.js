@@ -13,12 +13,17 @@ CUORE.Directory = CUORE.Class(null, {
     },
 
     execute: function(serviceName, procedureName, params) {
-        this.getService(serviceName).execute(procedureName, params);
+        this.get(serviceName).execute(procedureName, params);
+    },
+
+    get: function(serviceName) {
+        var service =this.services[serviceName];
+        return service || new CUORE.Services.Null();
     },
 
     getService: function(serviceName) {
-        var service =this.services[serviceName];
-        return service || new CUORE.Services.Null();
+        console.log('getService is deprecated by get');
+        return this.get(serviceName);
     },
 
     setBaseURL: function(baseURL) {
