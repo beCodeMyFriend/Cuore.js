@@ -10,7 +10,7 @@ describe("Cache", function() {
         var key = "aKey";
         var aMessage = {};
         aMessage.query = key;
-        aCache.put(aMessage);
+        aCache.store(aMessage);
         var retrievedMessage = aCache.retrieve(key);
         expect(retrievedMessage.query).toEqual(key);
     });

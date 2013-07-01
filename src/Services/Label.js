@@ -40,7 +40,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
         theMessage.putOnAnswer('text', text);
         CUORE.Services.Label.parent._emit.call(this, eventName, theMessage.asJson());
 
-        this.cache.put(theMessage);
+        this.cache.store(theMessage);
     },
 
     feed: function(cache) {
@@ -55,7 +55,7 @@ CUORE.Services.Label = CUORE.Class(CUORE.RemoteService, {
                 var theMessage = new CUORE.Message();
                 theMessage.putMapOnQuery(data);
                 theMessage.putOnAnswer("text",theLabel);
-                this.cache.put(theMessage);
+                this.cache.store(theMessage);
             }
         }
     }

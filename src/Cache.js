@@ -8,7 +8,7 @@ CUORE.Cache = CUORE.Class(null, {
         return this.cache[key];
     },
 
-    put: function(message) {
+    store: function(message) {
         var key= message.query;
         this.cache[key]=message;
     }
