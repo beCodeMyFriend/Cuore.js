@@ -35,6 +35,6 @@ CUORE.RemoteService = CUORE.Class(CUORE.Service, {
         var callback= function(response) {
             this._emit(eventName, response);
         }
-        return CUORE.Core.bind(this,callback);;
+        return CUORE.Core.bind(this,callback);
     }
 });

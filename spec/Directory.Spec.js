@@ -73,7 +73,7 @@ describe("A Directory", function() {
         });
 
 
-        it("substitutes manged services properly", function() {
+        it("substitutes managed services properly", function() {
             var otherFoo = CUORE.Mocks.namedService(foo);
             aDirectory.add(otherFoo);
             expect(aDirectory.get(foo)).toBe(otherFoo);
