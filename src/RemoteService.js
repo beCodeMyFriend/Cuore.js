@@ -1,4 +1,3 @@
-
 CUORE.RemoteService = CUORE.Class(CUORE.Service, {
 
     init: function () {
