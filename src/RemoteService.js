@@ -16,16 +16,16 @@ CUORE.RemoteService = CUORE.Class(CUORE.Service, {
         this.baseURL = baseURL;
     },
 
-    _doRequest: function (url, dataData, callback)
-    {
-        CUORE.Requests.post(url, dataData, callback);
-    },
-
     _request: function (callee, data, eventName) {
         var dataData = this.wrapper.wrapRequest(data);
         var url = this._buildEndpointUrl(callee);
         var callback = this._responseCallback(eventName);
         this._doRequest(url, dataData, callback);
+    },
+
+    _doRequest: function (url, dataData, callback)
+    {
+        CUORE.Requests.post(url, dataData, callback);
     },
 
     _buildEndpointUrl: function(callee) {

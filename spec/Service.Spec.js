@@ -2,6 +2,7 @@ describe("Service", function() {
     var aService, xhr;
 
     beforeEach(function() {
+        this.addMatchers(CUORE.Matchers);
         aService = new CUORE.Service();
         aService.aSpyProcedure = jasmine.createSpy("aSpyProcedure");
 
@@ -32,5 +33,9 @@ describe("Service", function() {
         aService.execute("aSpyProcedure", undefined);
 
         expect(aService.aSpyProcedure.mostRecentCall.args[1]).toEqual(expectedName);
+    });
+
+    it("has builtin cache capabilities",function() {
+        expect(aService.cache).toBeInstanceOf(CUORE.Cache);
     });
 });

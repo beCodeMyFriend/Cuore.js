@@ -6,6 +6,7 @@ CUORE.Service = CUORE.Class(null, {
         this.executionPrefix = 'EXECUTED';
         this.SEPARATOR = '_';
         this.wrapper = new CUORE.Wrapper();
+        this.cache = new CUORE.Cache();
     },
 
     execute: function (procedure, data) {

@@ -17,11 +17,6 @@ describe("RemoteService", function() {
         xhr.restore();
     });
 
-    it("inherits Service", function() {
-        expect(aRemoteService).toBeInstanceOf(CUORE.Service);
-        expect(aRemoteService).toBeInstanceOf(CUORE.RemoteService);
-    });
-
     it("has a BaseURL defaulted to empty string", function() {
         expect(aRemoteService.getBaseURL()).toEqual('');
         var aBaseURL = "a Base URL";
