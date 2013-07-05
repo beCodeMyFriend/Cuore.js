@@ -1,8 +1,9 @@
 CUORE.RemoteService = CUORE.Class(CUORE.Service, {
 
-    init: function () {
+    init: function (request) {
         CUORE.RemoteService.parent.init.call(this);
         this.baseURL = '';
+        this.requestMethod = request || CUORE.Requests.post;
     },
 
 
@@ -14,16 +15,15 @@ CUORE.RemoteService = CUORE.Class(CUORE.Service, {
         this.baseURL = baseURL;
     },
 
+    setRequestMethod: function(requestMethod){
+        this.requestMethod = request;
+    },
+
     _request: function (callee, data, eventName) {
         var dataData = this.wrapper.wrapRequest(data);
         var url = this._buildEndpointUrl(callee);
         var callback = this._responseCallback(eventName);
-        this._doRequest(url, dataData, callback);
-    },
-
-    _doRequest: function (url, dataData, callback)
-    {
-        CUORE.Requests.post(url, dataData, callback);
+        this.requestMethod(url, dataData, callback);
     },
 
     _buildEndpointUrl: function(callee) {
