@@ -36,7 +36,7 @@ describe("Requests", function() {
 	            
 	        CUORE.Requests.get(URL, aJsonInputData, callback);
 
-	        expect(xhr.lastRequest().url).toBe(expectedSentUrl);
+	        expect(xhr.lastRequest().url).toEqual(expectedSentUrl);
 
 	        xhr.restore;
 	    });
@@ -65,7 +65,7 @@ describe("Requests", function() {
 	        var callbackName = CUORE.Requests.jsonp(URL, data, null);
 	        var scripts = document.getElementsByTagName("script");
 	        var lastScript = scripts[scripts.length - 1];
-	        expect(lastScript.src).toMatch(URL + callbackName + "%26id%3D123%26title%3Dtest%26");
+	        expect(lastScript.src).toEqual(URL + callbackName + "&id=123&title=test&/");
 	        expect(lastScript.id).toEqual(callbackName);
 	    });
 
