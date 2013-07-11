@@ -1,6 +1,6 @@
 describe("Requests", function() {
 
-	var data = {id:123,title:"Test"};
+	var data = {'id': '123',"title": "test"};
 	var aServer,URL="http://localhost";
 
     beforeEach(function() {        
@@ -65,7 +65,8 @@ describe("Requests", function() {
 	        var callbackName = CUORE.Requests.jsonp(URL, data, null);
 	        var scripts = document.getElementsByTagName("script");
 	        var lastScript = scripts[scripts.length - 1];
-	        expect(lastScript.src).toEqual(URL + callbackName + "&id=123&title=test&/");
+
+	        expect(lastScript.src).toEqual(URL + callbackName + "&id=123&title=test&");
 	        expect(lastScript.id).toEqual(callbackName);
 	    });
 
