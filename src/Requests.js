@@ -52,7 +52,7 @@ CUORE.Requests = (function(undefined) {
 
         callback = callback || function() {};
         var script = document.createElement("script");
-        var callbackName = 'F' + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        var callbackName = 'f' + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
         window[callbackName] = function(response) {
             callback(response);
@@ -85,6 +85,15 @@ CUORE.Requests = (function(undefined) {
         if (url !== '') url = '?' + url;
 
         return url;
+    };
+
+    var _serialize = function(data) {
+        var amp = '&';
+        var serialized = amp;
+        for (var key in data) {
+            serialized = serialized + key + '=' + data[key] + amp;
+        }
+        return serialized;
     };
 
     return {
