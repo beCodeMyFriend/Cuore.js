@@ -16,7 +16,7 @@ CUORE.RemoteService = CUORE.Class(CUORE.Service, {
     },
 
     setRequestMethod: function(requestMethod){
-        this.requestMethod = request;
+        this.requestMethod = requestMethod;
     },
 
     _request: function (callee, data, eventName) {

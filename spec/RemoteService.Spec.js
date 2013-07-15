@@ -19,7 +19,7 @@ describe("RemoteService", function() {
 
     it("has a BaseURL defaulted to empty string", function() {
         expect(aRemoteService.getBaseURL()).toEqual('');
-        var aBaseURL = "a Base URL";
+        var aBaseURL = "http://localhost";
         aRemoteService.setBaseURL(aBaseURL);
         expect(aRemoteService.getBaseURL()).toEqual(aBaseURL);
     });
@@ -35,6 +35,16 @@ describe("RemoteService", function() {
         aRemoteService.execute('callee');
 
         expect(xhr.lastRequest().url).toEqual(expectedUrl);
+    });
+
+    it("uses get,post and jsonp methods to comunicate with the endpoint",function(){
+        var theRequestMethod = jasmine.createSpy();
+        theRemoteService = new CUORE.RemoteService();
+        theRemoteService.setRequestMethod(theRequestMethod);
+
+        theRemoteService._request('callee', 'someData', 'eventName');
+        expect(theRemoteService.requestMethod).toBeFunction();
+        expect(theRemoteService.requestMethod).toHaveBeenCalled();
     });
 
     describe("on emmiting", function() {
