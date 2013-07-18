@@ -65,8 +65,12 @@ describe("Requests", function() {
 	        var callbackName = CUORE.Requests.jsonp(URL, data, null);
 	        var scripts = document.getElementsByTagName("script");
 	        var lastScript = scripts[scripts.length - 1];
+	        //one for specrunner,firefox and chrome
+	        var expectedURLs = [URL + callbackName + "&id=123&title=test&",
+	        					URL + callbackName + "&id=123&title=test&/",
+	        					URL + callbackName + "%26id%3D123%26title%3Dtest%26/"];
 
-	        expect(lastScript.src).toEqual(URL + callbackName + "&id=123&title=test&");
+	        expect(expectedURLs).toContain(lastScript.src);
 	        expect(lastScript.id).toEqual(callbackName);
 	    });
 
