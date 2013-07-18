@@ -47,6 +47,12 @@ describe("RemoteService", function() {
         expect(theRemoteService.requestMethod).toHaveBeenCalled();
     });
 
+    it("has a post method as a default method to comunicate with the endpoint", function(){
+        theRemoteService = new CUORE.RemoteService();
+
+        expect(theRemoteService.requestMethod).toEqual(CUORE.Requests.post);
+    });
+
     describe("on emmiting", function() {
         
         beforeEach(function() {
