@@ -49,5 +49,17 @@ CUORE.Helpers = {
         };        
 
         return server;
+    },
+
+    Subscriber: function(eventName) {
+        var aSubscriber = {};
+        var anEvent = eventName || "anEvent";
+        aSubscriber.eventDispatch = jasmine.createSpy("eventDispatch");
+
+        aSubscriber.getEventName = function() {
+            return anEvent;
+        }
+
+        return aSubscriber;
     }
 }
